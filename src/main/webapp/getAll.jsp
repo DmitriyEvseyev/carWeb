@@ -27,7 +27,7 @@
 <form>
     <div class="button-container-div">
         <button type="submit" formmethod="post" formaction="delCarServlet">delete</button>
-        <button type="submit" formmethod="post" formaction="editCarServlet">edit</button>
+        <button type="submit" formmethod="get" formaction="editCarServlet">edit</button>
     </div>
     <table align="center">
         <tr>
