@@ -9,6 +9,8 @@ import java.util.Locale;
 public class CarList {
     private static CarList instance;
     private List<Car> carL;
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
+
 
     public static CarList getInstance() {
         if (instance == null) {
@@ -16,20 +18,20 @@ public class CarList {
         }
         return instance;
     }
+
     public CarList() {
         carL = new ArrayList<>();
         Car car1 = null;
         Car car2 = null;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
-
         try {
             car1 = Car.builder()
-                    .id(1)
-                    .name("BMW")
-                    .date(formatter.parse("2022-01-01"))
-                    .color("white")
-                    .isAfterCrash(false)
-                    .build();
+                .id(1)
+                .name("BMW")
+                .date(formatter.parse("2022-01-01"))
+                .color("white")
+                .isAfterCrash(false)
+                .build();
+
             car2 = Car.builder()
                     .id(2)
                     .name("Lexus")
@@ -38,8 +40,9 @@ public class CarList {
                     .isAfterCrash(false)
                     .build();
         } catch (ParseException e) {
-            System.out.println("Car.builder. " + e.getMessage());
+            System.out.println("CarList, ParseException. " + e.getMessage());
         }
+
         carL.add(car1);
         carL.add(car2);
         System.out.println("carList - " + carL);

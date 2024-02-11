@@ -19,16 +19,11 @@
         border: 1px solid grey;
         border-collapse: collapse;
     }
-
     td {
         border: 1px solid grey;
     }
 </style>
 <form>
-    <div class="button-container-div">
-        <button type="submit" formmethod="post" formaction="delCarServlet">delete</button>
-        <button type="submit" formmethod="get" formaction="editCarServlet">edit</button>
-    </div>
     <table align="center">
         <tr>
             <td><h3 align="center"> action </h3></td>
@@ -43,14 +38,17 @@
                 <td align="center"><input type="checkbox" name="id" value="${car.id}"/></td>
                 <td align="center">${car.id}</td>
                 <td align="center">${car.name}</td>
-                <td align="center">${car.date}</td>
+                <td align="center">${String.valueOf(car.date)}</td>
                 <td align="center">${car.color}</td>
                 <td align="center">${String.valueOf(car.isAfterCrash())}</td>
             </tr>
         </c:forEach>
     </table>
     <br/>
-
+    <div class="button-container-div">
+        <button type="submit" formmethod="post" formaction="delCarServlet">delete</button>
+        <button type="submit" formmethod="get" formaction="editCarServlet">edit</button>
+    </div>
 </form>
 </body>
 </html>

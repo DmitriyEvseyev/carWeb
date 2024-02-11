@@ -22,13 +22,11 @@ public class EditCarServlet extends HelloServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        System.out.println(request);
         Integer id = Integer.valueOf(String.valueOf(request.getParameter("id")));
         System.out.println(" Integer id = " + id);
         ArrayList<Car> newCarList = (ArrayList<Car>) CarList.getInstance().getCarL();
 
         Car car = null;
-        Integer idCar;
 
         for (Car c : newCarList) {
             if (c.getId().equals(id)) {
@@ -50,8 +48,8 @@ public class EditCarServlet extends HelloServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("doPost  - " + req);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
+        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+
         Car car = null;
         int id = Integer.parseInt(req.getParameter("id"));
         System.out.println(id);
@@ -59,8 +57,8 @@ public class EditCarServlet extends HelloServlet {
         String name = req.getParameter("name");
         System.out.println(name);
 
-        System.out.println(req.getParameter("date"));
-        String date = String.valueOf(req.getParameter("date"));
+       // System.out.println(req.getParameter("date"));
+        String date = (req.getParameter("date"));
         System.out.println(date);
 
         String color = req.getParameter("color");
