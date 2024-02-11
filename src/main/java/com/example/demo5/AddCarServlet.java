@@ -8,37 +8,19 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.ListIterator;
 import java.util.Locale;
 
-@WebServlet(name = "editCarServlet", value = "/editCarServlet")
+@WebServlet(name = "addCarServlet", value = "/addCarServlet")
 
-public class EditCarServlet extends HelloServlet {
+public class AddCarServlet extends HelloServlet {
     @Override
     public void init() {
     }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Integer id = Integer.valueOf(String.valueOf(request.getParameter("id")));
-        System.out.println(" Integer id = " + id);
-        ArrayList<Car> newCarList = (ArrayList<Car>) CarList.getInstance().getCarL();
-
-        Car car = null;
-
-        for (Car c : newCarList) {
-            if (c.getId().equals(id)) {
-                car = c;
-            }
-        }
-        System.out.println("CAR from get - " + car);
         try {
-            if (car != null) {
-                request.setAttribute("car", car);
-                getServletContext().getRequestDispatcher("/editCar.jsp").forward(request, response);
-            } else {
-                getServletContext().getRequestDispatcher("/notfound.jsp").forward(request, response);
-            }
+            getServletContext().getRequestDispatcher("/addCar.jsp").forward(request, response);
         } catch (ServletException e) {
             System.out.println("EditCarServlet. " + e.getMessage());
         }
@@ -46,7 +28,7 @@ public class EditCarServlet extends HelloServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
 
         Car car = null;
         int id = Integer.parseInt(req.getParameter("id"));
@@ -79,22 +61,14 @@ public class EditCarServlet extends HelloServlet {
         System.out.println("CAR - " + car);
 
         ArrayList<Car> newCarList = (ArrayList<Car>) CarList.getInstance().getCarL();
-
-        ListIterator<Car> iter = newCarList.listIterator();
-        while (iter.hasNext()) {
-            if (iter.next().getId().equals(car.getId())) {
-                iter.remove();
-            }
-        }
         newCarList.add(car);
-
         System.out.println("newCarList - " + newCarList);
         req.setAttribute("carList", newCarList);
 
         try {
             getServletContext().getRequestDispatcher("/getAll.jsp").forward(req, resp);
         } catch (ServletException e) {
-            System.out.println("EditCarServlet. " + e.getMessage());
+            System.out.println("AddCarServlet. " + e.getMessage());
         }
     }
 
@@ -102,4 +76,6 @@ public class EditCarServlet extends HelloServlet {
     public void destroy() {
         super.destroy();
     }
+
+
 }

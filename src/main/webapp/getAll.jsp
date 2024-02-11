@@ -48,6 +48,7 @@
     <div class="button-container-div">
         <button type="submit" formmethod="post" formaction="delCarServlet">delete</button>
         <button type="submit" formmethod="get" formaction="editCarServlet">edit</button>
+        <button type="submit" formmethod="get" formaction="addCarServlet">add</button>
     </div>
 </form>
 </body>
