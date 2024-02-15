@@ -26,8 +26,8 @@
 <form>
     <table align="center">
         <tr>
-            <td><h3 align="center"> action </h3></td>
-            <td><h3 align="center"> Id </h3></td>
+            <td><h3 align="center"></h3></td>
+
             <td><h3 align="center"> Name </h3></td>
             <td><h3 align="center"> Date </h3></td>
             <td><h3 align="center"> Color </h3></td>
@@ -35,21 +35,37 @@
         </tr>
         <c:forEach var="car" items="${carList}">
             <tr>
-                <td align="center"><input type="checkbox" name="id" value="${car.id}"/></td>
-                <td align="center">${car.id}</td>
+                <td align="center"><input type="checkbox" name="id" id="idCheck" onclick="checkValue()" value="${car.id}"/></td>
+
                 <td align="center">${car.name}</td>
                 <td align="center">${String.valueOf(car.date)}</td>
                 <td align="center">${car.color}</td>
                 <td align="center">${String.valueOf(car.isAfterCrash())}</td>
             </tr>
         </c:forEach>
+        <script>
+            function checkValue() {
+                var result = document.getElementById("idCheck").checked;
+                console.log(result);
+                if (result == false) {
+                    document.getElementById("del").disabled = true;
+                    document.getElementById("edit").disabled = true;
+                } else {
+                    document.getElementById("del").disabled = false;
+                    document.getElementById("edit").disabled = false;
+                }
+            }
+
+            //document.getElementById("idCheck").addEventListener("click", checkValue);
+        </script>
     </table>
     <br/>
     <div class="button-container-div">
-        <button type="submit" formmethod="post" formaction="delCarServlet">delete</button>
-        <button type="submit" formmethod="get" formaction="editCarServlet">edit</button>
+        <button type="submit" formmethod="post" formaction="delCarServlet" id="del" disabled>delete</button>
+        <button type="submit" formmethod="get" formaction="editCarServlet" id="edit" disabled>edit</button>
         <button type="submit" formmethod="get" formaction="addCarServlet">add</button>
     </div>
+
 </form>
 </body>
 </html>

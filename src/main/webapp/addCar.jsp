@@ -11,21 +11,22 @@
     <title>AddCar</title>
 </head>
 <body>
+
 <h3> Add car </h3>
 <form action="addCarServlet" method="post">
     <input type="hidden" name="id" id="idRandom"/>
 
     <label>Name</label><br>
-    <input name="name"  /><br><br>
+    <input name="name"  required /><br><br>
 
     <label>Date</label><br>
-    <input name="date" placeholder="yyyy-mm-dd"/><br><br>
+    <input name="date" placeholder="yyyy-mm-dd" pattern="\d{4}-\d{2}-\d{2}" required /><br><br>
 
     <label>Color</label><br>
-    <input name="color" /><br><br>
+    <input name="color" required /><br><br>
 
     <label>isAfterCrash</label><br>
-    <input name="isAfterCrash" placeholder="false/true" /><br><br>
+    <input name="isAfterCrash" placeholder="false/true" required /><br><br>
 
     <input type="submit" value="Send"/>
 </form>

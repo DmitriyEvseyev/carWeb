@@ -12,16 +12,16 @@
     <input type="hidden" value="${car.id}" name="id"/>
 
     <label>Name</label><br>
-    <input name="name" id="name" value="${car.name}"/><br><br>
+    <input name="name" id="name" value="${car.name}" required/><br><br>
 
     <label>Date</label><br>
-    <input type="text" name="date" id="fff" value="${car.date}"/><br><br>
+    <input type="text" name="date" id="fff" value="${car.date}" required/><br><br>
 
     <label>Color</label><br>
-    <input name="color" value="${car.color}"/><br><br>
+    <input name="color" value="${car.color}" required/><br><br>
 
     <label>isAfterCrash</label><br>
-    <input name="isAfterCrash" value="${String.valueOf(car.isAfterCrash())}"/><br><br>
+    <input name="isAfterCrash" value="${String.valueOf(car.isAfterCrash())}" required/><br><br>
 
     <input type="submit" value="Send"/>
 </form>
