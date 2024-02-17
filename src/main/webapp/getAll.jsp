@@ -33,7 +33,7 @@
         </tr>
         <c:forEach var="car" items="${carList}">
             <tr>
-                <td align="center"><input class="check" type="checkbox" name="id" onclick="checkValue()" value="${car.id}"/></td>
+                <td align="center"><input  type="checkbox" name="check" value="${car.id}"/></td>
                 <td align="center">${car.name}</td>
                 <td align="center">${String.valueOf(car.date)}</td>
                 <td align="center">${car.color}</td>
@@ -41,34 +41,32 @@
             </tr>
         </c:forEach>
         <script>
-            const form = document.getElementById("tab");
-            console.log("form.elements - " + form.elements);
-            console.log("length - " + form.length);
-            console.log("name - " + form.name);
-            console.log("action - " + form.action);
-            console.log("method - " + form.method);
-            const keyField = form.elements[0];
-            console.log("keyField - " + keyField);
-            console.log("keyField2 - " + form.elements[1]);
+            checks = document.getElementsByName("check");
 
-            var checks = document.getElementsByName("id");
-            for (check of checks) {
-                console.log("checked - " + check.checked);
-            }
-            function checkValue() {
-                var checksss = document.getElementsByName("id");
-                for (check of checksss) {
-                    if (check.checked == false) {
-                        document.getElementById("del").disabled = true;
-                        document.getElementById("edit").disabled = true;
-                    } else {
-                        document.getElementById("del").disabled = false;
-                        document.getElementById("edit").disabled = false;
+            function f() {
+                count = 0;
+                for (i = 0; i < checks.length; i++) {
+                    if (checks[i].checked) {
+                        count++;
                     }
+                }
+                if (count === 0) {
+                    document.getElementById("del").disabled = true;
+                    document.getElementById("edit").disabled = true;
+                }
+                if (count === 1) {
+                    document.getElementById("del").disabled = false;
+                    document.getElementById("edit").disabled = false;
+                }
+                if (count > 1) {
+                    document.getElementById("del").disabled = false;
+                    document.getElementById("edit").disabled = false;
                 }
             }
 
-            //document.getElementById("idCheck").addEventListener("click", checkValue);
+            for (i = 0; i < checks.length; i++) {
+                checks[i].addEventListener("click", f)
+            }
         </script>
     </table>
     <br/>
