@@ -28,7 +28,7 @@ public class AddCarServlet extends HelloServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         Car car = null;
         int id = Integer.parseInt(req.getParameter("id"));
@@ -37,13 +37,15 @@ public class AddCarServlet extends HelloServlet {
         String name = req.getParameter("name");
         System.out.println(name);
 
+        System.out.println(req.getParameter("date"));
         String date = (req.getParameter("date"));
         System.out.println(date);
 
         String color = req.getParameter("color");
         System.out.println(color);
 
-        Boolean isAfterCrash = Boolean.valueOf(req.getParameter("isAfterCrash"));
+        Boolean isAfterCrash = req.getParameter("isAfterCrash")!=null;;
+
         System.out.println(isAfterCrash);
 
         try {

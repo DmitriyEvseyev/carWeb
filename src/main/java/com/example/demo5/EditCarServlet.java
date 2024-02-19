@@ -20,7 +20,7 @@ public class EditCarServlet extends HelloServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Integer id = Integer.valueOf(String.valueOf(request.getParameter("id")));
+        Integer id = Integer.valueOf(String.valueOf(request.getParameter("check")));
         System.out.println(" Integer id = " + id);
         ArrayList<Car> newCarList = (ArrayList<Car>) CarList.getInstance().getCarL();
 
@@ -46,7 +46,7 @@ public class EditCarServlet extends HelloServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
         Car car = null;
         int id = Integer.parseInt(req.getParameter("id"));

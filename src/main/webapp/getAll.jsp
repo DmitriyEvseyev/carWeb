@@ -18,6 +18,7 @@
         border: 1px solid grey;
         border-collapse: collapse;
     }
+
     td {
         border: 1px solid grey;
     }
@@ -33,9 +34,9 @@
         </tr>
         <c:forEach var="car" items="${carList}">
             <tr>
-                <td align="center"><input  type="checkbox" name="check" value="${car.id}"/></td>
+                <td align="center"><input type="checkbox" name="check" value="${car.id}"/></td>
                 <td align="center">${car.name}</td>
-                <td align="center">${String.valueOf(car.date)}</td>
+                <td align="center" name="date">${car.date.getTime()}</td>
                 <td align="center">${car.color}</td>
                 <td align="center">${String.valueOf(car.isAfterCrash())}</td>
             </tr>
@@ -43,7 +44,7 @@
         <script>
             checks = document.getElementsByName("check");
 
-            function f() {
+            function selectedCheckBox() {
                 count = 0;
                 for (i = 0; i < checks.length; i++) {
                     if (checks[i].checked) {
@@ -60,12 +61,30 @@
                 }
                 if (count > 1) {
                     document.getElementById("del").disabled = false;
-                    document.getElementById("edit").disabled = false;
+                    document.getElementById("edit").disabled = true;
                 }
             }
 
             for (i = 0; i < checks.length; i++) {
-                checks[i].addEventListener("click", f)
+                checks[i].addEventListener("click", selectedCheckBox);
+            }
+        </script>
+        <script>
+            dates = document.getElementsByName("date");
+            for (i = 0; i < dates.length; i++) {
+                da = new Date(Number(dates[i].innerHTML));
+                console.log(da.getFullYear() + "-" + da.getMonth() + "-" + da.getDate());
+                month = da.getMonth() + 1;
+                if (month < 10) {
+                    month = "0" + month;
+                    console.log("da.getMonth()+1 -- " + month);
+                }
+                day = da.getDate();
+                if (day < 10) {
+                    day = "0" + day;
+                    console.log("da.getDate() -- " + day);
+                }
+                dates[i].innerHTML = (da.getFullYear() + "-" + month + "-" + day);
             }
         </script>
     </table>
@@ -75,7 +94,6 @@
         <button type="submit" formmethod="get" formaction="editCarServlet" id="edit" disabled>edit</button>
         <button type="submit" formmethod="get" formaction="addCarServlet">add</button>
     </div>
-
 </form>
 </body>
 </html>

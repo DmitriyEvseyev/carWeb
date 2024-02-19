@@ -16,10 +16,10 @@ public class DelCarServlet extends HelloServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String[] ids = req.getParameterValues("id");
+        String[] ids = req.getParameterValues("check");
         System.out.print("String[] ids - ");
         for (String g : ids) {
-            System.out.print(g + " / ");
+            System.out.println(g);
         }
         System.out.println();
 
@@ -29,18 +29,15 @@ public class DelCarServlet extends HelloServlet {
         }
         System.out.println("ArrayList<Integer> id - " + idList);
 
-
         ArrayList<Car> newCarList = (ArrayList<Car>) CarList.getInstance().getCarL();
 
-        ListIterator<Car> iter = newCarList.listIterator();
-        while (iter.hasNext()) {
+        for (int j = 0; j < newCarList.size(); j++) {
             for (int i = 0; i < idList.size(); i++) {
-                if (iter.next().getId() == idList.get(i)) {
-                    iter.remove();
+                if (newCarList.get(j).getId() == idList.get(i)) {
+                    newCarList.remove(j);
                 }
             }
         }
-
 
         System.out.println("newCarList - " + newCarList);
         req.setAttribute("carList", newCarList);

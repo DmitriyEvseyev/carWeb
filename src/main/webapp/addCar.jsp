@@ -20,13 +20,13 @@
     <input name="name"  required /><br><br>
 
     <label>Date</label><br>
-    <input name="date" placeholder="yyyy-mm-dd" pattern="\d{4}-\d{2}-\d{2}" required /><br><br>
+    <input type="date" name="date" id="d" required /><br><br>
 
     <label>Color</label><br>
     <input name="color" required /><br><br>
 
     <label>isAfterCrash</label><br>
-    <input name="isAfterCrash" placeholder="false/true" required /><br><br>
+    <input type="checkbox" name="isAfterCrash"   /><br><br>
 
     <input type="submit" value="Send"/>
 </form>
@@ -35,6 +35,14 @@
         return Math.floor(Math.random() * 100);
     }
     document.getElementById("idRandom").value = myFunction();
+
+
+    document.getElementById("d").addEventListener("change", function () {
+        d = this.value;
+        da = new Date(d)
+        console.log(da);
+    });
+
 </script>
 </body>
 </html>
