@@ -1,0 +1,19 @@
+H2 { text-align: center }
+.tab {
+    border: 1px solid grey;
+    border-collapse: collapse;
+
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-size: x-large;
+}
+
+td {
+    border: 1px solid grey;
+    empty-cells: hide;
+    font-size: x-large;
+}
+.but {
+    text-align: center;
+}

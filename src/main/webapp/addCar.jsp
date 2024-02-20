@@ -9,31 +9,40 @@
 <html>
 <head>
     <title>AddCar</title>
+    <link rel="stylesheet" href="addC.css">
 </head>
 <body>
-
-<h3> Add car </h3>
+<h2> Add car </h2>
 <form action="addCarServlet" method="post">
     <input type="hidden" name="id" id="idRandom"/>
-
-    <label>Name</label><br>
-    <input name="name"  required /><br><br>
-
-    <label>Date</label><br>
-    <input type="date" name="date" id="d" required /><br><br>
-
-    <label>Color</label><br>
-    <input name="color" required /><br><br>
-
-    <label>isAfterCrash</label><br>
-    <input type="checkbox" name="isAfterCrash"   /><br><br>
-
-    <input type="submit" value="Send"/>
+    <table class="tab">
+        <tr>
+            <td> Name</td>
+            <td><input name="name" required/></td>
+        </tr>
+        <tr>
+            <td> Date</td>
+            <td><input type="date" name="date" id="d" required/></td>
+        </tr>
+        <tr>
+            <td> Color</td>
+            <td><input name="color" required/></td>
+        </tr>
+        <tr>
+            <td> isAfterCrash</td>
+            <td><input type="checkbox" name="isAfterCrash"/></td>
+        </tr>
+    </table>
+    <br/>
+    <div class="but">
+        <input type="submit" value="Send"/>
+    </div>
 </form>
 <script>
-    function myFunction(){
+    function myFunction() {
         return Math.floor(Math.random() * 100);
     }
+
     document.getElementById("idRandom").value = myFunction();
 
 
@@ -42,7 +51,6 @@
         da = new Date(d)
         console.log(da);
     });
-
 </script>
 </body>
 </html>
