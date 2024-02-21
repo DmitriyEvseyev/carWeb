@@ -1,10 +1,12 @@
-package com.example.demo5;
+package com.example.demo5.controller;
+
+import com.example.demo5.model.Car;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+
 
 public class CarList {
     private static CarList instance;

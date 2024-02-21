@@ -1,4 +1,7 @@
-package com.example.demo5;
+package com.example.demo5.servlet;
+
+import com.example.demo5.controller.CarList;
+import com.example.demo5.model.Car;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -6,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 @WebServlet(name = "delCarServlet", value = "/delCarServlet")
 public class DelCarServlet extends HelloServlet {

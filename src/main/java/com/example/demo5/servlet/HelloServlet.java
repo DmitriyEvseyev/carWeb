@@ -1,4 +1,4 @@
-package com.example.demo5;
+package com.example.demo5.servlet;
 
 import java.io.*;
 import javax.servlet.ServletException;

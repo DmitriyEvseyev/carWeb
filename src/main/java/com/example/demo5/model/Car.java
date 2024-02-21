@@ -1,4 +1,4 @@
-package com.example.demo5;
+package com.example.demo5.model;
 
 import java.io.Serializable;
 import java.util.Date;
