@@ -5,25 +5,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit car</title>
+    <link rel="stylesheet" href="css/editC.css">
 </head>
 <body>
-<h3> Edit car </h3>
+<h2> Edit car </h2>
 <form action="editCarServlet" method="post">
     <input type="hidden" value="${car.id}" name="id"/>
-
-    <label>Name</label><br>
-    <input name="name" id="name" value="${car.name}" required/><br><br>
-
-    <label>Date</label><br>
-    <input type="date" name="date" id="dt" required /><br><br>
-
-    <label>Color</label><br>
-    <input name="color" value="${car.color}" required/><br><br>
-
-    <label>isAfterCrash</label><br>
-    <input type="checkbox" name="isAfterCrash" id="isAC" /><br><br>
-
-    <input type="submit" value="Send"/>
+    <table class="tab">
+        <tr>
+            <td> Name</td>
+            <td><input name="name" id="name" value="${car.name}" required/></td>
+        </tr>
+        <tr>
+            <td> Date</td>
+            <td><input type="date" name="date" id="dt" required/></td>
+        </tr>
+        <tr>
+            <td> Color</td>
+            <td><input name="color" value="${car.color}" required/></td>
+        </tr>
+        <tr>
+            <td> isAfterCrash</td>
+            <td><input type="checkbox" name="isAfterCrash" id="isAC"/></td>
+        </tr>
+    </table>
+    <br/>
+    <div class="but">
+        <input type="submit" value="Send"/>
+        <input type="reset" value="Cancel"/>
+    </div>
     <script>
         date = new Date(${car.date.getTime()});
         month = date.getMonth() + 1;

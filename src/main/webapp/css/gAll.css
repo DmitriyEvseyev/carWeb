@@ -1,9 +1,13 @@
-H2 { text-align: center }
+H1 { text-align: center }
 
 .buttons {
     text-align: center;
 }
-
+input {
+    font-size:20px;
+    font-family: "Times New Roman";
+    text-align: center;
+}
 .tab {
     border: 1px solid grey;
     border-collapse: collapse;
@@ -15,5 +19,5 @@ H2 { text-align: center }
 
 td {
     border: 1px solid grey;
-    empty-cells: hide;
+    font-size: 20px;
 }

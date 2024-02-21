@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Car manager</title>
-    <link rel="stylesheet" href="gAll.css">
+    <link rel="stylesheet" href="css/gAll.css">
 </head>
 <body>
-<h2> Cars </h2>
+<h1> Cars </h1>
 
 <form>
     <table class="tab">
@@ -76,9 +76,9 @@
     </table>
     <br/>
     <div class="buttons">
-        <button type="submit" formmethod="post" formaction="delCarServlet" id="del" disabled>delete</button>
-        <button type="submit" formmethod="get" formaction="editCarServlet" id="edit" disabled>edit</button>
-        <button type="submit" formmethod="get" formaction="addCarServlet">add</button>
+        <input type="submit" formmethod="post" formaction="delCarServlet" id="del" disabled value="delete"/>
+        <input type="submit" formmethod="get" formaction="editCarServlet" id="edit" disabled value="edit"/>
+        <input type="submit" formmethod="get" formaction="addCarServlet" value="add"/>
     </div>
 </form>
 </body>

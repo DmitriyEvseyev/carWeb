@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>AddCar</title>
-    <link rel="stylesheet" href="addC.css">
+    <link rel="stylesheet" href="css/addC.css">
 </head>
 <body>
 <h2> Add car </h2>
@@ -36,6 +36,7 @@
     <br/>
     <div class="but">
         <input type="submit" value="Send"/>
+        <input type="reset" value="Cancel"/>
     </div>
 </form>
 <script>

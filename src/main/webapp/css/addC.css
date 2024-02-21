@@ -6,14 +6,19 @@ H2 { text-align: center }
     margin-left: auto;
     margin-right: auto;
     text-align: center;
-    font-size: x-large;
+
 }
 
-td {
+.tab td {
     border: 1px solid grey;
-    empty-cells: hide;
-    font-size: x-large;
+    font-size: 20px;
+    font-weight: bold;
 }
 .but {
+    text-align: center;
+}
+input {
+    font-size:20px;
+    font-family: "Times New Roman";
     text-align: center;
 }

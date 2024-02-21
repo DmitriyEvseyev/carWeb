@@ -1,0 +1,24 @@
+H2 { text-align: center }
+.tab {
+    border: 1px solid grey;
+    border-collapse: collapse;
+
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+
+}
+
+.tab td {
+    border: 1px solid grey;
+    font-size: 20px;
+    font-weight: bold;
+}
+.but {
+    text-align: center;
+}
+input {
+    font-size:20px;
+    font-family: "Times New Roman";
+    text-align: center;
+}

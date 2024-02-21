@@ -3,19 +3,16 @@
 <html>
 <head>
     <title>Authorization</title>
-    <style>
-        .button-container-div {
-        text-align: center;
-    }
-    </style>
+    <link rel="stylesheet" href="css/log.css">
 </head>
 <body>
 <form action="hello-servlet">
-    <h1 align="center"> User name <input name="username" required /></h1>
-    <h1 align="center"> Password <input type="password" name="password" required /></h1>
+    <h1> User name <input name="username" required/></h1>
+    <h1> Password <input type="password" name="password" required/></h1>
     <br/>
-    <div class="button-container-div">
-        <button> OK </button>
+    <div class="buttons">
+        <input type="submit" value="OK"/>
+        <input type="reset" value="Cancel"/>
     </div>
 </form>
 </body>
