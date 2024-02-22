@@ -13,7 +13,7 @@ public class HelloServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
-            getServletContext().getRequestDispatcher("/getAllServlet").forward(request, response);
+            getServletContext().getRequestDispatcher("/dealershipServlet").forward(request, response);
         } catch (ServletException e) {
             System.out.println("HelloServlet. " + e.getMessage());
         }

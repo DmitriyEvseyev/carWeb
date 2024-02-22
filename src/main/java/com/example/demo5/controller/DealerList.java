@@ -38,7 +38,7 @@ public class DealerList {
 
             dealerL.add(dealer1);
             dealerL.add(dealer2);
-            System.out.println("carList from CarList - " + dealerL);
+            System.out.println("carList from DealerList - " + dealerL);
         }
 
     public List<CarDealership> getDealerL() {

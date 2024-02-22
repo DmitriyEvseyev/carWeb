@@ -22,17 +22,14 @@ public class GetAllServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ArrayList<Car> carList = (ArrayList<Car>) CarList.getInstance().getCarL();
-
         System.out.println("carList - " + carList);
-
         request.setAttribute("carList", carList);
-
         try {
             getServletContext().getRequestDispatcher("/getAll.jsp").forward(request, response);
         } catch (ServletException e) {
             System.out.println("GetAllServlet. " + e.getMessage());
         }
-            }
+    }
 
     @Override
     public void destroy() {
