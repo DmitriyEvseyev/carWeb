@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit car</title>
-    <link rel="stylesheet" href="../../css/carcss/editC.css">
+    <link rel="stylesheet" href="css/carcss/editC.css">
 </head>
 <body>
 <h2> Edit car </h2>

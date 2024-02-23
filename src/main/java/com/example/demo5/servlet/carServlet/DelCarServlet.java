@@ -46,16 +46,10 @@ public class DelCarServlet extends HelloServlet {
         req.setAttribute("carList", newCarList);
 
         try {
-            getServletContext().getRequestDispatcher("/getAll.jsp").forward(req, resp);
+            getServletContext().getRequestDispatcher("/jsp/carjsp/getAll.jsp").forward(req, resp);
         } catch (ServletException e) {
             System.out.println("DelCarServlet. " + e.getMessage());
         }
-    }
-
-
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        super.doGet(request, response);
     }
 
     @Override

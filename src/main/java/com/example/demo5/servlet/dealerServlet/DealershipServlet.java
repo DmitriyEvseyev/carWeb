@@ -20,7 +20,7 @@ public class DealershipServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ArrayList<CarDealership> carDealerships = (ArrayList<CarDealership>) DealerList.getInstance().getDealerL();
-        System.out.println("carDealerships - " + carDealerships);
+        System.out.println("DealershipServlet - " + carDealerships);
         req.setAttribute("carDealerships", carDealerships);
         try {
             getServletContext().getRequestDispatcher("/jsp/dealerjsp/getDealer.jsp").forward(req, resp);

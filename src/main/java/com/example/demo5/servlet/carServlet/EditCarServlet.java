@@ -39,9 +39,9 @@ public class EditCarServlet extends HelloServlet {
         try {
             if (car != null) {
                 request.setAttribute("car", car);
-                getServletContext().getRequestDispatcher("/editCar.jsp").forward(request, response);
+                getServletContext().getRequestDispatcher("/jsp/carjsp/editCar.jsp").forward(request, response);
             } else {
-                getServletContext().getRequestDispatcher("/notfoundCar.jsp").forward(request, response);
+                getServletContext().getRequestDispatcher("/jsp/carjsp/notfoundCar.jsp").forward(request, response);
             }
         } catch (ServletException e) {
             System.out.println("EditCarServlet. " + e.getMessage());
@@ -96,7 +96,7 @@ public class EditCarServlet extends HelloServlet {
         req.setAttribute("carList", newCarList);
 
         try {
-            getServletContext().getRequestDispatcher("/getAll.jsp").forward(req, resp);
+            getServletContext().getRequestDispatcher("/jsp/carjsp/getAll.jsp").forward(req, resp);
         } catch (ServletException e) {
             System.out.println("EditCarServlet. " + e.getMessage());
         }

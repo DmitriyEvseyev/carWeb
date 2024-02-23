@@ -23,7 +23,7 @@ public class AddCarServlet extends HelloServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
-            getServletContext().getRequestDispatcher("/addCar.jsp").forward(request, response);
+            getServletContext().getRequestDispatcher("/jsp/carjsp/addCar.jsp").forward(request, response);
         } catch (ServletException e) {
             System.out.println("AddCarServlet. " + e.getMessage());
         }
@@ -71,7 +71,7 @@ public class AddCarServlet extends HelloServlet {
         req.setAttribute("carList", newCarList);
 
         try {
-            getServletContext().getRequestDispatcher("/getAll.jsp").forward(req, resp);
+            getServletContext().getRequestDispatcher("/jsp/carjsp/getAll.jsp").forward(req, resp);
         } catch (ServletException e) {
             System.out.println("AddCarServlet. " + e.getMessage());
         }

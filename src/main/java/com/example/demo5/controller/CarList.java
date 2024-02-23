@@ -27,15 +27,17 @@ public class CarList {
         Car car2 = null;
         try {
             car1 = Car.builder()
-                .id(1)
-                .name("BMW")
-                .date(formatter.parse("2023-12-17"))
-                .color("white")
-                .isAfterCrash(false)
-                .build();
+                    .id(1)
+                    .idDealer(1)
+                    .name("BMW")
+                    .date(formatter.parse("2023-12-17"))
+                    .color("white")
+                    .isAfterCrash(false)
+                    .build();
 
             car2 = Car.builder()
                     .id(2)
+                    .idDealer(2)
                     .name("Lexus")
                     .date(formatter.parse("2023-10-15"))
                     .color("white")

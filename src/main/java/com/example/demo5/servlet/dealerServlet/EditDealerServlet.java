@@ -28,11 +28,11 @@ public class EditDealerServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Integer id = Integer.valueOf(String.valueOf(request.getParameter("check")));
         System.out.println(" Integer idDealer = " + id);
-        ArrayList<CarDealership> CarDealership = (ArrayList<CarDealership>) DealerList.getInstance().getDealerL();
+        ArrayList<CarDealership> dealerList = (ArrayList<CarDealership>) DealerList.getInstance().getDealerL();
 
         CarDealership dealer = null;
 
-        for (CarDealership c : CarDealership) {
+        for (CarDealership c : dealerList) {
             if (c.getId().equals(id)) {
                 dealer = c;
             }

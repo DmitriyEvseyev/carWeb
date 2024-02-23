@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>AddCar</title>
-    <link rel="stylesheet" href="../../css/carcss/addC.css">
+    <link rel="stylesheet" href="css/carcss/addC.css">
 </head>
 <body>
 <h2> Add car </h2>
