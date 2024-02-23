@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Car manager</title>
-    <link rel="stylesheet" href="css/gAll.css">
+    <link rel="stylesheet" href="../../css/carcss/gAll.css">
 </head>
 <body>
 <h1> Cars </h1>

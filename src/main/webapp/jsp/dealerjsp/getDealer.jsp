@@ -10,7 +10,7 @@
 <html>
 <head>
     <title>CarDealership</title>
-    <link rel="stylesheet" href="css/dealer.css">
+    <link rel="stylesheet" href="css/dealercss/dealer.css">
 </head>
 <body>
 <h1> CarDealerships </h1>
@@ -62,10 +62,10 @@
     </table>
     <br/>
     <div class="buttons">
-        <input type="submit" formmethod="post" formaction="delCarServlet" id="sel" disabled value="select"/>
-        <input type="submit" formmethod="post" formaction="delCarServlet" id="del" disabled value="delete"/>
-        <input type="submit" formmethod="get" formaction="editCarServlet" id="edit" disabled value="edit"/>
-        <input type="submit" formmethod="get" formaction="addCarServlet" value="add"/>
+        <input type="submit" formmethod="post" formaction="delDealerServlet" id="sel" disabled value="select"/>
+        <input type="submit" formmethod="get" formaction="delDealerServlet" id="del" disabled value="delete"/>
+        <input type="submit" formmethod="get" formaction="editDealerServlet" id="edit" disabled value="edit"/>
+        <input type="submit" formmethod="get" formaction="addDealerServlet" value="add"/>
     </div>
 </form>
 </body>

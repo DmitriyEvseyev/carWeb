@@ -1,4 +1,4 @@
-package com.example.demo5.servlet;
+package com.example.demo5.servlet.dealerServlet;
 
 import com.example.demo5.controller.DealerList;
 import com.example.demo5.model.CarDealership;
@@ -23,7 +23,7 @@ public class DealershipServlet extends HttpServlet {
         System.out.println("carDealerships - " + carDealerships);
         req.setAttribute("carDealerships", carDealerships);
         try {
-            getServletContext().getRequestDispatcher("/getDealer.jsp").forward(req, resp);
+            getServletContext().getRequestDispatcher("/jsp/dealerjsp/getDealer.jsp").forward(req, resp);
         } catch (ServletException e) {
             System.out.println("DealershipServlet. " + e.getMessage());
         }

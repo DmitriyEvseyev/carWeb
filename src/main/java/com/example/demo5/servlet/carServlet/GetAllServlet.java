@@ -1,4 +1,4 @@
-package com.example.demo5.servlet;
+package com.example.demo5.servlet.carServlet;
 
 import com.example.demo5.controller.CarList;
 import com.example.demo5.model.Car;
