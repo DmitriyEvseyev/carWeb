@@ -48,6 +48,7 @@ public class SelectDealerServlet extends HttpServlet {
         List<Car> carList = new ArrayList<>(carHashMap.values());
         System.out.println("carList = (List<Car>) carHashMap.values() - " + carList);
         req.setAttribute("carList", carList);
+        req.setAttribute("dealer", dealer);
 
         try {
             getServletContext().getRequestDispatcher("/jsp/carjsp/getAll.jsp").forward(req, resp);

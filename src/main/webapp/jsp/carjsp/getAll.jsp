@@ -7,12 +7,12 @@
     <link rel="stylesheet" href="css/carcss/gAll.css">
 </head>
 <body>
-<h1> Cars </h1>
 <form>
+    <h1> Cars / Dealer - "${dealer.name}" </h1>
+    <input type="hidden" name="idDealer" value="${dealer.id}"/>
     <table class="tab">
         <tr>
             <td><h3></h3></td>
-            <td><h3> idDealer </h3></td>
             <td><h3> Name </h3></td>
             <td><h3> Date </h3></td>
             <td><h3> Color </h3></td>
@@ -21,7 +21,6 @@
         <c:forEach var="car" items="${carList}">
             <tr>
                 <td><input type="checkbox" name="check" value="${car.id}"/></td>
-                <td>${car.idDealer}</td>
                 <td>${car.name}</td>
                 <td name="date">${car.date.getTime()}</td>
                 <td>${car.color}</td>

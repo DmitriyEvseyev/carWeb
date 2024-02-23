@@ -1,7 +1,9 @@
 package com.example.demo5.servlet.carServlet;
 
 import com.example.demo5.controller.CarList;
+import com.example.demo5.controller.DealerList;
 import com.example.demo5.model.Car;
+import com.example.demo5.model.CarDealership;
 import com.example.demo5.servlet.HelloServlet;
 
 import javax.servlet.ServletException;
@@ -12,6 +14,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @WebServlet(name = "addCarServlet", value = "/addCarServlet")
 
@@ -22,6 +26,9 @@ public class AddCarServlet extends HelloServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Integer id = Integer.parseInt(request.getParameter("idDealer"));
+        System.out.println(" Integer idDealer = " + id);
+        request.setAttribute("idDealer", id);
         try {
             getServletContext().getRequestDispatcher("/jsp/carjsp/addCar.jsp").forward(request, response);
         } catch (ServletException e) {
@@ -37,10 +44,12 @@ public class AddCarServlet extends HelloServlet {
         int id = Integer.parseInt(req.getParameter("id"));
         System.out.println(id);
 
+        int idDealer = Integer.parseInt(req.getParameter("idDealer"));
+        System.out.println(idDealer);
+
         String name = req.getParameter("name");
         System.out.println(name);
 
-        System.out.println(req.getParameter("date"));
         String date = (req.getParameter("date"));
         System.out.println(date);
 
@@ -54,6 +63,7 @@ public class AddCarServlet extends HelloServlet {
         try {
             car = Car.builder()
                     .id(id)
+                    .idDealer(idDealer)
                     .name(name)
                     .date(formatter.parse(date))
                     .color(color)
@@ -65,10 +75,21 @@ public class AddCarServlet extends HelloServlet {
 
         System.out.println("CAR - " + car);
 
-        ArrayList<Car> newCarList = (ArrayList<Car>) CarList.getInstance().getCarL();
-        newCarList.add(car);
-        System.out.println("newCarList - " + newCarList);
-        req.setAttribute("carList", newCarList);
+        List<CarDealership> dealerList = DealerList.getInstance().getDealerL();
+        CarDealership dealer = null;
+
+        for (CarDealership c : dealerList) {
+            if (c.getId().equals(idDealer)) {
+                dealer = c;
+            }
+        }
+        HashMap<Integer, Car> carHashMap = dealer.getCarMap();
+        carHashMap.put(car.getId(), car);
+
+        List<Car> carList = new ArrayList<>(carHashMap.values());
+        System.out.println("carList = (List<Car>) carHashMap.values() - " + carList);
+        req.setAttribute("carList", carList);
+        req.setAttribute("dealer", dealer);
 
         try {
             getServletContext().getRequestDispatcher("/jsp/carjsp/getAll.jsp").forward(req, resp);
@@ -81,6 +102,4 @@ public class AddCarServlet extends HelloServlet {
     public void destroy() {
         super.destroy();
     }
-
-
 }

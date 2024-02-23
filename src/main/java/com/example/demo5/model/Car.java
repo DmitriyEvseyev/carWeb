@@ -95,7 +95,7 @@ public class Car implements Serializable {
     public String toString() {
         return "Car{" +
                 "id=" + id +
-                ", id=" + idDealer +
+                ", idDealer=" + idDealer +
                 ", name='" + name + '\'' +
                 ", date=" + date +
                 ", color='" + color + '\'' +

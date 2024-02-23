@@ -15,6 +15,7 @@
 <h2> Add dealer </h2>
 <form action="addDealerServlet" method="post">
     <input type="hidden" name="id" id="idRandom"/>
+
     <table class="tab">
         <tr>
             <td> Name</td>
