@@ -1,9 +1,9 @@
-package com.example.demo5.servlet.carServlet;
+package com.dmitriyevseyev.carWeb.servlet.carServlet;
 
-import com.example.demo5.controller.DealerList;
-import com.example.demo5.model.Car;
-import com.example.demo5.model.CarDealership;
-import com.example.demo5.servlet.HelloServlet;
+import com.dmitriyevseyev.carWeb.client.controller.DealerList;
+import com.dmitriyevseyev.carWeb.client.model.Car;
+import com.dmitriyevseyev.carWeb.client.model.CarDealership;
+import com.dmitriyevseyev.carWeb.servlet.HelloServlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

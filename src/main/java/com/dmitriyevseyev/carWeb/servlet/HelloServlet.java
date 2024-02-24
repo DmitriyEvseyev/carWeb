@@ -1,4 +1,4 @@
-package com.example.demo5.servlet;
+package com.dmitriyevseyev.carWeb.servlet;
 
 import java.io.*;
 import javax.servlet.ServletException;

@@ -1,4 +1,4 @@
-package com.example.demo5.model;
+package com.dmitriyevseyev.carWeb.client.model;
 
 import java.io.Serializable;
 import java.util.HashMap;

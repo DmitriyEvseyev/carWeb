@@ -1,9 +1,9 @@
-package com.example.demo5.servlet.carServlet;
+package com.dmitriyevseyev.carWeb.servlet.carServlet;
 
-import com.example.demo5.controller.DealerList;
-import com.example.demo5.model.Car;
-import com.example.demo5.model.CarDealership;
-import com.example.demo5.servlet.HelloServlet;
+import com.dmitriyevseyev.carWeb.client.controller.DealerList;
+import com.dmitriyevseyev.carWeb.client.model.Car;
+import com.dmitriyevseyev.carWeb.client.model.CarDealership;
+import com.dmitriyevseyev.carWeb.servlet.HelloServlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,32 +12,45 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
-@WebServlet(name = "addCarServlet", value = "/addCarServlet")
+@WebServlet(name = "editCarServlet", value = "/editCarServlet")
 
-public class AddCarServlet extends HelloServlet {
+public class EditCarServlet extends HelloServlet {
     @Override
     public void init() {
     }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Integer id = Integer.parseInt(request.getParameter("idDealer"));
-        System.out.println(" Integer idDealer AddCarServlet = " + id);
-        request.setAttribute("idDealer", id);
+        Integer idDealer = Integer.parseInt(request.getParameter("idDealer"));
+        System.out.println(" Integer idDealer EditCarServlet = " + idDealer);
+        request.setAttribute("idDealer", idDealer);
+
+        Integer id = Integer.valueOf(String.valueOf(request.getParameter("check")));
+        System.out.println(" Integer id EditCarServlet = " + id);
+
+        CarDealership dealer = DealerList.getInstance().searchDealer(idDealer);
+        HashMap<Integer, Car> carHashMap = dealer.getCarMap();
+
+        Car car =  carHashMap.get(id);
+        System.out.println("CAR from get - " + car);
         try {
-            getServletContext().getRequestDispatcher("/jsp/carjsp/addCar.jsp").forward(request, response);
+            if (car != null) {
+                request.setAttribute("car", car);
+                request.setAttribute("dealer", dealer);
+                getServletContext().getRequestDispatcher("/jsp/carjsp/editCar.jsp").forward(request, response);
+            } else {
+                getServletContext().getRequestDispatcher("/jsp/carjsp/notfoundCar.jsp").forward(request, response);
+            }
         } catch (ServletException e) {
-            System.out.println("AddCarServlet. " + e.getMessage());
+            System.out.println("EditCarServlet. " + e.getMessage());
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws  IOException {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
         Car car = null;
         int id = Integer.parseInt(req.getParameter("id"));
@@ -56,7 +69,6 @@ public class AddCarServlet extends HelloServlet {
         System.out.println(color);
 
         Boolean isAfterCrash = req.getParameter("isAfterCrash")!=null;
-
         System.out.println(isAfterCrash);
 
         try {
@@ -72,21 +84,25 @@ public class AddCarServlet extends HelloServlet {
             System.out.println("ParseException. " + e.getMessage());
         }
 
-        System.out.println("CAR/ AddCarServlet - " + car);
+        System.out.println("CAR EditCarServlet - " + car);
 
         CarDealership dealer = DealerList.getInstance().searchDealer(idDealer);
         HashMap<Integer, Car> carHashMap = dealer.getCarMap();
+
+        carHashMap.remove(car.getId());
         carHashMap.put(car.getId(), car);
 
         List<Car> carList = new ArrayList<>(carHashMap.values());
-        System.out.println("carList AddCarServlet - " + carList);
+        System.out.println("carList EditCarServlet - " + carList);
+
+        System.out.println("newCarList  EditCarServlet - " + carList);
         req.setAttribute("carList", carList);
         req.setAttribute("dealer", dealer);
 
         try {
             getServletContext().getRequestDispatcher("/jsp/carjsp/getAll.jsp").forward(req, resp);
         } catch (ServletException e) {
-            System.out.println("AddCarServlet. " + e.getMessage());
+            System.out.println("EditCarServlet. " + e.getMessage());
         }
     }
 
