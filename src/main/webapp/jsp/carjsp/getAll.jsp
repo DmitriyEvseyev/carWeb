@@ -79,6 +79,7 @@
         <input type="submit" formmethod="post" formaction="delCarServlet" id="del" disabled value="delete"/>
         <input type="submit" formmethod="get" formaction="editCarServlet" id="edit" disabled value="edit"/>
         <input type="submit" formmethod="get" formaction="addCarServlet" value="add"/>
+        <input type="submit" formmethod="get" formaction="dealershipServlet" value ="select dealer"/>
     </div>
 </form>
 </body>

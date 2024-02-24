@@ -1,6 +1,5 @@
 package com.example.demo5.servlet.carServlet;
 
-import com.example.demo5.controller.CarList;
 import com.example.demo5.controller.DealerList;
 import com.example.demo5.model.Car;
 import com.example.demo5.model.CarDealership;
@@ -27,7 +26,7 @@ public class AddCarServlet extends HelloServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Integer id = Integer.parseInt(request.getParameter("idDealer"));
-        System.out.println(" Integer idDealer = " + id);
+        System.out.println(" Integer idDealer AddCarServlet = " + id);
         request.setAttribute("idDealer", id);
         try {
             getServletContext().getRequestDispatcher("/jsp/carjsp/addCar.jsp").forward(request, response);
@@ -37,7 +36,7 @@ public class AddCarServlet extends HelloServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws  IOException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         Car car = null;
@@ -56,7 +55,7 @@ public class AddCarServlet extends HelloServlet {
         String color = req.getParameter("color");
         System.out.println(color);
 
-        Boolean isAfterCrash = req.getParameter("isAfterCrash")!=null;;
+        Boolean isAfterCrash = req.getParameter("isAfterCrash")!=null;
 
         System.out.println(isAfterCrash);
 
@@ -73,21 +72,14 @@ public class AddCarServlet extends HelloServlet {
             System.out.println("ParseException. " + e.getMessage());
         }
 
-        System.out.println("CAR - " + car);
+        System.out.println("CAR/ AddCarServlet - " + car);
 
-        List<CarDealership> dealerList = DealerList.getInstance().getDealerL();
-        CarDealership dealer = null;
-
-        for (CarDealership c : dealerList) {
-            if (c.getId().equals(idDealer)) {
-                dealer = c;
-            }
-        }
+        CarDealership dealer = DealerList.getInstance().searchDealer(idDealer);
         HashMap<Integer, Car> carHashMap = dealer.getCarMap();
         carHashMap.put(car.getId(), car);
 
         List<Car> carList = new ArrayList<>(carHashMap.values());
-        System.out.println("carList = (List<Car>) carHashMap.values() - " + carList);
+        System.out.println("carList AddCarServlet - " + carList);
         req.setAttribute("carList", carList);
         req.setAttribute("dealer", dealer);
 

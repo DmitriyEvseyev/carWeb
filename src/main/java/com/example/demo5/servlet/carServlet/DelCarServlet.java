@@ -1,7 +1,8 @@
 package com.example.demo5.servlet.carServlet;
 
-import com.example.demo5.controller.CarList;
+import com.example.demo5.controller.DealerList;
 import com.example.demo5.model.Car;
+import com.example.demo5.model.CarDealership;
 import com.example.demo5.servlet.HelloServlet;
 
 import javax.servlet.ServletException;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @WebServlet(name = "delCarServlet", value = "/delCarServlet")
 public class DelCarServlet extends HelloServlet {
@@ -18,36 +21,38 @@ public class DelCarServlet extends HelloServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Integer idDealer = Integer.parseInt(req.getParameter("idDealer"));
+        System.out.println(" Integer idDealer from DelCarServlet = " + idDealer);
+
         String[] ids = req.getParameterValues("check");
         System.out.print("String[] ids - ");
         for (String g : ids) {
             System.out.println(g);
         }
         System.out.println();
-
         ArrayList<Integer> idList = new ArrayList<>();
         for (int i = 0; i < ids.length; i++) {
             idList.add(Integer.valueOf(ids[i]));
         }
-        System.out.println("ArrayList<Integer> id - " + idList);
+        System.out.println("idCar  DelCarServlet - " + idList);
 
-        ArrayList<Car> newCarList = (ArrayList<Car>) CarList.getInstance().getCarL();
+        CarDealership dealer = DealerList.getInstance().searchDealer(idDealer);
+        HashMap<Integer, Car> carHashMap = dealer.getCarMap();
 
-        for (int j = 0; j < newCarList.size(); j++) {
-            for (int i = 0; i < idList.size(); i++) {
-                if (newCarList.get(j).getId() == idList.get(i)) {
-                    newCarList.remove(j);
-                }
-            }
+        for (Integer id : idList) {
+            carHashMap.remove(id);
         }
 
-        System.out.println("newCarList - " + newCarList);
-        req.setAttribute("carList", newCarList);
+        List<Car> carList = new ArrayList<>(carHashMap.values());
+        System.out.println("carList from DelCarServlet - " + carList);
+        req.setAttribute("carList", carList);
+        req.setAttribute("dealer", dealer);
 
         try {
             getServletContext().getRequestDispatcher("/jsp/carjsp/getAll.jsp").forward(req, resp);
-        } catch (ServletException e) {
+        } catch (
+                ServletException e) {
             System.out.println("DelCarServlet. " + e.getMessage());
         }
     }

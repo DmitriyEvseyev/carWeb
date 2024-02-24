@@ -1,8 +1,6 @@
 package com.example.demo5.servlet.dealerServlet;
 
-import com.example.demo5.controller.CarList;
 import com.example.demo5.controller.DealerList;
-import com.example.demo5.model.Car;
 import com.example.demo5.model.CarDealership;
 
 import javax.servlet.ServletException;
@@ -11,11 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.ListIterator;
-import java.util.Locale;
 
 @WebServlet(name = "editDealerServlet", value = "/editDealerServlet")
 

@@ -10,7 +10,8 @@
 <body>
 <h2> Edit car </h2>
 <form action="editCarServlet" method="post">
-    <input type="hidden" value="${car.id}" name="id"/>
+    <input type="hidden" name="id" value="${car.id}" />
+    <input type="hidden" name="idDealer" value="${idDealer}"/>
     <table class="tab">
         <tr>
             <td> Name</td>

@@ -24,29 +24,22 @@ public class SelectDealerServlet extends HttpServlet {
     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Integer id = Integer.valueOf(String.valueOf(req.getParameter("check")));
-        System.out.println(" Integer idDealer = " + id);
+        Integer idDealer = Integer.valueOf(String.valueOf(req.getParameter("check")));
+        System.out.println(" Integer idDealer SelectDealerServlet = " + idDealer);
 
-        List<CarDealership> dealerList = DealerList.getInstance().getDealerL();
-        CarDealership dealer = null;
-
-        for (CarDealership c : dealerList) {
-            if (c.getId().equals(id)) {
-                dealer = c;
-            }
-        }
+        CarDealership dealer = DealerList.getInstance().searchDealer(idDealer);
         HashMap<Integer, Car> carHashMap = dealer.getCarMap();
 
         ArrayList<Car> carL = (ArrayList<Car>) CarList.getInstance().getCarL();
 
         for (Car car : carL) {
-            if (car.getIdDealer().equals(id)){
+            if (car.getIdDealer().equals(idDealer)){
                 carHashMap.put(car.getId(), car);
             }
         }
-        System.out.println("newCarList for dealer - " + carHashMap);
+        System.out.println("newCarList SelectDealerServlet - " + carHashMap);
         List<Car> carList = new ArrayList<>(carHashMap.values());
-        System.out.println("carList = (List<Car>) carHashMap.values() - " + carList);
+        System.out.println("carList  SelectDealerServlet - " + carList);
         req.setAttribute("carList", carList);
         req.setAttribute("dealer", dealer);
 
