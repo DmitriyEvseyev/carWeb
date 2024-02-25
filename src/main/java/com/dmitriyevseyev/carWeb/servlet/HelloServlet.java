@@ -1,5 +1,7 @@
 package com.dmitriyevseyev.carWeb.servlet;
 
+import com.dmitriyevseyev.carWeb.server.dao.ManagerDAO;
+
 import java.io.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
@@ -12,6 +14,8 @@ public class HelloServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        ManagerDAO.getInstance();
+
         try {
             getServletContext().getRequestDispatcher("/dealershipServlet").forward(request, response);
         } catch (ServletException e) {

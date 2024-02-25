@@ -1,8 +1,8 @@
 package com.dmitriyevseyev.carWeb.servlet.carServlet;
 
-import com.dmitriyevseyev.carWeb.client.controller.DealerList;
-import com.dmitriyevseyev.carWeb.client.model.CarDealership;
-import com.dmitriyevseyev.carWeb.client.model.Car;
+import com.dmitriyevseyev.carWeb.controller.DealerList;
+import com.dmitriyevseyev.carWeb.model.CarDealership;
+import com.dmitriyevseyev.carWeb.model.Car;
 import com.dmitriyevseyev.carWeb.servlet.HelloServlet;
 
 import javax.servlet.ServletException;

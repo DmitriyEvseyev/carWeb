@@ -1,4 +1,4 @@
-package com.dmitriyevseyev.carWeb.client.model;
+package com.dmitriyevseyev.carWeb.model;
 
 import java.io.Serializable;
 import java.util.Date;

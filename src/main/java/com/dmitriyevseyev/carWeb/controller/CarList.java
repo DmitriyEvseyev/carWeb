@@ -1,6 +1,6 @@
-package com.dmitriyevseyev.carWeb.client.controller;
+package com.dmitriyevseyev.carWeb.controller;
 
-import com.dmitriyevseyev.carWeb.client.model.Car;
+import com.dmitriyevseyev.carWeb.model.Car;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -1,6 +1,6 @@
-package com.dmitriyevseyev.carWeb.client.controller;
+package com.dmitriyevseyev.carWeb.controller;
 
-import com.dmitriyevseyev.carWeb.client.model.CarDealership;
+import com.dmitriyevseyev.carWeb.model.CarDealership;
 
 import java.util.ArrayList;
 import java.util.HashMap;
