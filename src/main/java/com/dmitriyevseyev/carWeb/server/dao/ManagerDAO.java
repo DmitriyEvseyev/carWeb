@@ -9,6 +9,7 @@ public class ManagerDAO {
     public static ManagerDAO instance;
     private CarDAO carDAO;
     private UserDAO userDAO;
+    private DealerDAO dealerDAO;
 
     public static ManagerDAO getInstance() {
         if (instance == null) {
@@ -25,6 +26,10 @@ public class ManagerDAO {
         return userDAO;
     }
 
+    public DealerDAO getDealerDAO() {
+        return dealerDAO;
+    }
+
     public ManagerDAO() {
         try {
             Class.forName("org.postgresql.Driver");
@@ -34,6 +39,7 @@ public class ManagerDAO {
                     Constants.PASSWORD);
             this.carDAO = CarDAO.getInstance(connection);
             this.userDAO = UserDAO.getInstance(connection);
+            this.dealerDAO = DealerDAO.getInstance(connection);
         } catch (SQLException | ClassNotFoundException e) {
             System.out.println(e.getClass().getName() + ": " + e.getMessage());
         }

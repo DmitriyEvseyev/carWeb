@@ -30,10 +30,12 @@
         </c:forEach>
         <script>
             checks = document.getElementsByName("check");
+            console.log("checks" + checks);
 
             function selectedCheckBox() {
                 count = 0;
                 for (i = 0; i < checks.length; i++) {
+                    console.log(checks[i]);
                     if (checks[i].checked) {
                         count++;
                     }
@@ -63,10 +65,38 @@
     <br/>
     <div class="buttons">
         <input type="submit" formmethod="post" formaction="selectDealerServlet" id="sel" disabled value="select"/>
-        <input type="submit" formmethod="get" formaction="delDealerServlet" id="del" disabled value="delete"/>
-        <input type="submit" formmethod="get" formaction="editDealerServlet" id="edit" disabled value="edit"/>
+        <input type="submit" formmethod="get" formaction="delDealerServlet" id="del" disabled value="delete"
+               onclick="return delCar()"/>
+        <input type="submit" formmethod="get" formaction="jsp/dealerjsp/editDealer.jsp" id="edit" disabled
+               value="edit"  onclick="get()"/>
         <input type="submit" formmethod="get" formaction="addDealerServlet" value="add"/>
     </div>
 </form>
+<script>
+    function delCar() {
+        if (confirm("Are you really want to delete dealer with cars?")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    function get() {
+        check = document.getElementsByName("check");
+
+        for (i = 0; i < check.length; i++) {
+            if (check[i].checked) {
+                row = check[i].parentNode.parentNode;
+                console.log("check[i].parentNode - " + check[i].parentNode);
+                console.log("check[i].parentNode.parentNode - " + row);
+                console.log("row.cells[1] - " + row.cells[1].innerHTML);
+                console.log("row.cells[2] - " + row.cells[2].innerHTML);
+                var a = row.cells[1].innerHTML;
+                var b = row.cells[2].innerHTML;
+            }
+        }
+    }
+</script>
 </body>
 </html>

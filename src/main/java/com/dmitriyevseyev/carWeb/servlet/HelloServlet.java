@@ -1,5 +1,6 @@
 package com.dmitriyevseyev.carWeb.servlet;
 
+import com.dmitriyevseyev.carWeb.model.CarDealership;
 import com.dmitriyevseyev.carWeb.server.dao.ManagerDAO;
 
 import java.io.*;

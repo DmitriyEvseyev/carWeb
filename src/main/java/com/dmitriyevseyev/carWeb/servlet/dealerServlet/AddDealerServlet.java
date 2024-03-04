@@ -2,6 +2,9 @@ package com.dmitriyevseyev.carWeb.servlet.dealerServlet;
 
 import com.dmitriyevseyev.carWeb.controller.DealerList;
 import com.dmitriyevseyev.carWeb.model.CarDealership;
+import com.dmitriyevseyev.carWeb.server.controller.DealerController;
+import com.dmitriyevseyev.carWeb.server.exceptions.dealer.AddDealerExeption;
+import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,9 +34,6 @@ public class AddDealerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        int id = Integer.parseInt(req.getParameter("id"));
-        System.out.println(id);
-
         String name = req.getParameter("name");
         System.out.println(name);
 
@@ -41,24 +41,18 @@ public class AddDealerServlet extends HttpServlet {
         System.out.println(adress);
 
         CarDealership dealer = CarDealership.builder()
-                 .id(id)
-                 .name(name)
-                 .adress(adress)
-                 .carMap(new HashMap<>())
-                 .build();
+                .name(name)
+                .adress(adress)
+                .build();
 
         System.out.println("Dealer - " + dealer);
 
-        ArrayList<CarDealership> newDealerList = (ArrayList<CarDealership>) DealerList.getInstance().getDealerL();
-        newDealerList.add(dealer);
-        System.out.println("newDealerList - " + newDealerList);
-        req.setAttribute("carDealerships", newDealerList);
-
         try {
-            getServletContext().getRequestDispatcher("/jsp/dealerjsp/getDealer.jsp").forward(req, resp);
-        } catch (ServletException e) {
-            System.out.println("AddDealerServlet. " + e.getMessage());
+            DealerController.getInstance().addDealer(dealer);
+        } catch (AddDealerExeption e) {
+            throw new RuntimeException(String.format("AddDealerExeption/ doPost. " + e.getMessage()));
         }
+        resp.sendRedirect(ServletConstants.PATH_DEALER);
     }
 
     @Override

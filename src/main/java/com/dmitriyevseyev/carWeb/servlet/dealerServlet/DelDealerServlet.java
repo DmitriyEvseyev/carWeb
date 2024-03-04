@@ -2,6 +2,10 @@ package com.dmitriyevseyev.carWeb.servlet.dealerServlet;
 
 import com.dmitriyevseyev.carWeb.controller.DealerList;
 import com.dmitriyevseyev.carWeb.model.CarDealership;
+import com.dmitriyevseyev.carWeb.server.controller.DealerController;
+import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
+import com.dmitriyevseyev.carWeb.server.exceptions.dealer.DeleteDealerExeption;
+import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,33 +30,19 @@ public class DelDealerServlet extends HttpServlet {
         }
         System.out.println();
 
-        ArrayList<Integer> idDealerList = new ArrayList<>();
-        for (int i = 0; i < idDealer.length; i++) {
-            idDealerList.add(Integer.valueOf(idDealer[i]));
-        }
-        System.out.println("ArrayList<Integer> idDealerList - " + idDealerList);
+        DealerController controller = DealerController.getInstance();
 
-        ArrayList<CarDealership> newDealerList = (ArrayList<CarDealership>) DealerList.getInstance().getDealerL();
-
-        for (int j = 0; j < newDealerList.size(); j++) {
-            for (int i = 0; i < idDealerList.size(); i++) {
-                if (newDealerList.get(j).getId() == idDealerList.get(i)) {
-                    newDealerList.remove(j);
-                }
+        for (String id : idDealer) {
+            try {
+                controller.removeDealer(Integer.valueOf(id));
+            } catch (NotFoundException e) {
+                throw new RuntimeException("DelDealerServlet. NotFoundException. " + e.getMessage());
+            } catch (DeleteDealerExeption e) {
+                throw new RuntimeException("DelDealerServlet. RuntimeException. " + e.getMessage());
             }
         }
-
-        System.out.println("newDealerList - " + newDealerList);
-        req.setAttribute("carDealerships", newDealerList);
-
-        try {
-            getServletContext().getRequestDispatcher("/jsp/dealerjsp/getDealer.jsp").forward(req, resp);
-        } catch (ServletException e) {
-            System.out.println("DelDealerServlet. " + e.getMessage());
-        }
+        resp.sendRedirect(ServletConstants.PATH_DEALER);
     }
-
-
     @Override
     public void destroy() {
         super.destroy();

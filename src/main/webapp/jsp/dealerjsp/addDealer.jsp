@@ -14,8 +14,6 @@
 <body>
 <h2> Add dealer </h2>
 <form action="addDealerServlet" method="post">
-    <input type="hidden" name="id" id="idRandom"/>
-
     <table class="tab">
         <tr>
             <td> Name</td>
@@ -32,13 +30,6 @@
         <input type="reset" value="Cancel"/>
     </div>
 </form>
-<script>
-    function myFunction() {
-        return Math.floor(Math.random() * 100);
-    }
-
-    document.getElementById("idRandom").value = myFunction();
-</script>
 </body>
 </html>
 

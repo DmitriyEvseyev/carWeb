@@ -10,7 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit dealer</title>
-    <link rel="stylesheet" href="css/dealercss/editDealer.css">
+
 </head>
 <body>
 <h2> Edit dealer </h2>

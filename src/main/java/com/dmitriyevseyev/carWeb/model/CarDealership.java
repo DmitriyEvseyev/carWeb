@@ -11,9 +11,7 @@ public class CarDealership implements Serializable {
     private HashMap<Integer, Car> carMap;
 
     public CarDealership() {
-    }
-
-    ;
+    };
 
     public CarDealership(Integer id, String name, String adress, HashMap<Integer, Car> carMap) {
         this.id = id;
