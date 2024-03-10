@@ -47,12 +47,13 @@ public class DealerDAO {
     }
 
    // @Override
-    public void update(CarDealership dealer) throws SQLException {
+    public void update(Integer id, String name, String adress) throws SQLException {
         String sql = "UPDATE DEALERS SET NAME = ?, ADRESS = ?  WHERE ID = ?";
 
         try (PreparedStatement stm = connection.prepareStatement(sql);) {
-            stm.setString(1, dealer.getName());
-            stm.setString(3, dealer.getAdress());
+            stm.setString(1, name);
+            stm.setString(2, adress);
+            stm.setInt(3, id);
             stm.executeUpdate();
         }
     }

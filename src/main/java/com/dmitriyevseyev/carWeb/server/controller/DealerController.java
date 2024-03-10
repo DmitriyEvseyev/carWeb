@@ -53,7 +53,7 @@ public class DealerController {
         }
     }
 
-    public void removeDealer (Integer id) throws NotFoundException, DeleteDealerExeption {
+    public void removeDealer(Integer id) throws NotFoundException, DeleteDealerExeption {
         //dao
         try {
             if (!dealerDAO.isDealerExist(id)) {
@@ -65,18 +65,12 @@ public class DealerController {
         }
     }
 
-    public void updateCar(CarDealership dealer) throws UpdateDealerException {
+    public void updateCar(Integer id, String name, String adress) throws UpdateDealerException {
         // dao
-        CarDealership updateDealer;
         try {
-            updateDealer = CarDealership.builder()
-                    .id(dealer.getId())
-                    .name(dealer.getName())
-                    .adress(dealer.getAdress())
-                    .build();
-            dealerDAO.update(updateDealer);
+            dealerDAO.update(id, name, adress);
         } catch (SQLException e) {
-            throw new UpdateDealerException(String.format("Error: %s. Code: %s", e.getMessage(), e.getSQLState()));
+            throw new UpdateDealerException(String.format("EditDealerExeption: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
     }
 }

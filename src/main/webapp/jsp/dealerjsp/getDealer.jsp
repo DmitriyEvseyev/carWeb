@@ -14,7 +14,7 @@
 </head>
 <body>
 <h1> CarDealerships </h1>
-<form>
+<form id="fo">
     <table class="tab">
         <tr>
             <td><h3></h3></td>
@@ -68,7 +68,7 @@
         <input type="submit" formmethod="get" formaction="delDealerServlet" id="del" disabled value="delete"
                onclick="return delCar()"/>
         <input type="submit" formmethod="get" formaction="jsp/dealerjsp/editDealer.jsp" id="edit" disabled
-               value="edit"  onclick="get()"/>
+               value="edit" onclick="editCar()"/>
         <input type="submit" formmethod="get" formaction="addDealerServlet" value="add"/>
     </div>
 </form>
@@ -81,22 +81,33 @@
         }
     }
 
-
-    function get() {
+    function editCar() {
+        const form = document.getElementById("fo");
         check = document.getElementsByName("check");
-
+        var nameDealer;
+        var adressDealer;
         for (i = 0; i < check.length; i++) {
             if (check[i].checked) {
                 row = check[i].parentNode.parentNode;
-                console.log("check[i].parentNode - " + check[i].parentNode);
-                console.log("check[i].parentNode.parentNode - " + row);
-                console.log("row.cells[1] - " + row.cells[1].innerHTML);
-                console.log("row.cells[2] - " + row.cells[2].innerHTML);
-                var a = row.cells[1].innerHTML;
-                var b = row.cells[2].innerHTML;
+                nameDealer = row.cells[1].innerHTML;
+                adressDealer = row.cells[2].innerHTML;
             }
         }
+        var inputName = document.createElement("input");
+        inputName.setAttribute("name", "nameD");
+        inputName.setAttribute("value", nameDealer);
+        inputName.setAttribute("type", "hidden")
+        form.appendChild(inputName);
+
+        var inputAdress = document.createElement("input");
+        inputAdress.setAttribute("name", "adressD");
+        inputAdress.setAttribute("value", adressDealer);
+        inputAdress.setAttribute("type", "hidden");
+        form.appendChild(inputAdress);
+
+        form.submit();
     }
+
 </script>
 </body>
 </html>
