@@ -22,7 +22,7 @@ public class DelDealerServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet (HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String[] idDealer = req.getParameterValues("check");
         System.out.print("String[] idDealer - ");
         for (String g : idDealer) {
@@ -36,13 +36,14 @@ public class DelDealerServlet extends HttpServlet {
             try {
                 controller.removeDealer(Integer.valueOf(id));
             } catch (NotFoundException e) {
-                throw new RuntimeException("DelDealerServlet. NotFoundException. " + e.getMessage());
+                getServletContext().getRequestDispatcher("/jsp/dealerjsp/notfoundDealer.jsp").forward(req, resp);
             } catch (DeleteDealerExeption e) {
-                throw new RuntimeException("DelDealerServlet. RuntimeException. " + e.getMessage());
+                System.out.println("DelDealerServlet. DeleteDealerExeption. " + e.getMessage());
             }
         }
         resp.sendRedirect(ServletConstants.PATH_DEALER);
     }
+
     @Override
     public void destroy() {
         super.destroy();

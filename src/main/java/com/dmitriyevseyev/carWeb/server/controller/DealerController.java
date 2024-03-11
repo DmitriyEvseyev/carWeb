@@ -6,10 +6,7 @@ import com.dmitriyevseyev.carWeb.server.dao.CarDAO;
 import com.dmitriyevseyev.carWeb.server.dao.DealerDAO;
 import com.dmitriyevseyev.carWeb.server.dao.ManagerDAO;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.*;
-import com.dmitriyevseyev.carWeb.server.exceptions.dealer.AddDealerExeption;
-import com.dmitriyevseyev.carWeb.server.exceptions.dealer.DeleteDealerExeption;
-import com.dmitriyevseyev.carWeb.server.exceptions.dealer.GetAllDealerExeption;
-import com.dmitriyevseyev.carWeb.server.exceptions.dealer.UpdateDealerException;
+import com.dmitriyevseyev.carWeb.server.exceptions.dealer.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -63,6 +60,19 @@ public class DealerController {
         } catch (SQLException e) {
             throw new DeleteDealerExeption(String.format("DeleteDealerExeption: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
+    }
+
+    public CarDealership getDealer (Integer id) throws GetDealerException, NotFoundException {
+        CarDealership dealer = null;
+        try {
+            if (!dealerDAO.isDealerExist(id)) {
+                throw new NotFoundException();
+            }
+            dealer = dealerDAO.read(id);
+        } catch (SQLException e) {
+            throw new GetDealerException(String.format("GetDealerException: %s. Code: %s", e.getMessage(), e.getSQLState()));
+        }
+        return dealer;
     }
 
     public void updateCar(Integer id, String name, String adress) throws UpdateDealerException {

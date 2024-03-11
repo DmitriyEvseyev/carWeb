@@ -67,8 +67,7 @@
         <input type="submit" formmethod="post" formaction="selectDealerServlet" id="sel" disabled value="select"/>
         <input type="submit" formmethod="get" formaction="delDealerServlet" id="del" disabled value="delete"
                onclick="return delCar()"/>
-        <input type="submit" formmethod="get" formaction="jsp/dealerjsp/editDealer.jsp" id="edit" disabled
-               value="edit" onclick="editCar()"/>
+        <input type="submit" formmethod="get" formaction="editDealerServlet" id="edit" disabled value="edit"/>
         <input type="submit" formmethod="get" formaction="addDealerServlet" value="add"/>
     </div>
 </form>
@@ -81,7 +80,7 @@
         }
     }
 
-    function editCar() {
+   /* function editCar() {
         const form = document.getElementById("fo");
         check = document.getElementsByName("check");
         var nameDealer;
@@ -107,6 +106,8 @@
 
         form.submit();
     }
+
+    */
 
 </script>
 </body>

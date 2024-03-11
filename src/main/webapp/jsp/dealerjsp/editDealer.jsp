@@ -44,16 +44,16 @@
 </head>
 <body>
 <h2> Edit dealer </h2>
-<form action="../../com.dmitriyevseyev.carWeb/servlet/dealerServlet/EditDealerServlet.java" method="get">
-    <input type="hidden" value="<%= request.getParameter("check")%>" name="id"/>
+<form action="editDealerServlet" method="post">
+    <input type="hidden" value="${dealer.id}" name="id"/>
     <table class="tab">
         <tr>
             <td> Name</td>
-            <td><input name="name" id="name" value="<%= request.getParameter("nameD")%>" required/></td>
+            <td><input name="name" id="name" value="${dealer.name}" required/></td>
         </tr>
         <tr>
             <td> Adress</td>
-            <td><input name="adress" value="<%= request.getParameter("adressD")%>" required/></td>
+            <td><input name="adress" value="${dealer.adress}" required/></td>
         </tr>
     </table>
     <br/>
