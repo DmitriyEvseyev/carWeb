@@ -27,12 +27,12 @@ public class ServerCarController {
         this.carDAO = ManagerDAO.getInstance().getDaoCar();
     }
 
-    public List<Car> getAllCars() throws GetAllCarExeption {
+    public List<Car> getCarList(Integer idDealer) throws GetAllCarExeption {
         // dao
         try {
-            return Collections.unmodifiableList(new ArrayList<>(carDAO.getAll()));
+            return Collections.unmodifiableList(new ArrayList<>(carDAO.getCarListDealer(idDealer)));
         } catch (SQLException e) {
-            throw new GetAllCarExeption(String.format("Error: %s. Code: %s", e.getMessage(), e.getSQLState()));
+            throw new GetAllCarExeption(String.format("GetAllCarExeption. Error: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
     }
 

@@ -34,15 +34,14 @@ public class CarDAO implements DAO {
         }
     }
 
-    @Override
-    public Car read(Integer id) throws SQLException {
-        String sql = "SELECT * FROM CAR WHERE id = ?";
-        Car Car;
+     public List<Car> getCarListDealer(Integer idDealer) throws SQLException {
+        String sql = "SELECT * FROM CAR WHERE IDDEALER = ?";
+        List<Car> list = null;
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
-            stm.setInt(1, id);
-            Car = createCarByResultSet(stm.executeQuery());
+            stm.setInt(1, idDealer);
+            list = createListByResultSet(stm.executeQuery());
         }
-        return Car;
+        return Collections.unmodifiableList(list);
     }
 
     @Override
@@ -68,44 +67,12 @@ public class CarDAO implements DAO {
         }
     }
 
-    @Override
-    public List<Car> getAll() throws SQLException {
-        List<Car> list;
-        String sql = "SELECT * FROM CAR";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            list = createListByResultSet(statement.executeQuery());
-        }
-        return Collections.unmodifiableList(list);
-    }
-
-    @Override
-    public List<Car> getSortedByCriteria(Integer Id, String column, String criteria) throws SQLException {
-        List<Car> list;
-        String sql = "SELECT * FROM \"CAR\" WHERE \"Id\" = ? ORDER BY \"%s\" %s";
-        sql = String.format(sql, column, criteria);
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, Id);
-            list = createListByResultSet(statement.executeQuery());
-        }
-        return Collections.unmodifiableList(list);
-    }
-
-
-    private Car createCarByResultSet(ResultSet rs) throws SQLException {
-        rs.next();
-        Car car = Car.builder().id(rs.getInt("Id"))
-                .name(rs.getString("Name"))
-                .color(rs.getString("Color"))
-                .date(rs.getDate("Date"))
-                .isAfterCrash(rs.getBoolean("isAfterCrash"))
-                .build();
-        return car;
-    }
-
     private List<Car> createListByResultSet(ResultSet rs) throws SQLException {
         List<Car> list = new LinkedList<>();
         while (rs.next()) {
-            list.add(Car.builder().id(rs.getInt("Id"))
+            list.add(Car.builder()
+                    .id(rs.getInt("Id"))
+                    .idDealer(rs.getInt("IdDealer"))
                     .name(rs.getString("Name"))
                     .color(rs.getString("Color"))
                     .date(rs.getDate("Date"))
@@ -129,6 +96,52 @@ public class CarDAO implements DAO {
         }
         return carExist;
     }
+
+    /*
+
+    @Override
+    public List<Car> getAll() throws SQLException {
+        List<Car> list;
+        String sql = "SELECT * FROM CAR";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            list = createListByResultSet(statement.executeQuery());
+        }
+        return Collections.unmodifiableList(list);
+    }@Override
+
+    public List<Car> getSortedByCriteria(Integer Id, String column, String criteria) throws SQLException {
+        List<Car> list;
+        String sql = "SELECT * FROM \"CAR\" WHERE \"Id\" = ? ORDER BY \"%s\" %s";
+        sql = String.format(sql, column, criteria);
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, Id);
+            list = createListByResultSet(statement.executeQuery());
+        }
+        return Collections.unmodifiableList(list);
+    }
+
+
+    private Car createCarByResultSet(ResultSet rs) throws SQLException {
+        rs.next();
+        Car car = Car.builder().id(rs.getInt("Id"))
+                .name(rs.getString("Name"))
+                .color(rs.getString("Color"))
+                .date(rs.getDate("Date"))
+                .isAfterCrash(rs.getBoolean("isAfterCrash"))
+                .build();
+        return car;
+    }
+    /*   @Override
+    public Car read(Integer id) throws SQLException {
+        String sql = "SELECT * FROM CAR WHERE id = ?";
+        Car Car;
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setInt(1, id);
+            Car = createCarByResultSet(stm.executeQuery());
+        }
+        return Car;
+    }
+      */
 }
 
 

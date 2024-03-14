@@ -14,33 +14,34 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ServerUserController {
-    private static ServerUserController instance;
+public class UserController {
+    private static UserController instance;
     private UserDAO userDAO;
 
-    public static ServerUserController getInstance() {
+    public static UserController getInstance() {
         if (instance == null) {
-            instance = new ServerUserController();
+            instance = new UserController();
         }
         return instance;
     }
 
-    private ServerUserController() {
+    private UserController() {
         this.userDAO = ManagerDAO.getInstance().getDaoUser();
     }
 
-    public boolean isUserExistServer(User user) {
+    public boolean isUserExistServer(String userName, String userPassword) {
         PasswordHashGenerator passwordHashGenerator =  PasswordHashGenerator.getInstance();
         boolean isCorrect = false;
         try {
-            String password = passwordHashGenerator.getHashPassword(user.getPassword());
-            String passwordServer = passwordHashGenerator.getHashPassword(userDAO.getPassword(user.getUserName()));
+            String password = passwordHashGenerator.getHashPassword(userPassword);
+            String passwordServer = passwordHashGenerator.getHashPassword(userDAO.getPassword(userName));
             if (password.equals(passwordServer)) {
                 isCorrect = true;
             }
         } catch (SQLException e) {
             System.out.println("getPasswordError. " + e.getMessage());
         }
+        System.out.println("isUserExistServer - " + isCorrect);
         return isCorrect;
     }
 

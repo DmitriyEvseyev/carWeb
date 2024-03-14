@@ -31,7 +31,7 @@ public class EditDealerServlet extends HttpServlet {
         try {
             dealer = DealerController.getInstance().getDealer(Integer.valueOf(idDealer));
         } catch (GetDealerException e) {
-            System.out.println("GetDealerException. DeleteDealerExeption. " + e.getMessage());
+            System.out.println("GetDealerException. EditDealerExeption. " + e.getMessage());
         } catch (NotFoundException e) {
             getServletContext().getRequestDispatcher("/jsp/dealerjsp/notfoundDealer.jsp").forward(req, resp);
         }
