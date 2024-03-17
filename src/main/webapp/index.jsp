@@ -33,12 +33,12 @@
                 </div>
 
                 <div class="input-field button">
-                    <input type="submit" value="Login" formaction="userLogServlet">
+                    <input type="submit" value="Login" formaction="userLogServlet" formmethod="post">
                 </div>
             </form>
 
             <div class="login-signup">
-                    <span class="text">Not a member?
+                    <span class="text">Not registered yet?
                         <a href="registration.jsp">Signup Now</a>
                     </span>
             </div>

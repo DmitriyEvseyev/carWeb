@@ -1,6 +1,7 @@
 package com.dmitriyevseyev.carWeb.server.dao;
 
 import com.dmitriyevseyev.carWeb.model.User;
+import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
 
 import java.sql.*;
 import java.util.Collections;
@@ -130,7 +131,10 @@ public class UserDAO {
 
     public String getPassword(String userName) throws SQLException {
         String password = null;
-        if (isUserExist(userName)) {
+        if (!isUserExist(userName)) {
+            System.out.println("passw DAO - NO - " + password);
+            return password;
+        } else {
             String sqlGetPassword = "SELECT PASSWORD FROM USERS WHERE USERNAME = ?";
             try (PreparedStatement stm = connection.prepareStatement(sqlGetPassword)) {
                 stm.setString(1, userName);
@@ -139,7 +143,9 @@ public class UserDAO {
                     password = rs.getString("PASSWORD");
                 }
             }
-        }return password;
+        }
+        System.out.println("passw DAO - " + password);
+        return password;
     }
 
     public Integer getId(String userName) throws SQLException {
@@ -153,7 +159,8 @@ public class UserDAO {
                     idUser = rs.getInt("ID");
                 }
             }
-        }return idUser;
+        }
+        return idUser;
     }
 }
 

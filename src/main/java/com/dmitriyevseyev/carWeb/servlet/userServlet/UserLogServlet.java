@@ -1,6 +1,8 @@
 package com.dmitriyevseyev.carWeb.servlet.userServlet;
 
 import com.dmitriyevseyev.carWeb.server.controller.UserController;
+import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
+import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet(name = "userLogServlet", value = "/userLogServlet")
 
@@ -17,30 +20,27 @@ public class UserLogServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String userName = req.getParameter("name");
         String userPassword = req.getParameter("password");
         System.out.println("userName - " + userName + " ; userPassword - " + userPassword);
 
-        boolean isCorrect = UserController.getInstance().isUserExistServer(userName, userPassword);
-        System.out.println("isCorrect - " + isCorrect);
+        boolean isCorrect = false;
+        isCorrect = UserController.getInstance().isUserExistServer(userName, userPassword);
+        System.out.println("isCorrect, UserLogServlet - " + isCorrect);
         if (isCorrect == true) {
-            getServletContext().getRequestDispatcher("/dealershipServlet").forward(req, resp);
+            resp.sendRedirect(ServletConstants.PATH_DEALER);
         } else {
-            getServletContext().getRequestDispatcher("/jsp/dealerjsp/notfoundDealer.jsp").forward(req, resp);
-
+            resp.setContentType("text/html");
+            PrintWriter pw = resp.getWriter();
+            pw.println("<script type=\"text/javascript\">");
+            pw.println("alert('Invalid Username or Password!');");
+            pw.println("location='index.jsp'");
+            pw.println("</script>");
         }
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
-    }
-
-    @Override
     public void destroy() {
-
     }
-
-
 }

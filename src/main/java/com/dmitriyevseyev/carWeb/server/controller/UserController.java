@@ -7,6 +7,7 @@ import com.dmitriyevseyev.carWeb.server.exceptions.car.DeleteCarExeption;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.GetAllCarExeption;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
 import com.dmitriyevseyev.carWeb.model.User;
+import com.dmitriyevseyev.carWeb.server.exceptions.user.AddUserExeption;
 import com.dmitriyevseyev.carWeb.shared.utils.PasswordHashGenerator;
 
 import java.sql.SQLException;
@@ -30,13 +31,19 @@ public class UserController {
     }
 
     public boolean isUserExistServer(String userName, String userPassword) {
-        PasswordHashGenerator passwordHashGenerator =  PasswordHashGenerator.getInstance();
+        PasswordHashGenerator passwordHashGenerator = PasswordHashGenerator.getInstance();
         boolean isCorrect = false;
         try {
             String password = passwordHashGenerator.getHashPassword(userPassword);
-            String passwordServer = passwordHashGenerator.getHashPassword(userDAO.getPassword(userName));
-            if (password.equals(passwordServer)) {
-                isCorrect = true;
+            String passwordServer = userDAO.getPassword(userName);
+            System.out.println("passwordServer - " + passwordServer);
+            if (passwordServer == null) {
+                return isCorrect;
+            } else {
+                String passwordServerHash = passwordHashGenerator.getHashPassword(passwordServer);
+                if (password.equals(passwordServerHash)) {
+                    isCorrect = true;
+                }
             }
         } catch (SQLException e) {
             System.out.println("getPasswordError. " + e.getMessage());
@@ -45,7 +52,17 @@ public class UserController {
         return isCorrect;
     }
 
-    public Integer getIdUser(User user) {
+    public boolean isUserNameExistServer(String userName) {
+        boolean isNameExist = false;
+        try {
+            isNameExist = userDAO.isUserExist(userName);
+        } catch (SQLException e) {
+            System.out.println("isUserNameExistServer. " + e.getMessage());
+        }
+        return isNameExist;
+    }
+
+        public Integer getIdUser(User user) {
         Integer idUser = 0;
         try {
             idUser = userDAO.getId(user.getUserName());
@@ -64,12 +81,12 @@ public class UserController {
         }
     }
 
-    public void addUser(User user) throws AddCarExeption {
+    public void addUser(User user) throws  AddUserExeption {
         // dao
         try {
             userDAO.createUser(user);
         } catch (SQLException e) {
-            throw new AddCarExeption(String.format("Error: %s. Code: %s", e.getMessage(), e.getSQLState()));
+            throw new AddUserExeption(String.format("Error: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
     }
 
