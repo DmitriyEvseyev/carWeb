@@ -105,7 +105,8 @@ public class DealerDAO {
     private List<CarDealership> createListByResultSet(ResultSet rs) throws SQLException {
         List<CarDealership> list = new LinkedList<>();
         while (rs.next()) {
-            list.add(CarDealership.builder().id(rs.getInt("Id"))
+            list.add(CarDealership.builder()
+                    .id(rs.getInt("Id"))
                     .name(rs.getString("Name"))
                     .adress(rs.getString("Adress"))
                     .build());

@@ -1,6 +1,5 @@
 package com.dmitriyevseyev.carWeb.servlet.dealerServlet;
 
-import com.dmitriyevseyev.carWeb.controller.DealerList;
 import com.dmitriyevseyev.carWeb.model.CarDealership;
 import com.dmitriyevseyev.carWeb.server.controller.DealerController;
 import com.dmitriyevseyev.carWeb.server.exceptions.dealer.GetAllDealerExeption;

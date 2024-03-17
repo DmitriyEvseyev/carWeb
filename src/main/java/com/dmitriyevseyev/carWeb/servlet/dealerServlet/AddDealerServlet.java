@@ -1,6 +1,5 @@
 package com.dmitriyevseyev.carWeb.servlet.dealerServlet;
 
-import com.dmitriyevseyev.carWeb.controller.DealerList;
 import com.dmitriyevseyev.carWeb.model.CarDealership;
 import com.dmitriyevseyev.carWeb.server.controller.DealerController;
 import com.dmitriyevseyev.carWeb.server.exceptions.dealer.AddDealerExeption;
@@ -12,8 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 @WebServlet(name = "addDealerServlet", value = "/addDealerServlet")
 
@@ -50,7 +47,7 @@ public class AddDealerServlet extends HttpServlet {
         try {
             DealerController.getInstance().addDealer(dealer);
         } catch (AddDealerExeption e) {
-            throw new RuntimeException(String.format("AddDealerExeption/ doPost. " + e.getMessage()));
+            System.out.println("AddDealerExeption. " + e.getMessage());
         }
         resp.sendRedirect(ServletConstants.PATH_DEALER);
     }

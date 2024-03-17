@@ -1,7 +1,5 @@
 package com.dmitriyevseyev.carWeb.servlet.dealerServlet;
 
-import com.dmitriyevseyev.carWeb.controller.DealerList;
-import com.dmitriyevseyev.carWeb.model.CarDealership;
 import com.dmitriyevseyev.carWeb.server.controller.DealerController;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
 import com.dmitriyevseyev.carWeb.server.exceptions.dealer.DeleteDealerExeption;
@@ -13,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 
 @WebServlet(name = "delDealerServlet", value = "/delDealerServlet")
 public class DelDealerServlet extends HttpServlet {

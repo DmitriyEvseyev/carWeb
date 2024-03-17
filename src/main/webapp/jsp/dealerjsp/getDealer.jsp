@@ -64,7 +64,7 @@
     </table>
     <br/>
     <div class="buttons">
-        <input type="submit" formmethod="post" formaction="selectDealerServlet" id="sel" disabled value="select"/>
+        <input type="submit" formmethod="get" formaction="selectDealerServlet" id="sel" disabled value="select"/>
         <input type="submit" formmethod="get" formaction="delDealerServlet" id="del" disabled value="delete"
                onclick="return delCar()"/>
         <input type="submit" formmethod="get" formaction="editDealerServlet" id="edit" disabled value="edit"/>

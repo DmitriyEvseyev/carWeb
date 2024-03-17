@@ -23,18 +23,18 @@ public class CarDAO implements DAO {
 
     @Override
     public void createCar(Car car) throws SQLException {
-        String sql = "INSERT INTO CAR (NAME, DATE, COLOR, ISAFTERCRASH)  VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO CAR (IDDEALER, NAME, DATE, COLOR, ISAFTERCRASH)  VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
-            stmt.setString(1, car.getName());
-            stmt.setDate(2, (new java.sql.Date(car.getDate().getTime())));
-            stmt.setString(3, car.getColor());
-            stmt.setBoolean(4, car.isAfterCrash());
+            stmt.setInt(1, car.getIdDealer());
+            stmt.setString(2, car.getName());
+            stmt.setDate(3, (new java.sql.Date(car.getDate().getTime())));
+            stmt.setString(4, car.getColor());
+            stmt.setBoolean(5, car.isAfterCrash());
             stmt.executeUpdate();
         }
     }
 
-     public List<Car> getCarListDealer(Integer idDealer) throws SQLException {
+    public List<Car> getCarListDealer(Integer idDealer) throws SQLException {
         String sql = "SELECT * FROM CAR WHERE IDDEALER = ?";
         List<Car> list = null;
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
@@ -42,6 +42,26 @@ public class CarDAO implements DAO {
             list = createListByResultSet(stm.executeQuery());
         }
         return Collections.unmodifiableList(list);
+    }
+
+    public Car getCar(Integer id) throws SQLException {
+        Car car = null;
+        String sql = "SELECT * FROM CAR WHERE ID = ?";
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                car = Car.builder()
+                        .id(rs.getInt("Id"))
+                        .idDealer(rs.getInt("IdDealer"))
+                        .name(rs.getString("Name"))
+                        .color(rs.getString("Color"))
+                        .date(rs.getDate("Date"))
+                        .isAfterCrash(rs.getBoolean("isAfterCrash"))
+                        .build();
+            }
+        }
+        return car;
     }
 
     @Override

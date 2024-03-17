@@ -8,13 +8,13 @@ import com.dmitriyevseyev.carWeb.model.Car;
 import java.sql.SQLException;
 import java.util.*;
 
-public class ServerCarController {
-    private static ServerCarController instance;
+public class CarController {
+    private static CarController instance;
     private CarDAO carDAO;
 
-    public static ServerCarController getInstance() {
+    public static CarController getInstance() {
         if (instance == null) {
-            instance = new ServerCarController();
+            instance = new CarController();
         }
         return instance;
     }
@@ -23,7 +23,7 @@ public class ServerCarController {
         return carDAO;
     }
 
-    private ServerCarController() {
+    private CarController() {
         this.carDAO = ManagerDAO.getInstance().getDaoCar();
     }
 
@@ -57,18 +57,17 @@ public class ServerCarController {
         }
     }
 
-    public void updateCar(Car car) throws UpdateCarException {
-        // dao
-        Car updateCar;
+    public Car getCar(Integer id) throws UpdateCarException {
         try {
-            updateCar = Car.builder()
-                    .id(car.getId())
-                    .name(car.getName())
-                    .date(car.getDate())
-                    .color(car.getColor())
-                    .isAfterCrash(car.isAfterCrash())
-                    .build();
-            carDAO.update(updateCar);
+            return carDAO.getCar(id);
+        } catch (SQLException e) {
+            throw new UpdateCarException(String.format("Error: %s. Code: %s", e.getMessage(), e.getSQLState()));
+        }
+    }
+
+    public void updateCar(Car car) throws UpdateCarException {
+        try {
+            carDAO.update(car);
         } catch (SQLException e) {
             throw new UpdateCarException(String.format("Error: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }

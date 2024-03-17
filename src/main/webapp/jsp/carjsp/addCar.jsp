@@ -14,8 +14,7 @@
 <body>
 <h2> Add car </h2>
 <form action="addCarServlet" method="post">
-    <input type="hidden" name="id" id="idRandom"/>
-    <input type="hidden" name="idDealer" value="${idDealer}"/>
+        <input type="hidden" name="idDealer" value="${idDealer}"/>
 
     <table class="tab">
         <tr>
@@ -42,13 +41,6 @@
     </div>
 </form>
 <script>
-    function myFunction() {
-        return Math.floor(Math.random() * 100);
-    }
-
-    document.getElementById("idRandom").value = myFunction();
-
-
     document.getElementById("d").addEventListener("change", function () {
         d = this.value;
         da = new Date(d)

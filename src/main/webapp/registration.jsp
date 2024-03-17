@@ -32,6 +32,7 @@
                 <div class="input-field">
                     <input type="password" name="password" class="password" placeholder="Create a password" required>
                     <i class="uil uil-lock icon"></i>
+                    <i class="uil uil-eye-slash showHidePw"></i>
                 </div>
                 <div class="input-field">
                     <input type="password"  name="password2" class="password" placeholder="Confirm a password" required>
