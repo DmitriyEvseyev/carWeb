@@ -19,9 +19,6 @@ import java.text.SimpleDateFormat;
 @WebServlet(name = "addCarServlet", value = "/addCarServlet")
 
 public class AddCarServlet extends HttpServlet {
-    @Override
-    public void init() {
-    }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -79,10 +76,5 @@ public class AddCarServlet extends HttpServlet {
         HttpSession session = req.getSession();
         session.setAttribute("idD", idDealer);
         resp.sendRedirect(ServletConstants.PATH_CARS);
-    }
-
-    @Override
-    public void destroy() {
-        super.destroy();
     }
 }

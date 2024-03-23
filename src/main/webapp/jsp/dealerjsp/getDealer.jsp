@@ -18,8 +18,38 @@
     <table class="tab">
         <tr>
             <td><h3></h3></td>
-            <td><h3> Name </h3></td>
-            <td><h3> Adress </h3></td>
+            <td>
+                <h3> Name
+                    <form>
+                        <input type="hidden" value="1" name="sort"/>
+                        <button class="button1" type="submit" formmethod="get" formaction="sortDealerServlet">
+                            <span>▲</span>
+                        </button>
+                    </form>
+                    <form>
+                        <input type="hidden" value="2" name="sort"/>
+                        <button class="button2" type="submit" formmethod="get" formaction="sortDealerServlet">
+                            <span>▼</span>
+                        </button>
+                    </form>
+                </h3>
+            </td>
+            <td>
+                <h3> Address
+                    <form>
+                        <input type="hidden" value="3" name="sort"/>
+                        <button class="button3" type="submit" formmethod="get" formaction="sortDealerServlet">
+                            <span>▲</span>
+                        </button>
+                    </form>
+                    <form>
+                        <input type="hidden" value="4" name="sort"/>
+                        <button class="button4" type="submit" formmethod="get" formaction="sortDealerServlet">
+                            <span>▼</span>
+                        </button>
+                    </form>
+                </h3>
+            </td>
         </tr>
         <c:forEach var="dealer" items="${carDealerships}">
             <tr>
@@ -80,34 +110,34 @@
         }
     }
 
-   /* function editCar() {
-        const form = document.getElementById("fo");
-        check = document.getElementsByName("check");
-        var nameDealer;
-        var adressDealer;
-        for (i = 0; i < check.length; i++) {
-            if (check[i].checked) {
-                row = check[i].parentNode.parentNode;
-                nameDealer = row.cells[1].innerHTML;
-                adressDealer = row.cells[2].innerHTML;
-            }
-        }
-        var inputName = document.createElement("input");
-        inputName.setAttribute("name", "nameD");
-        inputName.setAttribute("value", nameDealer);
-        inputName.setAttribute("type", "hidden")
-        form.appendChild(inputName);
+    /* function editCar() {
+         const form = document.getElementById("fo");
+         check = document.getElementsByName("check");
+         var nameDealer;
+         var adressDealer;
+         for (i = 0; i < check.length; i++) {
+             if (check[i].checked) {
+                 row = check[i].parentNode.parentNode;
+                 nameDealer = row.cells[1].innerHTML;
+                 adressDealer = row.cells[2].innerHTML;
+             }
+         }
+         var inputName = document.createElement("input");
+         inputName.setAttribute("name", "nameD");
+         inputName.setAttribute("value", nameDealer);
+         inputName.setAttribute("type", "hidden")
+         form.appendChild(inputName);
 
-        var inputAdress = document.createElement("input");
-        inputAdress.setAttribute("name", "adressD");
-        inputAdress.setAttribute("value", adressDealer);
-        inputAdress.setAttribute("type", "hidden");
-        form.appendChild(inputAdress);
+         var inputAdress = document.createElement("input");
+         inputAdress.setAttribute("name", "adressD");
+         inputAdress.setAttribute("value", adressDealer);
+         inputAdress.setAttribute("type", "hidden");
+         form.appendChild(inputAdress);
 
-        form.submit();
-    }
+         form.submit();
+     }
 
-    */
+     */
 
 </script>
 </body>

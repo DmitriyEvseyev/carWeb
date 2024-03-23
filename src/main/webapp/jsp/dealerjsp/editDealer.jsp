@@ -53,7 +53,7 @@
         </tr>
         <tr>
             <td> Adress</td>
-            <td><input name="adress" value="${dealer.adress}" required/></td>
+            <td><input name="address" value="${dealer.adress}" required/></td>
         </tr>
     </table>
     <br/>

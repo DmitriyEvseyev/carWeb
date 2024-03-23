@@ -33,8 +33,7 @@ public class DealerController {
     }
 
     public List<CarDealership> getAllDealers() throws GetAllDealerExeption {
-        // dao
-        try {
+             try {
             return Collections.unmodifiableList(new ArrayList<>(dealerDAO.getAll()));
         } catch (SQLException e) {
             throw new GetAllDealerExeption(String.format("GetAllDealerExeption: %s. Code: %s", e.getMessage(), e.getSQLState()));
@@ -42,8 +41,7 @@ public class DealerController {
     }
 
     public void addDealer(CarDealership dealer) throws AddDealerExeption {
-        // dao
-        try {
+               try {
             dealerDAO.createDealer(dealer);
         } catch (SQLException e) {
             throw new AddDealerExeption(String.format("AddDealerExeption: %s. Code: %s", e.getMessage(), e.getSQLState()));
@@ -51,8 +49,7 @@ public class DealerController {
     }
 
     public void removeDealer(Integer id) throws NotFoundException, DeleteDealerExeption {
-        //dao
-        try {
+           try {
             if (!dealerDAO.isDealerExist(id)) {
                 throw new NotFoundException();
             }
@@ -75,12 +72,20 @@ public class DealerController {
         return dealer;
     }
 
-    public void updateCar(Integer id, String name, String adress) throws UpdateDealerException {
-        // dao
-        try {
-            dealerDAO.update(id, name, adress);
+    public void updateCar(Integer id, String name, String address) throws UpdateDealerException {
+            try {
+            dealerDAO.update(id, name, address);
         } catch (SQLException e) {
             throw new UpdateDealerException(String.format("EditDealerExeption: %s. Code: %s", e.getMessage(), e.getSQLState()));
+        }
+    }
+
+    public List<CarDealership> getSortedByCriteria(String column, String criteria) throws GetAllDealerExeption {
+
+        try {
+            return Collections.unmodifiableList(new ArrayList<>(dealerDAO.getSortedByCriteria(column, criteria)));
+        } catch (SQLException e) {
+            throw new GetAllDealerExeption(String.format("GetAllDealerExeption: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
     }
 }

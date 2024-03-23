@@ -1,9 +1,11 @@
 package com.dmitriyevseyev.carWeb.server.controller;
 
+import com.dmitriyevseyev.carWeb.model.CarDealership;
 import com.dmitriyevseyev.carWeb.server.dao.CarDAO;
 import com.dmitriyevseyev.carWeb.server.dao.ManagerDAO;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.*;
 import com.dmitriyevseyev.carWeb.model.Car;
+import com.dmitriyevseyev.carWeb.server.exceptions.dealer.GetAllDealerExeption;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -70,6 +72,15 @@ public class CarController {
             carDAO.update(car);
         } catch (SQLException e) {
             throw new UpdateCarException(String.format("Error: %s. Code: %s", e.getMessage(), e.getSQLState()));
+        }
+    }
+
+    public List<Car> getSortedByCriteria(Integer idDealer, String column, String criteria) throws GetAllCarExeption {
+
+        try {
+            return Collections.unmodifiableList(new ArrayList<>(carDAO.getSortedByCriteria(idDealer, column, criteria)));
+        } catch (SQLException e) {
+            throw new GetAllCarExeption(String.format("GetAllCarExeption: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
     }
 }

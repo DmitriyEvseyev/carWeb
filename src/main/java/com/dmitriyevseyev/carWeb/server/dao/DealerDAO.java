@@ -26,7 +26,7 @@ public class DealerDAO {
 
     // @Override
     public void createDealer(CarDealership dealer) throws SQLException {
-        String sql = "INSERT INTO DEALERS (NAME, ADRESS)  VALUES (?, ?)";
+        String sql = "INSERT INTO DEALERS (NAME, ADDRESS)  VALUES (?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, dealer.getName());
@@ -46,19 +46,19 @@ public class DealerDAO {
         return dealer;
     }
 
-   // @Override
-    public void update(Integer id, String name, String adress) throws SQLException {
-        String sql = "UPDATE DEALERS SET NAME = ?, ADRESS = ?  WHERE ID = ?";
+    // @Override
+    public void update(Integer id, String name, String address) throws SQLException {
+        String sql = "UPDATE DEALERS SET NAME = ?, ADDRESS = ?  WHERE ID = ?";
 
         try (PreparedStatement stm = connection.prepareStatement(sql);) {
             stm.setString(1, name);
-            stm.setString(2, adress);
+            stm.setString(2, address);
             stm.setInt(3, id);
             stm.executeUpdate();
         }
     }
 
- //   @Override
+    //   @Override
     public void delete(Integer id) throws SQLException {
         String sql = "DELETE FROM DEALERS WHERE Id = ?";
         try (PreparedStatement stm = connection.prepareStatement(sql);) {
@@ -67,7 +67,7 @@ public class DealerDAO {
         }
     }
 
- //   @Override
+    //   @Override
     public List<CarDealership> getAll() throws SQLException {
         List<CarDealership> list;
         String sql = "SELECT * FROM DEALERS";
@@ -77,27 +77,22 @@ public class DealerDAO {
         return Collections.unmodifiableList(list);
     }
 
-  /*  @Override
-    public List<Car> getSortedByCriteria(Integer Id, String column, String criteria) throws SQLException {
-        List<Car> list;
-        String sql = "SELECT * FROM \"CAR\" WHERE \"Id\" = ? ORDER BY \"%s\" %s";
+    public List<CarDealership> getSortedByCriteria (String column, String criteria) throws SQLException {
+        List<CarDealership> list;
+        String sql = "SELECT * FROM DEALERS ORDER BY %s %s";
         sql = String.format(sql, column, criteria);
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, Id);
-            list = createListByResultSet(statement.executeQuery());
+           list = createListByResultSet(statement.executeQuery());
         }
         return Collections.unmodifiableList(list);
     }
-
-   */
-
 
     private CarDealership createDealerByResultSet(ResultSet rs) throws SQLException {
         rs.next();
         CarDealership dealer = CarDealership.builder()
                 .id(rs.getInt("Id"))
                 .name(rs.getString("Name"))
-                .adress(rs.getString("Adress"))
+                .address(rs.getString("Address"))
                 .build();
         return dealer;
     }
@@ -108,7 +103,7 @@ public class DealerDAO {
             list.add(CarDealership.builder()
                     .id(rs.getInt("Id"))
                     .name(rs.getString("Name"))
-                    .adress(rs.getString("Adress"))
+                    .address(rs.getString("Address"))
                     .build());
         }
         return list;

@@ -117,24 +117,12 @@ public class CarDAO implements DAO {
         return carExist;
     }
 
-    /*
-
-    @Override
-    public List<Car> getAll() throws SQLException {
+    public List<Car> getSortedByCriteria(Integer IdDealer, String column, String criteria) throws SQLException {
         List<Car> list;
-        String sql = "SELECT * FROM CAR";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            list = createListByResultSet(statement.executeQuery());
-        }
-        return Collections.unmodifiableList(list);
-    }@Override
-
-    public List<Car> getSortedByCriteria(Integer Id, String column, String criteria) throws SQLException {
-        List<Car> list;
-        String sql = "SELECT * FROM \"CAR\" WHERE \"Id\" = ? ORDER BY \"%s\" %s";
+        String sql = "SELECT * FROM CAR WHERE idDealer = ? ORDER BY %s %s";
         sql = String.format(sql, column, criteria);
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, Id);
+            statement.setInt(1, IdDealer);
             list = createListByResultSet(statement.executeQuery());
         }
         return Collections.unmodifiableList(list);

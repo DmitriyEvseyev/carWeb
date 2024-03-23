@@ -34,12 +34,12 @@ public class AddDealerServlet extends HttpServlet {
         String name = req.getParameter("name");
         System.out.println(name);
 
-        String adress = req.getParameter("adress");
-        System.out.println(adress);
+        String address = req.getParameter("address");
+        System.out.println(address);
 
         CarDealership dealer = CarDealership.builder()
                 .name(name)
-                .adress(adress)
+                .address(address)
                 .build();
 
         System.out.println("Dealer - " + dealer);

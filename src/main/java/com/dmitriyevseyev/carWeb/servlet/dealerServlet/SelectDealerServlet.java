@@ -29,7 +29,7 @@ public class SelectDealerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("---------------");
         HttpSession session = req.getSession();
-        if (!(session.getAttribute("idD") == null)) {
+        if (session.getAttribute("idD") != null) {
             Integer idD = Integer.valueOf(session.getAttribute("idD").toString());
             session.removeAttribute("idD");
             System.out.println("idD session - " + idD);
@@ -60,13 +60,6 @@ public class SelectDealerServlet extends HttpServlet {
         } catch (GetAllCarExeption e) {
             System.out.println("GetAllCarExeption. SelectDealerExeption. " + e.getMessage());
         }
-
-        /*
-        HashMap<Integer, Car> carHashMap = dealer.getCarMap();
-        System.out.println("carHashMap - " + carHashMap);
-        for (Car car : carList) {
-            carHashMap.put(car.getId(), car);
-        } */
 
         req.setAttribute("carList", carList);
         req.setAttribute("dealer", dealer);

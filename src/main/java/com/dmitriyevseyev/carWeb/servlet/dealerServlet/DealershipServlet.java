@@ -20,27 +20,17 @@ public class DealershipServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)  {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<CarDealership> carDealerships = null;
         try {
-            carDealerships =  DealerController.getInstance().getAllDealers();
+            carDealerships = DealerController.getInstance().getAllDealers();
         } catch (GetAllDealerExeption e) {
             throw new RuntimeException("DealershipServlet. " + e.getMessage());
         }
         System.out.println("DealershipServlet - " + carDealerships);
         req.setAttribute("carDealerships", carDealerships);
-        try {
-            getServletContext().getRequestDispatcher("/jsp/dealerjsp/getDealer.jsp").forward(req, resp);
-        } catch (ServletException e) {
-            System.out.println("DealershipServlet. " + e.getMessage());
-        } catch (IOException e) {
-            throw new RuntimeException("DealershipServlet/forward." + e.getMessage());
-        }
-    }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        getServletContext().getRequestDispatcher("/jsp/dealerjsp/getDealer.jsp").forward(req, resp);
     }
 
     @Override

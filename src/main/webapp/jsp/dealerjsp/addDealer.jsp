@@ -20,8 +20,8 @@
             <td><input name="name" required/></td>
         </tr>
         <tr>
-            <td> Adress</td>
-            <td><input name="adress" required/></td>
+            <td> Address</td>
+            <td><input name="address" required/></td>
         </tr>
     </table>
     <br/>

@@ -7,17 +7,17 @@ import java.util.Objects;
 public class CarDealership implements Serializable {
     private Integer id;
     private String name;
-    private String adress;
-    private HashMap<Integer, Car> carMap;
+    private String address;
 
     public CarDealership() {
-    };
+    }
 
-    public CarDealership(Integer id, String name, String adress, HashMap<Integer, Car> carMap) {
+    ;
+
+    public CarDealership(Integer id, String name, String address) {
         this.id = id;
         this.name = name;
-        this.adress = adress;
-        this.carMap = carMap;
+        this.address = address;
     }
 
     public Integer getId() {
@@ -37,19 +37,11 @@ public class CarDealership implements Serializable {
     }
 
     public String getAdress() {
-        return adress;
+        return address;
     }
 
     public void setAdress(String adress) {
-        this.adress = adress;
-    }
-
-    public HashMap<Integer, Car> getCarMap() {
-        return carMap;
-    }
-
-    public void setCarMap(HashMap<Integer, Car> carMap) {
-        this.carMap = carMap;
+        this.address = adress;
     }
 
     @Override
@@ -57,12 +49,12 @@ public class CarDealership implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CarDealership that = (CarDealership) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(adress, that.adress) && Objects.equals(carMap, that.carMap);
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(address, that.address);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, adress, carMap);
+        return Objects.hash(id, name, address);
     }
 
     @Override
@@ -70,8 +62,7 @@ public class CarDealership implements Serializable {
         return "CarDealership{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", adress='" + adress + '\'' +
-                ", carMap=" + carMap +
+                ", address='" + address + '\'' +
                 '}';
     }
 
@@ -82,8 +73,7 @@ public class CarDealership implements Serializable {
     public static class Builder {
         private Integer id;
         private String name;
-        private String adress;
-        private HashMap<Integer, Car> carMap;
+        private String address;
 
         Builder() {
         }
@@ -98,13 +88,8 @@ public class CarDealership implements Serializable {
             return this;
         }
 
-        public Builder adress(String adress) {
-            this.adress = adress;
-            return this;
-        }
-
-        public Builder carMap(HashMap<Integer, Car> carMap) {
-            this.carMap = carMap;
+        public Builder address(String address) {
+            this.address = address;
             return this;
         }
 
@@ -112,8 +97,7 @@ public class CarDealership implements Serializable {
             return new CarDealership(
                     id,
                     name,
-                    adress,
-                    carMap
+                    address
             );
         }
     }

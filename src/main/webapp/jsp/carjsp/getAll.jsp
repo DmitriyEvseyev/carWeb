@@ -1,8 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
     <title>Car manager</title>
     <link rel="stylesheet" href="css/carcss/gAll.css">
 </head>
@@ -13,10 +13,78 @@
     <table class="tab">
         <tr>
             <td><h3></h3></td>
-            <td><h3> Name </h3></td>
-            <td><h3> Date </h3></td>
-            <td><h3> Color </h3></td>
-            <td><h3> isAfterCrash </h3></td>
+            <td>
+                <h3> Name
+                    <form>
+                        <input type="hidden" value="1" name="sort"/>
+                        <input type="hidden" name="idDealer" value="${dealer.id}"/>
+                        <button class="button1" type="submit" formmethod="get" formaction="sortCarServlet">
+                            <span>▲</span>
+                        </button>
+                    </form>
+                    <form>
+                        <input type="hidden" value="2" name="sort"/>
+                        <input type="hidden" name="idDealer" value="${dealer.id}"/>
+                        <button class="button2" type="submit" formmethod="get" formaction="sortCarServlet">
+                            <span>▼</span>
+                        </button>
+                    </form>
+                </h3>
+            </td>
+            <td>
+                <h3> Date
+                    <form>
+                        <input type="hidden" value="3" name="sort"/>
+                        <input type="hidden" name="idDealer" value="${dealer.id}"/>
+                        <button class="button3" type="submit" formmethod="get" formaction="sortCarServlet">
+                            <span>▲</span>
+                        </button>
+                    </form>
+                    <form>
+                        <input type="hidden" value="4" name="sort"/>
+                        <input type="hidden" name="idDealer" value="${dealer.id}"/>
+                        <button class="button4" type="submit" formmethod="get" formaction="sortCarServlet">
+                            <span>▼</span>
+                        </button>
+                    </form>
+                </h3>
+            </td>
+            <td>
+                <h3> Color
+                    <form>
+                        <input type="hidden" value="5" name="sort"/>
+                        <input type="hidden" name="idDealer" value="${dealer.id}"/>
+                        <button class="button5" type="submit" formmethod="get" formaction="sortCarServlet">
+                            <span>▲</span>
+                        </button>
+                    </form>
+                    <form>
+                        <input type="hidden" value="6" name="sort"/>
+                        <input type="hidden" name="idDealer" value="${dealer.id}"/>
+                        <button class="button6" type="submit" formmethod="get" formaction="sortCarServlet">
+                            <span>▼</span>
+                        </button>
+                    </form>
+                </h3>
+            </td>
+            <td>
+                <h3> Crash
+                    <form>
+                        <input type="hidden" value="7" name="sort"/>
+                        <input type="hidden" name="idDealer" value="${dealer.id}"/>
+                        <button class="button7" type="submit" formmethod="get" formaction="sortCarServlet">
+                            <span>▲</span>
+                        </button>
+                    </form>
+                    <form>
+                        <input type="hidden" value="8" name="sort"/>
+                        <input type="hidden" name="idDealer" value="${dealer.id}"/>
+                        <button class="button8" type="submit" formmethod="get" formaction="sortCarServlet">
+                            <span>▼</span>
+                        </button>
+                    </form>
+                </h3>
+            </td>
         </tr>
         <c:forEach var="car" items="${carList}">
             <tr>
@@ -79,7 +147,7 @@
         <input type="submit" formmethod="post" formaction="delCarServlet" id="del" disabled value="delete"/>
         <input type="submit" formmethod="get" formaction="editCarServlet" id="edit" disabled value="edit"/>
         <input type="submit" formmethod="get" formaction="addCarServlet" value="add"/>
-        <input type="submit" formmethod="get" formaction="dealershipServlet" value ="select dealer"/>
+        <input type="submit" formmethod="get" formaction="dealershipServlet" value="select dealer"/>
     </div>
 </form>
 </body>
