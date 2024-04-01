@@ -85,7 +85,16 @@ public class DealerController {
         try {
             return Collections.unmodifiableList(new ArrayList<>(dealerDAO.getSortedByCriteria(column, criteria)));
         } catch (SQLException e) {
-            throw new GetAllDealerExeption(String.format("GetAllDealerExeption: %s. Code: %s", e.getMessage(), e.getSQLState()));
+            throw new GetAllDealerExeption(String.format("GetAllDealerExeption, getSortedByCriteria: %s. Code: %s", e.getMessage(), e.getSQLState()));
+        }
+    }
+
+    public List<CarDealership> getFilteredByPattern(String column, String pattern, String criteria) throws GetAllDealerExeption {
+
+        try {
+            return Collections.unmodifiableList(new ArrayList<>(dealerDAO.getFilteredByPattern(column, pattern, criteria)));
+        } catch (SQLException e) {
+            throw new GetAllDealerExeption(String.format("GetAllDealerExeption, getFilteredByPattern: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
     }
 }

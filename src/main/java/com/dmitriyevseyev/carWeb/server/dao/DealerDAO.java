@@ -61,7 +61,7 @@ public class DealerDAO {
     //   @Override
     public void delete(Integer id) throws SQLException {
         String sql = "DELETE FROM DEALERS WHERE Id = ?";
-        try (PreparedStatement stm = connection.prepareStatement(sql);) {
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setInt(1, id);
             stm.execute();
         }
@@ -77,12 +77,22 @@ public class DealerDAO {
         return Collections.unmodifiableList(list);
     }
 
-    public List<CarDealership> getSortedByCriteria (String column, String criteria) throws SQLException {
+    public List<CarDealership> getSortedByCriteria(String column, String criteria) throws SQLException {
         List<CarDealership> list;
         String sql = "SELECT * FROM DEALERS ORDER BY %s %s";
         sql = String.format(sql, column, criteria);
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-           list = createListByResultSet(statement.executeQuery());
+            list = createListByResultSet(statement.executeQuery());
+        }
+        return Collections.unmodifiableList(list);
+    }
+
+    public List<CarDealership> getFilteredByPattern(String column, String pattern, String criteria) throws SQLException {
+        List<CarDealership> list;
+        String sql = "SELECT * FROM DEALERS WHERE %s LIKE \'%s\' ORDER BY %s %s";
+        sql = String.format(sql, column, pattern, column, criteria);
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            list = createListByResultSet(statement.executeQuery());
         }
         return Collections.unmodifiableList(list);
     }

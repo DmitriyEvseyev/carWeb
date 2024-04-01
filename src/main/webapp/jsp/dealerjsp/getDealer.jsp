@@ -19,6 +19,22 @@
         <tr>
             <td><h3></h3></td>
             <td>
+                <form>
+                    <input type="text" placeholder="name"  name="name"/>
+                    <input type="submit" hidden formmethod="get" formaction="searchDealerServlet">
+                </form>
+            </td>
+            <td>
+                <form>
+                    <input type="text" placeholder="address"  name="address"/>
+                    <input type="submit" hidden formmethod="get" formaction="searchDealerServlet">
+                </form>
+            </td>
+
+        </tr>
+        <tr>
+            <td><h3></h3></td>
+            <td>
                 <h3> Name
                     <form>
                         <input type="hidden" value="1" name="sort"/>
@@ -99,6 +115,7 @@
                onclick="return delCar()"/>
         <input type="submit" formmethod="get" formaction="editDealerServlet" id="edit" disabled value="edit"/>
         <input type="submit" formmethod="get" formaction="addDealerServlet" value="add"/>
+        <input type="submit" formmethod="get" formaction="dealershipServlet" value="reset"/>
     </div>
 </form>
 <script>
