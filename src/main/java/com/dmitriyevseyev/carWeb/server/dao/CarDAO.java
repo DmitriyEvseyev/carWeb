@@ -128,6 +128,18 @@ public class CarDAO implements DAO {
         return Collections.unmodifiableList(list);
     }
 
+    public List<Car> getFilteredByPattern(Integer IdDealer, String column, String pattern, String criteria) throws SQLException {
+        List<Car> list;
+        String sql = "SELECT * FROM CAR WHERE idDealer = ? AND %s LIKE \'%s\' ORDER BY %s %s";
+        sql = String.format(sql, column, pattern, column, criteria);
+        System.out.println(sql);
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, IdDealer);
+            list = createListByResultSet(statement.executeQuery());
+        }
+        return Collections.unmodifiableList(list);
+    }
+
 
     private Car createCarByResultSet(ResultSet rs) throws SQLException {
         rs.next();

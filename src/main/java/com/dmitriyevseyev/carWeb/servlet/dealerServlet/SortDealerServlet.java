@@ -3,6 +3,7 @@ package com.dmitriyevseyev.carWeb.servlet.dealerServlet;
 import com.dmitriyevseyev.carWeb.model.CarDealership;
 import com.dmitriyevseyev.carWeb.server.controller.DealerController;
 import com.dmitriyevseyev.carWeb.server.exceptions.dealer.GetAllDealerExeption;
+import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -47,7 +48,7 @@ public class SortDealerServlet extends HttpServlet {
         System.out.println("DealershipServlet - " + carDealerships);
         req.setAttribute("carDealerships", carDealerships);
 
-        getServletContext().getRequestDispatcher("/jsp/dealerjsp/getDealer.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher(ServletConstants.DEALERS_PAGE_ADDRESS).forward(req, resp);
     }
 
 

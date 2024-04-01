@@ -14,6 +14,29 @@
         <tr>
             <td><h3></h3></td>
             <td>
+                <form>
+                    <input type="text" placeholder="name" name="name"/>
+                    <input type="submit" hidden formmethod="get" formaction="searchCarServlet">
+                </form>
+            </td>
+            <td>
+                <form>
+                    <input type="hidden" name="idDealer" value="${dealer.id}"/>
+                    <input type="text" name="date"/>
+                    <input type="submit" hidden formmethod="get" formaction="searchCarServlet">
+                </form>
+            </td>
+            <td>
+                <form>
+                    <input type="hidden" name="idDealer" value="${dealer.id}"/>
+                    <input type="text" placeholder="color" name="color"/>
+                    <input type="submit" hidden formmethod="get" formaction="searchCarServlet">
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td><h3></h3></td>
+            <td>
                 <h3> Name
                     <form>
                         <input type="hidden" value="1" name="sort"/>
@@ -144,10 +167,11 @@
     </table>
     <br/>
     <div class="buttons">
+        <input type="submit" formmethod="get" formaction="dealershipServlet" value="back"/>
         <input type="submit" formmethod="post" formaction="delCarServlet" id="del" disabled value="delete"/>
         <input type="submit" formmethod="get" formaction="editCarServlet" id="edit" disabled value="edit"/>
         <input type="submit" formmethod="get" formaction="addCarServlet" value="add"/>
-        <input type="submit" formmethod="get" formaction="dealershipServlet" value="select dealer"/>
+        <input type="submit" formmethod="get" formaction="selectDealerServlet" value="reset"/>
     </div>
 </form>
 </body>

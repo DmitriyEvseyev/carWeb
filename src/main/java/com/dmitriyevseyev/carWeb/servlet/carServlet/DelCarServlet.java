@@ -41,7 +41,7 @@ public class DelCarServlet extends HttpServlet {
             try {
                 CarController.getInstance().removeCar(id);
             } catch (NotFoundException e) {
-                getServletContext().getRequestDispatcher(ServletConstants.PATH_NOT_CAR).forward(req, resp);
+                getServletContext().getRequestDispatcher(ServletConstants.NOT_CAR_ADDRESS).forward(req, resp);
             } catch (DeleteCarExeption e) {
                 System.out.println("DeleteCarExeption. " + e.getMessage());
             }

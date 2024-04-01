@@ -80,7 +80,15 @@ public class CarController {
         try {
             return Collections.unmodifiableList(new ArrayList<>(carDAO.getSortedByCriteria(idDealer, column, criteria)));
         } catch (SQLException e) {
-            throw new GetAllCarExeption(String.format("GetAllCarExeption: %s. Code: %s", e.getMessage(), e.getSQLState()));
+            throw new GetAllCarExeption(String.format("GetAllCarExeption, getSortedByCriteria: %s. Code: %s", e.getMessage(), e.getSQLState()));
+        }
+    }
+    public List<Car> getFilteredByPattern (Integer idDealer, String column, String pattern, String criteria) throws GetAllCarExeption {
+
+        try {
+            return Collections.unmodifiableList(new ArrayList<>(carDAO.getFilteredByPattern (idDealer, column, pattern, criteria)));
+        } catch (SQLException e) {
+            throw new GetAllCarExeption(String.format("GetAllCarExeption, getFilteredByPattern: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
     }
 }

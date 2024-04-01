@@ -8,6 +8,7 @@ import com.dmitriyevseyev.carWeb.server.exceptions.car.GetAllCarExeption;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
 import com.dmitriyevseyev.carWeb.server.exceptions.dealer.GetAllDealerExeption;
 import com.dmitriyevseyev.carWeb.server.exceptions.dealer.GetDealerException;
+import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,9 +32,9 @@ public class SortCarServlet extends HttpServlet {
         try {
             dealer = DealerController.getInstance().getDealer(idDealer);
         } catch (GetDealerException e) {
-            System.out.println("GetDealerException. SelectDealerExeption. " + e.getMessage());
+            System.out.println("GetDealerException. SortCarServlet. " + e.getMessage());
         } catch (NotFoundException e) {
-            getServletContext().getRequestDispatcher("/jsp/dealerjsp/notfoundDealer.jsp").forward(req, resp);
+            getServletContext().getRequestDispatcher(ServletConstants.NOT_DEALER_ADDRESS).forward(req, resp);
         }
         List<Car> carList = null;
         CarController carContr = CarController.getInstance();
@@ -47,28 +48,28 @@ public class SortCarServlet extends HttpServlet {
         try {
             switch (code) {
                 case (1):
-                    carList = carContr.getSortedByCriteria(idDealer,columnName, criteriaA);
+                    carList = carContr.getSortedByCriteria(dealer.getId(),columnName, criteriaA);
                     break;
                 case (2):
-                    carList = carContr.getSortedByCriteria(idDealer, columnName, criteriaD);
+                    carList = carContr.getSortedByCriteria(dealer.getId(), columnName, criteriaD);
                     break;
                 case (3):
-                    carList = carContr.getSortedByCriteria(idDealer, columnDate, criteriaA);
+                    carList = carContr.getSortedByCriteria(dealer.getId(), columnDate, criteriaA);
                     break;
                 case (4):
-                    carList = carContr.getSortedByCriteria(idDealer, columnDate, criteriaD);
+                    carList = carContr.getSortedByCriteria(dealer.getId(), columnDate, criteriaD);
                     break;
                 case (5):
-                    carList = carContr.getSortedByCriteria(idDealer,columnColor, criteriaA);
+                    carList = carContr.getSortedByCriteria(dealer.getId(),columnColor, criteriaA);
                     break;
                 case (6):
-                    carList = carContr.getSortedByCriteria(idDealer, columnColor, criteriaD);
+                    carList = carContr.getSortedByCriteria(dealer.getId(), columnColor, criteriaD);
                     break;
                 case (7):
-                    carList = carContr.getSortedByCriteria(idDealer, columnCrash, criteriaA);
+                    carList = carContr.getSortedByCriteria(dealer.getId(), columnCrash, criteriaA);
                     break;
                 case (8):
-                    carList = carContr.getSortedByCriteria(idDealer, columnCrash, criteriaD);
+                    carList = carContr.getSortedByCriteria(dealer.getId(), columnCrash, criteriaD);
                     break;
             }
         } catch (GetAllCarExeption e) {
@@ -78,7 +79,7 @@ public class SortCarServlet extends HttpServlet {
         req.setAttribute("dealer", dealer);
 
         try {
-            getServletContext().getRequestDispatcher("/jsp/carjsp/getAll.jsp").forward(req, resp);
+            getServletContext().getRequestDispatcher(ServletConstants.CARS_PAGE_ADDRESS).forward(req, resp);
         } catch (ServletException e) {
             System.out.println("SelectDealerServlet. " + e.getMessage());
         }

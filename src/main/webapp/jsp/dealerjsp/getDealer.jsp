@@ -69,13 +69,13 @@
         </tr>
         <c:forEach var="dealer" items="${carDealerships}">
             <tr>
-                <td><input type="checkbox" name="check" value="${dealer.id}"/></td>
+                <td><input type="checkbox" name="idDealer" value="${dealer.id}"/></td>
                 <td>${dealer.name}</td>
                 <td>${dealer.adress}</td>
             </tr>
         </c:forEach>
         <script>
-            checks = document.getElementsByName("check");
+            checks = document.getElementsByName("idDealer");
             console.log("checks" + checks);
 
             function selectedCheckBox() {
