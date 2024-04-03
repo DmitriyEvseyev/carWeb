@@ -16,21 +16,28 @@
             <td>
                 <form>
                     <input type="text" placeholder="name" name="name"/>
-                    <input type="submit" hidden formmethod="get" formaction="searchCarServlet">
+                    <button type="submit" formmethod="get" formaction="searchCarServlet">
+                        <span>&#128269</span>
+                    </button>
                 </form>
             </td>
             <td>
                 <form>
                     <input type="hidden" name="idDealer" value="${dealer.id}"/>
-                    <input type="text" name="date"/>
-                    <input type="submit" hidden formmethod="get" formaction="searchCarServlet">
+                    <input type="date" name="startDate"/>
+                    <input type="date" name="endDate"/>
+                    <button type="submit" formmethod="get" formaction="searchCarServlet">
+                        <span>&#128269</span>
+                    </button>
                 </form>
             </td>
             <td>
                 <form>
                     <input type="hidden" name="idDealer" value="${dealer.id}"/>
                     <input type="text" placeholder="color" name="color"/>
-                    <input type="submit" hidden formmethod="get" formaction="searchCarServlet">
+                    <button type="submit" formmethod="get" formaction="searchCarServlet">
+                        <span>&#128269</span>
+                    </button>
                 </form>
             </td>
         </tr>

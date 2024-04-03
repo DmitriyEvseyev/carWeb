@@ -20,14 +20,18 @@
             <td><h3></h3></td>
             <td>
                 <form>
-                    <input type="text" placeholder="name"  name="name"/>
-                    <input type="submit" hidden formmethod="get" formaction="searchDealerServlet">
+                    <input type="search" placeholder="name" name="name" &#]128269/>
+                    <button type="submit" formmethod="get" formaction="searchDealerServlet">
+                        <span>&#128269</span>
+                    </button>
                 </form>
             </td>
             <td>
                 <form>
-                    <input type="text" placeholder="address"  name="address"/>
-                    <input type="submit" hidden formmethod="get" formaction="searchDealerServlet">
+                    <input type="text" placeholder="address" name="address"/>
+                    <button type="submit" formmethod="get" formaction="searchDealerServlet">
+                        <span>&#128269</span>
+                    </button>
                 </form>
             </td>
 

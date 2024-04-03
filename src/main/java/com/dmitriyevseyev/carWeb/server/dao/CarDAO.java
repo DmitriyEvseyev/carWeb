@@ -4,6 +4,7 @@ import com.dmitriyevseyev.carWeb.model.Car;
 
 import java.sql.*;
 import java.util.*;
+import java.util.Date;
 
 public class CarDAO implements DAO {
     private static CarDAO instance;
@@ -140,6 +141,23 @@ public class CarDAO implements DAO {
         return Collections.unmodifiableList(list);
     }
 
+    //  SELECT * FROM events WHERE event_date BETWEEN '2023-01-01' AND '2023-12-31';
+
+    public List<Car> getFilteredByDatePattern (Integer IdDealer, String columnDate, Date startDatePattern, Date endDatePattern,  String criteria) throws SQLException {
+        List<Car> list;
+        String sql = "SELECT * FROM CAR WHERE idDealer = ? AND %s BETWEEN \'%s\' AND  \'%s\' ORDER BY %s %s";
+
+        Date beginDate =  new java.sql.Date(startDatePattern.getTime());
+        Date endDate = new java.sql.Date(endDatePattern.getTime());
+
+        sql = String.format(sql, columnDate, beginDate, endDate, columnDate, criteria);
+        System.out.println(sql);
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, IdDealer);
+            list = createListByResultSet(statement.executeQuery());
+        }
+        return Collections.unmodifiableList(list);
+    }
 
     private Car createCarByResultSet(ResultSet rs) throws SQLException {
         rs.next();

@@ -91,5 +91,13 @@ public class CarController {
             throw new GetAllCarExeption(String.format("GetAllCarExeption, getFilteredByPattern: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
     }
+
+    public List<Car> getFilteredByDatePattern(Integer idDealer, String columnDate, Date startDatePattern, Date endDatePattern, String criteria) throws GetAllCarExeption {
+        try {
+            return Collections.unmodifiableList(new ArrayList<>(carDAO.getFilteredByDatePattern (idDealer, columnDate, startDatePattern, endDatePattern, criteria)));
+        } catch (SQLException e) {
+            throw new GetAllCarExeption(String.format("GetAllCarExeption, getFilteredByDatePattern: %s. Code: %s", e.getMessage(), e.getSQLState()));
+        }
+    }
 }
 
