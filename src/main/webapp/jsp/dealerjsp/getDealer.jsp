@@ -14,28 +14,21 @@
 </head>
 <body>
 <h1> CarDealerships </h1>
+
+<form class="sel">
+    Filter by: <select name="column">
+    <option>name</option>
+    <option>address</option>
+</select>
+    <input type="search" name="pattern" required &#]128269/>
+    <button type="submit" formmethod="get" formaction="searchDealerServlet">
+        <span>&#128269</span>
+    </button>
+</form>
+
+
 <form id="fo">
     <table class="tab">
-        <tr>
-            <td><h3></h3></td>
-            <td>
-                <form>
-                    <input type="search" placeholder="name" name="name" &#]128269/>
-                    <button type="submit" formmethod="get" formaction="searchDealerServlet">
-                        <span>&#128269</span>
-                    </button>
-                </form>
-            </td>
-            <td>
-                <form>
-                    <input type="text" placeholder="address" name="address"/>
-                    <button type="submit" formmethod="get" formaction="searchDealerServlet">
-                        <span>&#128269</span>
-                    </button>
-                </form>
-            </td>
-
-        </tr>
         <tr>
             <td><h3></h3></td>
             <td>
@@ -114,12 +107,12 @@
     </table>
     <br/>
     <div class="buttons">
-        <input type="submit" formmethod="get" formaction="selectDealerServlet" id="sel" disabled value="select"/>
-        <input type="submit" formmethod="get" formaction="delDealerServlet" id="del" disabled value="delete"
+        <input type="submit" formmethod="get" formaction="selectDealerServlet" id="sel" disabled value="Select"/>
+        <input type="submit" formmethod="get" formaction="delDealerServlet" id="del" disabled value="Delete"
                onclick="return delCar()"/>
-        <input type="submit" formmethod="get" formaction="editDealerServlet" id="edit" disabled value="edit"/>
-        <input type="submit" formmethod="get" formaction="addDealerServlet" value="add"/>
-        <input type="submit" formmethod="get" formaction="dealershipServlet" value="reset"/>
+        <input type="submit" formmethod="get" formaction="editDealerServlet" id="edit" disabled value="Edit"/>
+        <input type="submit" formmethod="get" formaction="addDealerServlet" value="Add"/>
+        <input type="submit" formmethod="get" formaction="dealershipServlet" value="Reset"/>
     </div>
 </form>
 <script>

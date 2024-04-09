@@ -7,40 +7,43 @@
     <link rel="stylesheet" href="css/carcss/gAll.css">
 </head>
 <body>
+<h1> Cars / Dealer - "${dealer.name}" </h1>
+<form class="select">
+    <input type="hidden" name="idDealer" value="${dealer.id}"/>
+    Filter by: <select name="column" id="mySelect" onChange="check(this);">
+    <option>name</option>
+    <option>date</option>
+    <option>color</option>
+    <option>Crash</option>
+</select>
+    <div id="div" style="display:block;" >
+        <input type="text"  name="pattern"/>
+        <button type="submit" formmethod="get" formaction="searchCarServlet">
+            <span>&#128269</span>
+        </button>
+    </div>
+    <div id="date" style="display:none;">
+        <input type="date" name="startDate"/>
+        <input type="date" name="endDate"/>
+        <button type="submit" formmethod="get" formaction="searchCarServlet">
+            <span>&#128269</span>
+        </button>
+    </div>
+    <script>
+        function check(elem) {
+            if (elem.selectedIndex == 1) {
+                document.getElementById("date").style.display = 'block';
+                document.getElementById("div").style.display = 'none';
+            } else {
+                document.getElementById("date").style.display = 'none';
+                document.getElementById("div").style.display = 'block';
+            }
+        }
+    </script>
+</form>
 <form>
-    <h1> Cars / Dealer - "${dealer.name}" </h1>
     <input type="hidden" name="idDealer" value="${dealer.id}"/>
     <table class="tab">
-        <tr>
-            <td><h3></h3></td>
-            <td>
-                <form>
-                    <input type="text" placeholder="name" name="name"/>
-                    <button type="submit" formmethod="get" formaction="searchCarServlet">
-                        <span>&#128269</span>
-                    </button>
-                </form>
-            </td>
-            <td>
-                <form>
-                    <input type="hidden" name="idDealer" value="${dealer.id}"/>
-                    <input type="date" name="startDate"/>
-                    <input type="date" name="endDate"/>
-                    <button type="submit" formmethod="get" formaction="searchCarServlet">
-                        <span>&#128269</span>
-                    </button>
-                </form>
-            </td>
-            <td>
-                <form>
-                    <input type="hidden" name="idDealer" value="${dealer.id}"/>
-                    <input type="text" placeholder="color" name="color"/>
-                    <button type="submit" formmethod="get" formaction="searchCarServlet">
-                        <span>&#128269</span>
-                    </button>
-                </form>
-            </td>
-        </tr>
         <tr>
             <td><h3></h3></td>
             <td>
@@ -174,11 +177,11 @@
     </table>
     <br/>
     <div class="buttons">
-        <input type="submit" formmethod="get" formaction="dealershipServlet" value="back"/>
-        <input type="submit" formmethod="post" formaction="delCarServlet" id="del" disabled value="delete"/>
-        <input type="submit" formmethod="get" formaction="editCarServlet" id="edit" disabled value="edit"/>
-        <input type="submit" formmethod="get" formaction="addCarServlet" value="add"/>
-        <input type="submit" formmethod="get" formaction="selectDealerServlet" value="reset"/>
+        <input type="submit" formmethod="get" formaction="dealershipServlet" value="Back"/>
+        <input type="submit" formmethod="post" formaction="delCarServlet" id="del" disabled value="Delete"/>
+        <input type="submit" formmethod="get" formaction="editCarServlet" id="edit" disabled value="Edit"/>
+        <input type="submit" formmethod="get" formaction="addCarServlet" value="Add"/>
+        <input type="submit" formmethod="get" formaction="selectDealerServlet" value="Reset"/>
     </div>
 </form>
 </body>

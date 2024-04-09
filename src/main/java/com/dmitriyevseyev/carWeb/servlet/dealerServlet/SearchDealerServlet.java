@@ -18,21 +18,17 @@ import java.util.List;
 public class SearchDealerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String namePattern = req.getParameter("name");
-        String addressPattern = req.getParameter("address");
-        System.out.println("name - " + namePattern);
-        System.out.println("address - " + addressPattern);
+        String column = req.getParameter("column");
+        String pattern = req.getParameter("pattern");
+        System.out.println("column - " + column);
+        System.out.println("pattern - " + pattern);
+
         List<CarDealership> carDealerships = null;
         DealerController dealerContr = DealerController.getInstance();
         String criteria = "ASC";
-        String columnName = "Name";
-        String columnAddress = "Address";
+
         try {
-            if (namePattern != null) {
-                carDealerships = dealerContr.getFilteredByPattern(columnName, namePattern, criteria);
-            } else {
-                carDealerships = dealerContr.getFilteredByPattern(columnAddress, addressPattern, criteria);
-            }
+            carDealerships = dealerContr.getFilteredByPattern(column, pattern, criteria);
         } catch (GetAllDealerExeption e) {
             System.out.println("GetAllDealerExeption, SearchDealerServlet - " + e.getMessage());
         }

@@ -26,8 +26,8 @@ public class SearchCarServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String namePattern = req.getParameter("name");
-        String colorPattern = req.getParameter("color");
+        String columnName = req.getParameter("column");
+        String patternName = req.getParameter("pattern");
         String startDate = req.getParameter("startDate");
         String enddate = req.getParameter("endDate");
         Date startDatePattern = null;
@@ -41,12 +41,6 @@ public class SearchCarServlet extends HttpServlet {
                 ParseException e) {
             System.out.println("ParseException. " + e.getMessage());
         }
-
-        System.out.println("namePattern - " + namePattern);
-        System.out.println("colorPattern - " + colorPattern);
-        System.out.println("startDatePattern - " + startDatePattern);
-        System.out.println("endDatePattern - " + endDatePattern);
-        System.out.println("req.getParameter(\"idDealer\")" + req.getParameter("idDealer"));
 
         Integer idDealer = Integer.valueOf(String.valueOf(req.getParameter("idDealer")));
         System.out.println("idDealer SearchCarServlet = " + idDealer);
@@ -64,32 +58,21 @@ public class SearchCarServlet extends HttpServlet {
         List<Car> carList = null;
         CarController carContr = CarController.getInstance();
         String criteria = "ASC";
-        String columnName = "Name";
-        String columnColor = "Color";
-        String columnDate = "Date";
 
         Integer code = null;
-        if (namePattern != null && colorPattern == null &&
-                startDatePattern == null && endDatePattern == null) {
+        if (startDatePattern == null && endDatePattern == null) {
             code = 1;
-        } else if (namePattern == null && colorPattern != null &&
-                startDatePattern == null && endDatePattern == null) {
-            code = 2;
-        } else if (namePattern == null && colorPattern == null &&
-                startDatePattern != null && endDatePattern != null) {
-            code = 3;
-        }
+        } else  code = 2;
+
 
         try {
             switch (code) {
                 case (1):
-                    carList = carContr.getFilteredByPattern(dealer.getId(), columnName, namePattern, criteria);
+                    carList = carContr.getFilteredByPattern(dealer.getId(), columnName, patternName, criteria);
                     break;
                 case (2):
-                    carList = carContr.getFilteredByPattern(dealer.getId(), columnColor, colorPattern, criteria);
+                    carList = carContr.getFilteredByDatePattern(dealer.getId(), columnName, startDatePattern, endDatePattern, criteria);
                     break;
-                case (3):
-                    carList = carContr.getFilteredByDatePattern(dealer.getId(), columnDate, startDatePattern, endDatePattern, criteria);
             }
         } catch (
                 GetAllCarExeption e) {
@@ -104,7 +87,6 @@ public class SearchCarServlet extends HttpServlet {
                 ServletException e) {
             System.out.println("SelectDealerServlet. " + e.getMessage());
         }
-
     }
 
     @Override

@@ -5,7 +5,6 @@ H1 { text-align: center }
 }
 input {
     font-size:20px;
-    font-family: "Times New Roman";
     text-align: center;
 }
 .tab {
@@ -62,4 +61,13 @@ td {
     font-size:10px;
     text-align: center;
     margin-left:  12.7px;
+}
+.select {
+
+    text-align: center;
+    font-size:20px;
+}
+.sel {
+    text-align:center;
+    font-size:20px;
 }

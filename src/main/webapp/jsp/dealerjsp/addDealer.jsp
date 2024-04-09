@@ -26,7 +26,7 @@
     </table>
     <br/>
     <div class="but">
-        <input type="submit" value="Send"/>
+        <input type="submit" value="Ok"/>
         <input type="reset" value="Cancel"/>
     </div>
 </form>
