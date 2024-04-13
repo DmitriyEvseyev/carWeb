@@ -10,37 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit dealer</title>
-    <style>
-        H2 {
-            text-align: center
-        }
-
-        .tab {
-            border: 1px solid grey;
-            border-collapse: collapse;
-
-            margin-left: auto;
-            margin-right: auto;
-            text-align: center;
-
-        }
-
-        .tab td {
-            border: 1px solid grey;
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        .but {
-            text-align: center;
-        }
-
-        input {
-            font-size: 20px;
-            font-family: "Times New Roman";
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="css/dealercss/editDealer.css">
 </head>
 <body>
 <h2> Edit dealer </h2>
@@ -62,8 +32,5 @@
         <input type="reset" value="Cancel"/>
     </div>
 </form>
-<script>
-
-</script>
 </body>
 </html>

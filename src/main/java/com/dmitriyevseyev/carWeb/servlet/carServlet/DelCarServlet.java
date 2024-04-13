@@ -23,19 +23,12 @@ public class DelCarServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         Integer idDealer = Integer.parseInt(req.getParameter("idDealer"));
-        System.out.println(" Integer idDealer from DelCarServlet = " + idDealer);
-
         String[] ids = req.getParameterValues("check");
-        System.out.print("String[] ids - ");
-        for (String g : ids) {
-            System.out.println(g);
-        }
-        System.out.println();
+
         ArrayList<Integer> idList = new ArrayList<>();
         for (int i = 0; i < ids.length; i++) {
             idList.add(Integer.valueOf(ids[i]));
         }
-        System.out.println("idCar DelCarServlet - " + idList);
 
         for (Integer id : idList) {
             try {

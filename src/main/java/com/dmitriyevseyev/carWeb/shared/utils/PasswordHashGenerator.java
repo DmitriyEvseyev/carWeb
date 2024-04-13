@@ -1,10 +1,8 @@
 package com.dmitriyevseyev.carWeb.shared.utils;
-// import javax.xml.bind.DatatypeConverter;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
 
 public class PasswordHashGenerator {
     private static PasswordHashGenerator instance;
@@ -40,8 +38,6 @@ public class PasswordHashGenerator {
             sb.append(Integer.toHexString(0xff & md5Arr[i]));
         }
         String hash = sb.toString();
-        System.out.println("hash - " + hash);
-
         return hash;
     }
 }

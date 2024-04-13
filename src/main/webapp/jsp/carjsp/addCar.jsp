@@ -14,8 +14,7 @@
 <body>
 <h2> Add car </h2>
 <form action="addCarServlet" method="post">
-        <input type="hidden" name="idDealer" value="${idDealer}"/>
-
+    <input type="hidden" name="idDealer" value="${idDealer}"/>
     <table class="tab">
         <tr>
             <td> Name</td>

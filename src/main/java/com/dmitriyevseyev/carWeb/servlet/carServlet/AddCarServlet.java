@@ -23,10 +23,9 @@ public class AddCarServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Integer idDealer = Integer.parseInt(request.getParameter("idDealer"));
-        System.out.println(" Integer idDealer AddCarServlet = " + idDealer);
         request.setAttribute("idDealer", idDealer);
         try {
-            getServletContext().getRequestDispatcher("/jsp/carjsp/addCar.jsp").forward(request, response);
+            getServletContext().getRequestDispatcher(ServletConstants.ADD_CAR_ADDRESS).forward(request, response);
         } catch (ServletException e) {
             System.out.println("AddCarServlet. " + e.getMessage());
         }
@@ -39,20 +38,10 @@ public class AddCarServlet extends HttpServlet {
         Car car = null;
 
         int idDealer = Integer.parseInt(req.getParameter("idDealer"));
-        System.out.println(idDealer);
-
         String name = req.getParameter("name");
-        System.out.println(name);
-
         String date = (req.getParameter("date"));
-        System.out.println(date);
-
         String color = req.getParameter("color");
-        System.out.println(color);
-
         Boolean isAfterCrash = req.getParameter("isAfterCrash") != null;
-
-        System.out.println(isAfterCrash);
 
         try {
             car = Car.builder()
@@ -66,7 +55,6 @@ public class AddCarServlet extends HttpServlet {
             System.out.println("ParseException. " + e.getMessage());
         }
 
-        System.out.println("CAR/ AddCarServlet - " + car);
         try {
             CarController.getInstance().addCar(car);
         } catch (AddCarExeption e) {

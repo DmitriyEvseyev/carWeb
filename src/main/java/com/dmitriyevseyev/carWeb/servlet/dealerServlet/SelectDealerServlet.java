@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
 @WebServlet(name = "selectDealerServlet", value = "/selectDealerServlet")
@@ -28,25 +27,19 @@ public class SelectDealerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("---------------");
-
         HttpSession session = req.getSession();
         if (session.getAttribute("idD") != null) {
             Integer idD = Integer.valueOf(session.getAttribute("idD").toString());
             session.removeAttribute("idD");
-            System.out.println("idD session - " + idD);
             selectCars(req, resp, idD);
         } else {
-            System.out.println("------------------");
             Integer idDealer = Integer.valueOf(String.valueOf(req.getParameter("idDealer")));
-            System.out.println("idDealer(check) SelectDealerServlet = " + idDealer);
             selectCars(req, resp, idDealer);
         }
     }
 
     private void selectCars(HttpServletRequest req, HttpServletResponse resp, Integer idDealer) throws ServletException, IOException {
         CarDealership dealer = null;
-
         try {
             dealer = DealerController.getInstance().getDealer(idDealer);
         } catch (GetDealerException e) {
@@ -58,14 +51,11 @@ public class SelectDealerServlet extends HttpServlet {
         List<Car> carList = null;
         try {
             carList = CarController.getInstance().getCarList(idDealer);
-            System.out.println("carL - " + carList);
         } catch (GetAllCarExeption e) {
             System.out.println("GetAllCarExeption. SelectDealerExeption. " + e.getMessage());
         }
-
         req.setAttribute("carList", carList);
         req.setAttribute("dealer", dealer);
-
         try {
             getServletContext().getRequestDispatcher(ServletConstants.CARS_PAGE_ADDRESS).forward(req, resp);
         } catch (ServletException e) {

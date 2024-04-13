@@ -23,31 +23,24 @@ public class EditDealerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String idDealer = req.getParameter("check");
-        System.out.println("idDealer editServlet - " + idDealer);
+        String idDealer = req.getParameter("idDealer");
         CarDealership dealer = null;
         try {
             dealer = DealerController.getInstance().getDealer(Integer.valueOf(idDealer));
         } catch (GetDealerException e) {
             System.out.println("GetDealerException. EditDealerExeption. " + e.getMessage());
         } catch (NotFoundException e) {
-            getServletContext().getRequestDispatcher("/jsp/dealerjsp/notfoundDealer.jsp").forward(req, resp);
+            getServletContext().getRequestDispatcher(ServletConstants.NOT_DEALER_ADDRESS).forward(req, resp);
         }
         req.setAttribute("dealer", dealer);
-        getServletContext().getRequestDispatcher("/jsp/dealerjsp/editDealer.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher(ServletConstants.EDIT_DEALER_ADDRESS).forward(req, resp);
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
         int id = Integer.parseInt(request.getParameter("id"));
-        System.out.println(id);
-
         String name = request.getParameter("name");
-        System.out.println(name);
-
         String address = request.getParameter("address");
-        System.out.println(address);
         DealerController controller = DealerController.getInstance();
         try {
             controller.updateCar(id, name, address);

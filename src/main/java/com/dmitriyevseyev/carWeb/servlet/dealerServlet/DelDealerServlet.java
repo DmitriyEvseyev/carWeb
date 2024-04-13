@@ -20,12 +20,7 @@ public class DelDealerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        String[] idDealer = req.getParameterValues("check");
-        System.out.print("String[] idDealer - ");
-        for (String g : idDealer) {
-            System.out.println(g);
-        }
-        System.out.println();
+        String[] idDealer = req.getParameterValues("idDealer");
 
         DealerController controller = DealerController.getInstance();
 
@@ -33,7 +28,7 @@ public class DelDealerServlet extends HttpServlet {
             try {
                 controller.removeDealer(Integer.valueOf(id));
             } catch (NotFoundException e) {
-                getServletContext().getRequestDispatcher("/jsp/dealerjsp/notfoundDealer.jsp").forward(req, resp);
+                getServletContext().getRequestDispatcher(ServletConstants.NOT_DEALER_ADDRESS).forward(req, resp);
             } catch (DeleteDealerExeption e) {
                 System.out.println("DelDealerServlet. DeleteDealerExeption. " + e.getMessage());
             }

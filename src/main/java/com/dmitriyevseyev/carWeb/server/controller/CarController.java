@@ -1,11 +1,9 @@
 package com.dmitriyevseyev.carWeb.server.controller;
 
-import com.dmitriyevseyev.carWeb.model.CarDealership;
 import com.dmitriyevseyev.carWeb.server.dao.CarDAO;
 import com.dmitriyevseyev.carWeb.server.dao.ManagerDAO;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.*;
 import com.dmitriyevseyev.carWeb.model.Car;
-import com.dmitriyevseyev.carWeb.server.exceptions.dealer.GetAllDealerExeption;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -21,16 +19,11 @@ public class CarController {
         return instance;
     }
 
-    public CarDAO getDaoCar() {
-        return carDAO;
-    }
-
     private CarController() {
         this.carDAO = ManagerDAO.getInstance().getDaoCar();
     }
 
     public List<Car> getCarList(Integer idDealer) throws GetAllCarExeption {
-        // dao
         try {
             return Collections.unmodifiableList(new ArrayList<>(carDAO.getCarListDealer(idDealer)));
         } catch (SQLException e) {
@@ -39,7 +32,6 @@ public class CarController {
     }
 
     public void addCar(Car car) throws AddCarExeption {
-        // dao
         try {
             carDAO.createCar(car);
         } catch (SQLException e) {
@@ -48,7 +40,6 @@ public class CarController {
     }
 
     public void removeCar(Integer id) throws NotFoundException, DeleteCarExeption {
-        //dao
         try {
             if (!carDAO.isCarExist(id)) {
                 throw new NotFoundException();
@@ -76,17 +67,16 @@ public class CarController {
     }
 
     public List<Car> getSortedByCriteria(Integer idDealer, String column, String criteria) throws GetAllCarExeption {
-
         try {
             return Collections.unmodifiableList(new ArrayList<>(carDAO.getSortedByCriteria(idDealer, column, criteria)));
         } catch (SQLException e) {
             throw new GetAllCarExeption(String.format("GetAllCarExeption, getSortedByCriteria: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
     }
-    public List<Car> getFilteredByPattern (Integer idDealer, String column, String pattern, String criteria) throws GetAllCarExeption {
 
+    public List<Car> getFilteredByPattern(Integer idDealer, String column, String pattern, String criteria) throws GetAllCarExeption {
         try {
-            return Collections.unmodifiableList(new ArrayList<>(carDAO.getFilteredByPattern (idDealer, column, pattern, criteria)));
+            return Collections.unmodifiableList(new ArrayList<>(carDAO.getFilteredByPattern(idDealer, column, pattern, criteria)));
         } catch (SQLException e) {
             throw new GetAllCarExeption(String.format("GetAllCarExeption, getFilteredByPattern: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
@@ -94,7 +84,7 @@ public class CarController {
 
     public List<Car> getFilteredByDatePattern(Integer idDealer, String columnDate, Date startDatePattern, Date endDatePattern, String criteria) throws GetAllCarExeption {
         try {
-            return Collections.unmodifiableList(new ArrayList<>(carDAO.getFilteredByDatePattern (idDealer, columnDate, startDatePattern, endDatePattern, criteria)));
+            return Collections.unmodifiableList(new ArrayList<>(carDAO.getFilteredByDatePattern(idDealer, columnDate, startDatePattern, endDatePattern, criteria)));
         } catch (SQLException e) {
             throw new GetAllCarExeption(String.format("GetAllCarExeption, getFilteredByDatePattern: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }

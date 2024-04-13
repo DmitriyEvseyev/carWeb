@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "dealershipServlet", value = "/dealershipServlet")
@@ -28,7 +27,6 @@ public class DealershipServlet extends HttpServlet {
         } catch (GetAllDealerExeption e) {
             throw new RuntimeException("DealershipServlet. " + e.getMessage());
         }
-        System.out.println("DealershipServlet - " + carDealerships);
         req.setAttribute("carDealerships", carDealerships);
 
         getServletContext().getRequestDispatcher(ServletConstants.DEALERS_PAGE_ADDRESS).forward(req, resp);

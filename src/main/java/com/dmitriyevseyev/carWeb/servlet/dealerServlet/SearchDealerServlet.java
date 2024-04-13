@@ -20,8 +20,6 @@ public class SearchDealerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String column = req.getParameter("column");
         String pattern = req.getParameter("pattern");
-        System.out.println("column - " + column);
-        System.out.println("pattern - " + pattern);
 
         List<CarDealership> carDealerships = null;
         DealerController dealerContr = DealerController.getInstance();
@@ -32,9 +30,8 @@ public class SearchDealerServlet extends HttpServlet {
         } catch (GetAllDealerExeption e) {
             System.out.println("GetAllDealerExeption, SearchDealerServlet - " + e.getMessage());
         }
-        System.out.println("DealershipServlet - " + carDealerships);
-        req.setAttribute("carDealerships", carDealerships);
 
+        req.setAttribute("carDealerships", carDealerships);
         getServletContext().getRequestDispatcher(ServletConstants.DEALERS_PAGE_ADDRESS).forward(req, resp);
     }
 

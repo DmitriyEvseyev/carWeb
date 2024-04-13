@@ -1,7 +1,6 @@
 package com.dmitriyevseyev.carWeb.model;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Objects;
 
 public class CarDealership implements Serializable {
@@ -11,8 +10,6 @@ public class CarDealership implements Serializable {
 
     public CarDealership() {
     }
-
-    ;
 
     public CarDealership(Integer id, String name, String address) {
         this.id = id;

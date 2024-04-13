@@ -19,7 +19,6 @@ public class SortDealerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Integer code = Integer.valueOf(req.getParameter("sort"));
-        System.out.println("sort - " + code);
         List<CarDealership> carDealerships = null;
         DealerController dealerContr = DealerController.getInstance();
         String columnName = "Name";
@@ -45,13 +44,9 @@ public class SortDealerServlet extends HttpServlet {
             System.out.println("GetAllDealerExeption, SortDealerServlet - " + e.getMessage());
         }
 
-        System.out.println("DealershipServlet - " + carDealerships);
         req.setAttribute("carDealerships", carDealerships);
-
         getServletContext().getRequestDispatcher(ServletConstants.DEALERS_PAGE_ADDRESS).forward(req, resp);
     }
-
-
 
     @Override
     public void destroy() {

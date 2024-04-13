@@ -26,7 +26,6 @@
     </button>
 </form>
 
-
 <form id="fo">
     <table class="tab">
         <tr>
@@ -123,36 +122,6 @@
             return false;
         }
     }
-
-    /* function editCar() {
-         const form = document.getElementById("fo");
-         check = document.getElementsByName("check");
-         var nameDealer;
-         var adressDealer;
-         for (i = 0; i < check.length; i++) {
-             if (check[i].checked) {
-                 row = check[i].parentNode.parentNode;
-                 nameDealer = row.cells[1].innerHTML;
-                 adressDealer = row.cells[2].innerHTML;
-             }
-         }
-         var inputName = document.createElement("input");
-         inputName.setAttribute("name", "nameD");
-         inputName.setAttribute("value", nameDealer);
-         inputName.setAttribute("type", "hidden")
-         form.appendChild(inputName);
-
-         var inputAdress = document.createElement("input");
-         inputAdress.setAttribute("name", "adressD");
-         inputAdress.setAttribute("value", adressDealer);
-         inputAdress.setAttribute("type", "hidden");
-         form.appendChild(inputAdress);
-
-         form.submit();
-     }
-
-     */
-
 </script>
 </body>
 </html>

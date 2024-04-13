@@ -67,9 +67,6 @@ public class ManagerDAO {
                     " PASSWORD       VARCHAR     NOT NULL)";
             stmt.executeUpdate(sqlUser);
 
-
-            System.out.println("Opened database successfully");
-
         } catch (SQLException e) {
             System.out.println("createTableError. " + e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);

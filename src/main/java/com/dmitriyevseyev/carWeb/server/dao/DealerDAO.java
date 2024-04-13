@@ -1,6 +1,5 @@
 package com.dmitriyevseyev.carWeb.server.dao;
 
-import com.dmitriyevseyev.carWeb.model.Car;
 import com.dmitriyevseyev.carWeb.model.CarDealership;
 
 import java.sql.*;
@@ -12,7 +11,6 @@ public class DealerDAO {
     private static DealerDAO instance;
     private Connection connection;
 
-    // singleton pattern
     public static DealerDAO getInstance(Connection connection) {
         if (instance == null) {
             instance = new DealerDAO(connection);
@@ -24,18 +22,15 @@ public class DealerDAO {
         this.connection = connection;
     }
 
-    // @Override
     public void createDealer(CarDealership dealer) throws SQLException {
         String sql = "INSERT INTO DEALERS (NAME, ADDRESS)  VALUES (?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
             stmt.setString(1, dealer.getName());
             stmt.setString(2, dealer.getAdress());
             stmt.executeUpdate();
         }
     }
 
-    //@Override
     public CarDealership read(Integer id) throws SQLException {
         String sql = "SELECT * FROM DEALERS WHERE id = ?";
         CarDealership dealer;
@@ -46,10 +41,8 @@ public class DealerDAO {
         return dealer;
     }
 
-    // @Override
     public void update(Integer id, String name, String address) throws SQLException {
         String sql = "UPDATE DEALERS SET NAME = ?, ADDRESS = ?  WHERE ID = ?";
-
         try (PreparedStatement stm = connection.prepareStatement(sql);) {
             stm.setString(1, name);
             stm.setString(2, address);
@@ -58,7 +51,6 @@ public class DealerDAO {
         }
     }
 
-    //   @Override
     public void delete(Integer id) throws SQLException {
         String sql = "DELETE FROM DEALERS WHERE Id = ?";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
@@ -67,7 +59,6 @@ public class DealerDAO {
         }
     }
 
-    //   @Override
     public List<CarDealership> getAll() throws SQLException {
         List<CarDealership> list;
         String sql = "SELECT * FROM DEALERS";

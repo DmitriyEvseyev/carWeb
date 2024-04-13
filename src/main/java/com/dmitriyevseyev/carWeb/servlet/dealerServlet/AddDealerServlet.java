@@ -22,7 +22,7 @@ public class AddDealerServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
-            getServletContext().getRequestDispatcher("/jsp/dealerjsp/addDealer.jsp").forward(request, response);
+            getServletContext().getRequestDispatcher(ServletConstants.ADD_DEALER_ADDRESS).forward(request, response);
         } catch (ServletException e) {
             System.out.println("AddDealerServlet. " + e.getMessage());
         }
@@ -30,20 +30,13 @@ public class AddDealerServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         String name = req.getParameter("name");
-        System.out.println(name);
-
         String address = req.getParameter("address");
-        System.out.println(address);
 
         CarDealership dealer = CarDealership.builder()
                 .name(name)
                 .address(address)
                 .build();
-
-        System.out.println("Dealer - " + dealer);
-
         try {
             DealerController.getInstance().addDealer(dealer);
         } catch (AddDealerExeption e) {

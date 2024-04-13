@@ -2,7 +2,6 @@ package com.dmitriyevseyev.carWeb.servlet.userServlet;
 
 import com.dmitriyevseyev.carWeb.model.User;
 import com.dmitriyevseyev.carWeb.server.controller.UserController;
-import com.dmitriyevseyev.carWeb.server.exceptions.car.AddCarExeption;
 import com.dmitriyevseyev.carWeb.server.exceptions.user.AddUserExeption;
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
 
@@ -22,11 +21,11 @@ public class UserRegServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String userName = req.getParameter("name");
         String userPassword = req.getParameter("password");
         String userPass2 = req.getParameter("password2");
-        System.out.println("userName - " + userName + ", userPassword - " + userPassword + ", userPass2 - " + userPass2);
+
         UserController userCont = UserController.getInstance();
 
         if (userPassword.equals(userPass2) == false) {
@@ -48,7 +47,6 @@ public class UserRegServlet extends HttpServlet {
                     .userName(userName)
                     .password(userPassword)
                     .build();
-            System.out.println("New user - " + user);
             try {
                 userCont.addUser(user);
             } catch (AddUserExeption e) {
@@ -59,14 +57,7 @@ public class UserRegServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    }
-
-
-    @Override
     public void destroy() {
-
+        super.destroy();
     }
-
-
 }

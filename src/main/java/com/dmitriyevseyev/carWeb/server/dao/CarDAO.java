@@ -10,7 +10,6 @@ public class CarDAO implements DAO {
     private static CarDAO instance;
     private Connection connection;
 
-    // singleton pattern
     public static CarDAO getInstance(Connection connection) {
         if (instance == null) {
             instance = new CarDAO(connection);
@@ -68,7 +67,6 @@ public class CarDAO implements DAO {
     @Override
     public void update(Car car) throws SQLException {
         String sql = "UPDATE CAR SET NAME = ?, DATE = ?, COLOR = ?, ISAFTERCRASH = ?  WHERE ID = ?";
-
         try (PreparedStatement stm = connection.prepareStatement(sql);) {
             stm.setString(1, car.getName());
             stm.setDate(2, (new java.sql.Date(car.getDate().getTime())));
@@ -133,7 +131,6 @@ public class CarDAO implements DAO {
         List<Car> list;
         String sql = "SELECT * FROM CAR WHERE idDealer = ? AND %s LIKE \'%s\' ORDER BY %s %s";
         sql = String.format(sql, column, pattern, column, criteria);
-        System.out.println(sql);
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, IdDealer);
             list = createListByResultSet(statement.executeQuery());
@@ -141,45 +138,18 @@ public class CarDAO implements DAO {
         return Collections.unmodifiableList(list);
     }
 
-    //  SELECT * FROM events WHERE event_date BETWEEN '2023-01-01' AND '2023-12-31';
-
-    public List<Car> getFilteredByDatePattern (Integer IdDealer, String columnDate, Date startDatePattern, Date endDatePattern,  String criteria) throws SQLException {
+    public List<Car> getFilteredByDatePattern(Integer IdDealer, String columnDate, Date startDatePattern, Date endDatePattern, String criteria) throws SQLException {
         List<Car> list;
         String sql = "SELECT * FROM CAR WHERE idDealer = ? AND %s BETWEEN \'%s\' AND  \'%s\' ORDER BY %s %s";
-
-        Date beginDate =  new java.sql.Date(startDatePattern.getTime());
+        Date beginDate = new java.sql.Date(startDatePattern.getTime());
         Date endDate = new java.sql.Date(endDatePattern.getTime());
-
         sql = String.format(sql, columnDate, beginDate, endDate, columnDate, criteria);
-        System.out.println(sql);
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, IdDealer);
             list = createListByResultSet(statement.executeQuery());
         }
         return Collections.unmodifiableList(list);
     }
-
-    private Car createCarByResultSet(ResultSet rs) throws SQLException {
-        rs.next();
-        Car car = Car.builder().id(rs.getInt("Id"))
-                .name(rs.getString("Name"))
-                .color(rs.getString("Color"))
-                .date(rs.getDate("Date"))
-                .isAfterCrash(rs.getBoolean("isAfterCrash"))
-                .build();
-        return car;
-    }
-    /*   @Override
-    public Car read(Integer id) throws SQLException {
-        String sql = "SELECT * FROM CAR WHERE id = ?";
-        Car Car;
-        try (PreparedStatement stm = connection.prepareStatement(sql)) {
-            stm.setInt(1, id);
-            Car = createCarByResultSet(stm.executeQuery());
-        }
-        return Car;
-    }
-      */
 }
 
 

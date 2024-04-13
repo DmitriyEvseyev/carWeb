@@ -26,14 +26,15 @@ public class SearchCarServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String columnName = req.getParameter("column");
-        String patternName = req.getParameter("pattern");
+        String nameColumn = req.getParameter("column");
+        String namePattern = req.getParameter("pattern");
         String startDate = req.getParameter("startDate");
         String enddate = req.getParameter("endDate");
         Date startDatePattern = null;
         Date endDatePattern = null;
+
         try {
-            if (startDate != null && enddate != null) {
+            if (startDate.length() > 0 && enddate.length() > 0) {
                 startDatePattern = formatter.parse(startDate);
                 endDatePattern = formatter.parse(enddate);
             }
@@ -43,7 +44,6 @@ public class SearchCarServlet extends HttpServlet {
         }
 
         Integer idDealer = Integer.valueOf(String.valueOf(req.getParameter("idDealer")));
-        System.out.println("idDealer SearchCarServlet = " + idDealer);
         CarDealership dealer = null;
         try {
             dealer = DealerController.getInstance().getDealer(idDealer);
@@ -59,20 +59,11 @@ public class SearchCarServlet extends HttpServlet {
         CarController carContr = CarController.getInstance();
         String criteria = "ASC";
 
-        Integer code = null;
-        if (startDatePattern == null && endDatePattern == null) {
-            code = 1;
-        } else  code = 2;
-
-
         try {
-            switch (code) {
-                case (1):
-                    carList = carContr.getFilteredByPattern(dealer.getId(), columnName, patternName, criteria);
-                    break;
-                case (2):
-                    carList = carContr.getFilteredByDatePattern(dealer.getId(), columnName, startDatePattern, endDatePattern, criteria);
-                    break;
+            if (namePattern.length() > 0 && startDatePattern == null && endDatePattern == null) {
+                carList = carContr.getFilteredByPattern(dealer.getId(), nameColumn, namePattern, criteria);
+            } else if (namePattern.length() == 0 && startDatePattern != null && endDatePattern != null) {
+                carList = carContr.getFilteredByDatePattern(dealer.getId(), nameColumn, startDatePattern, endDatePattern, criteria);
             }
         } catch (
                 GetAllCarExeption e) {

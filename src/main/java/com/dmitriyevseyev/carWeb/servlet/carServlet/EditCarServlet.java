@@ -26,11 +26,7 @@ public class EditCarServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Integer idDealer = Integer.parseInt(request.getParameter("idDealer"));
-        System.out.println(" Integer idDealer EditCarServlet = " + idDealer);
-
-
         Integer id = Integer.valueOf(String.valueOf(request.getParameter("check")));
-        System.out.println(" Integer id EditCarServlet = " + id);
 
         Car car = null;
         try {
@@ -38,12 +34,11 @@ public class EditCarServlet extends HttpServlet {
         } catch (UpdateCarException e) {
             System.out.println("UpdateCarException. " + e.getMessage());
         }
-        System.out.println("CAR from get - " + car);
 
         request.setAttribute("car", car);
         request.setAttribute("idDealer", idDealer);
         try {
-            getServletContext().getRequestDispatcher("/jsp/carjsp/editCar.jsp").forward(request, response);
+            getServletContext().getRequestDispatcher(ServletConstants.EDIT_CAR_ADDRESS).forward(request, response);
         } catch (ServletException e) {
             throw new RuntimeException(e);
         }
@@ -55,22 +50,16 @@ public class EditCarServlet extends HttpServlet {
 
         Car car = null;
         int id = Integer.parseInt(req.getParameter("id"));
-        System.out.println(id);
 
         int idDealer = Integer.parseInt(req.getParameter("idDealer"));
-        System.out.println(idDealer);
 
         String name = req.getParameter("name");
-        System.out.println(name);
 
         String date = (req.getParameter("date"));
-        System.out.println(date);
 
         String color = req.getParameter("color");
-        System.out.println(color);
 
         Boolean isAfterCrash = req.getParameter("isAfterCrash") != null;
-        System.out.println(isAfterCrash);
 
         try {
             car = Car.builder()
@@ -84,8 +73,6 @@ public class EditCarServlet extends HttpServlet {
         } catch (ParseException e) {
             System.out.println("ParseException. " + e.getMessage());
         }
-
-        System.out.println("CAR EditCarServlet - " + car);
 
         try {
             CarController.getInstance().updateCar(car);

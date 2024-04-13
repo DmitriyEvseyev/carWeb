@@ -6,7 +6,6 @@ import com.dmitriyevseyev.carWeb.server.controller.CarController;
 import com.dmitriyevseyev.carWeb.server.controller.DealerController;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.GetAllCarExeption;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
-import com.dmitriyevseyev.carWeb.server.exceptions.dealer.GetAllDealerExeption;
 import com.dmitriyevseyev.carWeb.server.exceptions.dealer.GetDealerException;
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
 
@@ -24,9 +23,7 @@ public class SortCarServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Integer code = Integer.valueOf(req.getParameter("sort"));
-        System.out.println("sort - " + code);
         Integer idDealer = Integer.valueOf(String.valueOf(req.getParameter("idDealer")));
-        System.out.println("idDealer SortCarServlet = " + idDealer);
         CarDealership dealer = null;
 
         try {
@@ -48,7 +45,7 @@ public class SortCarServlet extends HttpServlet {
         try {
             switch (code) {
                 case (1):
-                    carList = carContr.getSortedByCriteria(dealer.getId(),columnName, criteriaA);
+                    carList = carContr.getSortedByCriteria(dealer.getId(), columnName, criteriaA);
                     break;
                 case (2):
                     carList = carContr.getSortedByCriteria(dealer.getId(), columnName, criteriaD);
@@ -60,7 +57,7 @@ public class SortCarServlet extends HttpServlet {
                     carList = carContr.getSortedByCriteria(dealer.getId(), columnDate, criteriaD);
                     break;
                 case (5):
-                    carList = carContr.getSortedByCriteria(dealer.getId(),columnColor, criteriaA);
+                    carList = carContr.getSortedByCriteria(dealer.getId(), columnColor, criteriaA);
                     break;
                 case (6):
                     carList = carContr.getSortedByCriteria(dealer.getId(), columnColor, criteriaD);

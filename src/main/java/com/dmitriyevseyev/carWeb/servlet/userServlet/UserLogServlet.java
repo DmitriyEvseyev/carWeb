@@ -1,7 +1,6 @@
 package com.dmitriyevseyev.carWeb.servlet.userServlet;
 
 import com.dmitriyevseyev.carWeb.server.controller.UserController;
-import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
 
 import javax.servlet.ServletException;
@@ -20,14 +19,13 @@ public class UserLogServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String userName = req.getParameter("name");
         String userPassword = req.getParameter("password");
-        System.out.println("userName - " + userName + " ; userPassword - " + userPassword);
 
         boolean isCorrect = false;
         isCorrect = UserController.getInstance().isUserExistServer(userName, userPassword);
-        System.out.println("isCorrect, UserLogServlet - " + isCorrect);
+
         if (isCorrect == true) {
             resp.sendRedirect(ServletConstants.PATH_DEALER);
         } else {
