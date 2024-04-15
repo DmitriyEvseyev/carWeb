@@ -67,7 +67,7 @@
             <tr>
                 <td><input type="checkbox" name="idDealer" value="${dealer.id}"/></td>
                 <td>${dealer.name}</td>
-                <td>${dealer.adress}</td>
+                <td>${dealer.address}</td>
             </tr>
         </c:forEach>
         <script>

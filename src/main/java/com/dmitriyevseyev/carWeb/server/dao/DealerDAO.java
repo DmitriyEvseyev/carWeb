@@ -26,7 +26,7 @@ public class DealerDAO {
         String sql = "INSERT INTO DEALERS (NAME, ADDRESS)  VALUES (?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, dealer.getName());
-            stmt.setString(2, dealer.getAdress());
+            stmt.setString(2, dealer.getAddress());
             stmt.executeUpdate();
         }
     }
