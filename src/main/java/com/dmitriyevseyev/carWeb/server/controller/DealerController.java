@@ -65,6 +65,13 @@ public class DealerController {
         }
         return dealer;
     }
+    public List<CarDealership> getDealers (List<Integer> ids) throws GetDealerException, NotFoundException {
+        List<CarDealership> dealersList = new ArrayList<>();
+        for (Integer id : ids) {
+            dealersList.add(getDealer(id));
+        }
+        return Collections.unmodifiableList(dealersList);
+    }
 
     public void updateCar(Integer id, String name, String address) throws UpdateDealerException {
         try {

@@ -13,5 +13,4 @@ public class ServletConstants {
     public static final String ADD_DEALER_ADDRESS = "/jsp/dealerjsp/addDealer.jsp";
     public static final String EDIT_DEALER_ADDRESS = "/jsp/dealerjsp/editDealer.jsp";
 
-
 }

@@ -2,6 +2,7 @@ package com.dmitriyevseyev.carWeb.servlet.carServlet;
 
 import com.dmitriyevseyev.carWeb.model.Car;
 import com.dmitriyevseyev.carWeb.server.controller.CarController;
+import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.UpdateCarException;
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
 
@@ -31,8 +32,8 @@ public class EditCarServlet extends HttpServlet {
         Car car = null;
         try {
             car = CarController.getInstance().getCar(id);
-        } catch (UpdateCarException e) {
-            System.out.println("UpdateCarException. " + e.getMessage());
+        } catch (NotFoundException e) {
+            System.out.println("NotFoundException. EditCarServlet. " + e.getMessage());
         }
 
         request.setAttribute("car", car);
@@ -77,7 +78,7 @@ public class EditCarServlet extends HttpServlet {
         try {
             CarController.getInstance().updateCar(car);
         } catch (UpdateCarException e) {
-            System.out.println("UpdateCarException. " + e.getMessage());
+            System.out.println("UpdateCarException. EditCarServlet. " + e.getMessage());
         }
         HttpSession session = req.getSession();
         session.setAttribute("idD", idDealer);

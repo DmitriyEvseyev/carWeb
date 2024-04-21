@@ -31,6 +31,14 @@ public class CarController {
         }
     }
 
+    public List<Car> getCarsByDealersIds (List<Integer> ids) throws GetAllCarExeption {
+        List <Car> carList = new ArrayList<>();
+        for (Integer idDealer : ids) {
+            carList.addAll(carList.size(),getCarList(idDealer));
+        }
+        return Collections.unmodifiableList(carList);
+    }
+
     public void addCar(Car car) throws AddCarExeption {
         try {
             carDAO.createCar(car);
@@ -50,12 +58,20 @@ public class CarController {
         }
     }
 
-    public Car getCar(Integer id) throws UpdateCarException {
+    public Car getCar(Integer id) throws NotFoundException {
         try {
             return carDAO.getCar(id);
         } catch (SQLException e) {
-            throw new UpdateCarException(String.format("Error: %s. Code: %s", e.getMessage(), e.getSQLState()));
+            throw new NotFoundException(String.format("Error: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
+    }
+
+    public List<Car> getCars (List<Integer> ids) throws NotFoundException {
+        List<Car> carList = new ArrayList<>();
+        for (Integer id : ids) {
+            carList.add(getCar(id));
+        }
+        return Collections.unmodifiableList(carList);
     }
 
     public void updateCar(Car car) throws UpdateCarException {

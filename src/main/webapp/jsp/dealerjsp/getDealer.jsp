@@ -86,16 +86,19 @@
                     document.getElementById("del").disabled = true;
                     document.getElementById("edit").disabled = true;
                     document.getElementById("sel").disabled = true;
+                    document.getElementById("exp").disabled = true;
                 }
                 if (count === 1) {
                     document.getElementById("del").disabled = false;
                     document.getElementById("edit").disabled = false;
                     document.getElementById("sel").disabled = false;
+                    document.getElementById("exp").disabled = false;
                 }
                 if (count > 1) {
                     document.getElementById("del").disabled = false;
                     document.getElementById("edit").disabled = true;
                     document.getElementById("sel").disabled = true;
+                    document.getElementById("exp").disabled = false;
                 }
             }
 
@@ -112,6 +115,9 @@
         <input type="submit" formmethod="get" formaction="editDealerServlet" id="edit" disabled value="Edit"/>
         <input type="submit" formmethod="get" formaction="addDealerServlet" value="Add"/>
         <input type="submit" formmethod="get" formaction="dealershipServlet" value="Reset"/>
+    </div>
+    <div class="exp">
+        <input type="submit" formmethod="get" formaction="exportDealerServlet" id="exp" disabled value="Export"/>
     </div>
 </form>
 <script>

@@ -62,12 +62,13 @@ td {
     text-align: center;
     margin-left:  12.7px;
 }
-.select {
 
-    text-align: center;
-    font-size:20px;
-}
 .sel {
     text-align:center;
     font-size:20px;
+}
+.exp {
+    position: absolute;
+    top: 15px;
+    right: 15px;
 }
