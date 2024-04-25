@@ -18,4 +18,12 @@ public class ExportConfigItem {
     public Integer getStrategyID() {
         return strategyID;
     }
+
+    @Override
+    public String toString() {
+        return "ExportConfigItem{" +
+                "type='" + type + '\'' +
+                ", strategyID=" + strategyID +
+                '}';
+    }
 }

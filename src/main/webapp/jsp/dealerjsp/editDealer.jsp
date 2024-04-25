@@ -23,7 +23,7 @@
         </tr>
         <tr>
             <td> Adress</td>
-            <td><input name="address" value="${dealer.adress}" required/></td>
+            <td><input name="address" value="${dealer.address}" required/></td>
         </tr>
     </table>
     <br/>

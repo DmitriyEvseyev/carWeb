@@ -117,7 +117,9 @@
         <input type="submit" formmethod="get" formaction="dealershipServlet" value="Reset"/>
     </div>
     <div class="exp">
-        <input type="submit" formmethod="get" formaction="exportDealerServlet" id="exp" disabled value="Export"/>
+        <input type="text" name="fileName" id="fileName" placeholder="file name"/>
+        <input type="submit" formmethod="post" formaction="exportDealerServlet" id="exp" disabled
+               value="Export"/>
     </div>
 </form>
 <script>

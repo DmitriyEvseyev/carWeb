@@ -1,9 +1,12 @@
 package com.dmitriyevseyev.carWeb.servlet.dealerServlet;
 
+import com.dmitriyevseyev.carWeb.ejb.ExportImportBean;
 import com.dmitriyevseyev.carWeb.ejb.IExportImport;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,17 +26,27 @@ public class ExportDealerServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String[] idDealer = req.getParameterValues("idDealer");
         List<Integer> dealersIds = new ArrayList<>();
         for (String id : idDealer) {
             dealersIds.add(Integer.valueOf(id));
         }
-        System.out.println("ExportDealerServlet, id: " + dealersIds);
+        String fileName = req.getParameter("fileName");
 
-        String json = exportImportBean.exportObjects(dealersIds, new ArrayList<>());
-        System.out.println("json - " + json);
+        String exportList = exportImportBean.exportObjects(dealersIds, new ArrayList<>());
 
+        resp.setContentType("text/html");
+        resp.setHeader("Content-disposition", "attachment; filename = " + fileName + ".json");
+
+        if (exportList != null) {
+            try (ServletOutputStream out = resp.getOutputStream()) {
+                byte[] bytes;
+                bytes = exportList.getBytes();
+                out.write(bytes);
+                out.flush();
+            }
+        }
     }
 
     @Override
