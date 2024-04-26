@@ -119,7 +119,11 @@ public class CarDAO implements DAO {
     public List<Car> getSortedByCriteria(Integer IdDealer, String column, String criteria) throws SQLException {
         List<Car> list;
         String sql = "SELECT * FROM CAR WHERE idDealer = ? ORDER BY %s %s";
-        sql = String.format(sql, column, criteria);
+
+               sql = String.format(sql, column, criteria);
+
+
+        System.out.println(sql);
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, IdDealer);
             list = createListByResultSet(statement.executeQuery());
@@ -146,6 +150,18 @@ public class CarDAO implements DAO {
         sql = String.format(sql, columnDate, beginDate, endDate, columnDate, criteria);
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, IdDealer);
+            list = createListByResultSet(statement.executeQuery());
+        }
+        return Collections.unmodifiableList(list);
+    }
+
+    public List<Car> getFilteredByCrashPattern(Integer IdDealer, String column, String pattern, String criteria) throws SQLException {
+        List<Car> list;
+        String sql = "SELECT * FROM CAR WHERE idDealer = ? AND isAfterCrash = ? ORDER BY %s %s";
+        sql = String.format(sql,  column, criteria);
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, IdDealer);
+            statement.setBoolean(2, Boolean.parseBoolean(pattern));
             list = createListByResultSet(statement.executeQuery());
         }
         return Collections.unmodifiableList(list);

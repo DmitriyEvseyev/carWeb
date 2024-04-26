@@ -61,7 +61,12 @@ public class SearchCarServlet extends HttpServlet {
 
         try {
             if (namePattern.length() > 0 && startDatePattern == null && endDatePattern == null) {
-                carList = carContr.getFilteredByPattern(dealer.getId(), nameColumn, namePattern, criteria);
+                if (nameColumn.equals("isAfterCrash")) {
+                    carList = carContr.getFilteredByCrashPattern(dealer.getId(), nameColumn, namePattern, criteria);
+                } else {
+                    carList = carContr.getFilteredByPattern(dealer.getId(), nameColumn, namePattern, criteria);
+                }
+
             } else if (namePattern.length() == 0 && startDatePattern != null && endDatePattern != null) {
                 carList = carContr.getFilteredByDatePattern(dealer.getId(), nameColumn, startDatePattern, endDatePattern, criteria);
             }

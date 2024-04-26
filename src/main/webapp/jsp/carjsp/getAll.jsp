@@ -14,7 +14,7 @@
     <option>name</option>
     <option>date</option>
     <option>color</option>
-    <option>Crash</option>
+    <option>isAfterCrash</option>
 </select>
     <div id="div" style="display:block;" >
         <input type="text"  name="pattern"/>
@@ -125,7 +125,7 @@
                 <td>${car.name}</td>
                 <td name="date">${car.date.getTime()}</td>
                 <td>${car.color}</td>
-                <td>${String.valueOf(car.isAfterCrash())}</td>
+                <td>${car.isAfterCrash()}</td>
             </tr>
         </c:forEach>
         <script>
@@ -141,14 +141,17 @@
                 if (count === 0) {
                     document.getElementById("del").disabled = true;
                     document.getElementById("edit").disabled = true;
+                    document.getElementById("exp").disabled = true;
                 }
                 if (count === 1) {
                     document.getElementById("del").disabled = false;
                     document.getElementById("edit").disabled = false;
+                    document.getElementById("exp").disabled = false;
                 }
                 if (count > 1) {
                     document.getElementById("del").disabled = false;
                     document.getElementById("edit").disabled = true;
+                    document.getElementById("exp").disabled = false;
                 }
             }
 
@@ -182,6 +185,11 @@
         <input type="submit" formmethod="get" formaction="editCarServlet" id="edit" disabled value="Edit"/>
         <input type="submit" formmethod="get" formaction="addCarServlet" value="Add"/>
         <input type="submit" formmethod="get" formaction="selectDealerServlet" value="Reset"/>
+    </div>
+    <div class="exp">
+        <input type="text" name="fileName" id="fileName" placeholder="file name"/>
+        <input type="submit" formmethod="post" formaction="exportCarServlet" id="exp" disabled
+               value="Export"/>
     </div>
 </form>
 </body>

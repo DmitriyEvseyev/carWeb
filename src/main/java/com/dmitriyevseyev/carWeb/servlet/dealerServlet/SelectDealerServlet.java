@@ -54,7 +54,7 @@ public class SelectDealerServlet extends HttpServlet {
 
 
 
-            System.out.println("carList + " + carList);
+         //   System.out.println("carList + " + carList);
 
 
 

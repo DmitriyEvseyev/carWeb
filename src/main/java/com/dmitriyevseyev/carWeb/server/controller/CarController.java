@@ -31,10 +31,10 @@ public class CarController {
         }
     }
 
-    public List<Car> getCarsByDealersIds (List<Integer> ids) throws GetAllCarExeption {
-        List <Car> carList = new ArrayList<>();
+    public List<Car> getCarsByDealersIds(List<Integer> ids) throws GetAllCarExeption {
+        List<Car> carList = new ArrayList<>();
         for (Integer idDealer : ids) {
-            carList.addAll(carList.size(),getCarList(idDealer));
+            carList.addAll(carList.size(), getCarList(idDealer));
         }
         return Collections.unmodifiableList(carList);
     }
@@ -66,7 +66,7 @@ public class CarController {
         }
     }
 
-    public List<Car> getCars (List<Integer> ids) throws NotFoundException {
+    public List<Car> getCars(List<Integer> ids) throws NotFoundException {
         List<Car> carList = new ArrayList<>();
         for (Integer id : ids) {
             carList.add(getCar(id));
@@ -103,6 +103,14 @@ public class CarController {
             return Collections.unmodifiableList(new ArrayList<>(carDAO.getFilteredByDatePattern(idDealer, columnDate, startDatePattern, endDatePattern, criteria)));
         } catch (SQLException e) {
             throw new GetAllCarExeption(String.format("GetAllCarExeption, getFilteredByDatePattern: %s. Code: %s", e.getMessage(), e.getSQLState()));
+        }
+    }
+
+    public List<Car> getFilteredByCrashPattern(Integer idDealer, String column, String pattern, String criteria) throws GetAllCarExeption {
+        try {
+            return Collections.unmodifiableList(new ArrayList<>(carDAO.getFilteredByCrashPattern(idDealer, column, pattern, criteria)));
+        } catch (SQLException e) {
+            throw new GetAllCarExeption(String.format("GetAllCarExeption, getFilteredByPattern: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
     }
 }

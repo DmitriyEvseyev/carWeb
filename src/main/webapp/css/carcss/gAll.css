@@ -46,3 +46,8 @@ td {
     text-align: center;
     font-size:20px;
 }
+.exp {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
