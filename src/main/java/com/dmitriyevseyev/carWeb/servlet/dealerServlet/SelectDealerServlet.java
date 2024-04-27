@@ -51,13 +51,6 @@ public class SelectDealerServlet extends HttpServlet {
         List<Car> carList = null;
         try {
             carList = CarController.getInstance().getCarList(idDealer);
-
-
-
-         //   System.out.println("carList + " + carList);
-
-
-
         } catch (GetAllCarExeption e) {
             System.out.println("GetAllCarExeption. SelectDealerExeption. " + e.getMessage());
         }

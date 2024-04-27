@@ -69,8 +69,8 @@ public class Car implements Serializable {
         return isAfterCrash;
     }
 
-    public void setAfterCrash(boolean afterCrash) {
-        isAfterCrash = afterCrash;
+    public void setAfterCrash(boolean isafterCrash) {
+        this.isAfterCrash = isafterCrash;
     }
 
     @Override

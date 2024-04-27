@@ -9,10 +9,37 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CarDealership</title>
     <link rel="stylesheet" href="css/dealercss/dealer.css">
 </head>
 <body>
+<div>
+    <input type="submit" class="import" id="open" value="Import"/>
+    <dialog>
+        <form>
+            <label class="labImp" for="file">Choose file to upload</label>
+            <br/>
+            <br/>
+            <input type="file" id="file" value="Import" accept="application/activity+json"/>
+            <br/>
+            <br/>
+            <input type="submit" id="close" value="Close"/>
+            <input type="submit" class="imtBut" value="Upload file" formmethod="post" formaction="importDealerServlet"/>
+        </form>
+    </dialog>
+    <script>
+        var dialog = document.querySelector('dialog')
+        document.querySelector('#open').onclick = function () {
+            dialog.showModal()
+        }
+        document.querySelector('#close').onclick = function () {
+            dialog.close()
+        }
+    </script>
+</div>
+
 <h1> CarDealerships </h1>
 
 <form class="sel">
@@ -122,6 +149,7 @@
                value="Export"/>
     </div>
 </form>
+
 <script>
     function delCar() {
         if (confirm("Are you really want to delete dealer with cars?")) {

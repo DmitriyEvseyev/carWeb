@@ -16,6 +16,9 @@ public class CarExportStrategy implements ExportStrategy {
         List<Car> carList = new ArrayList<>();
         try {
             carList = carController.getCars(ids);
+
+            System.out.println(carList);
+
         } catch (NotFoundException e) {
             System.out.println("DealerExportStrategyWithCar, NotFoundException. " + e.getMessage());
         }
