@@ -12,7 +12,6 @@ import java.util.List;
 @Stateless
 public class ExportImportBean implements IExportImport {
 
-
     @Override
     public String exportObjects(List<Integer> dealersIds, List<Integer> carsIds) {
         ExportList exportList = null;
@@ -39,4 +38,47 @@ public class ExportImportBean implements IExportImport {
     public void importObjects(String xml, int userId) {
 
     }
-}
+            //throws PrintableImportException, ImportException {
+//            XMLMarshaller xmlMarshaller = new XMLMarshaller();
+//
+//            List<Journal> journals = new ArrayList<>();
+//            List<Task> tasks = new ArrayList<>();
+//
+//            try {
+//                xmlMarshaller.unmarshal(journals, tasks, xml, userId);
+//            } catch (UnmarshalException e) {
+//                throw new PrintableImportException(StrategyConstants.IMPORT_EXCEPTION_MESSAGE + e.getMessage());
+//            }
+//
+//            ImportStrategyHelper importStrategyHelper = ImportStrategyHelper.getInstance();
+//            PropertyParser propertyParser;
+//            try {
+//                propertyParser = PropertyParser.getInstance();
+//            } catch (PropertyFileException e) {
+//                throw new PrintableImportException(StrategyConstants.IMPORT_EXCEPTION_MESSAGE + e.getMessage());
+//            }
+//
+//            int strategyId = Integer.parseInt(propertyParser.getProperty(StrategyConstants.JOURNAL_IMPORT_STRATEGY));
+//            ImportStrategy<Journal> journalImportStrategy =
+//                    importStrategyHelper.resolveJournalStrategy(strategyId);
+//            try {
+//                if (journalImportStrategy == null) throw
+//                        new StrategyNotFoundException(StrategyConstants.IMPORT_STRATEGY_NOT_FOUND_EXCEPTION_MESSAGE);
+//            } catch (StrategyNotFoundException e) {
+//                throw new PrintableImportException(StrategyConstants.IMPORT_EXCEPTION_MESSAGE + e.getMessage());
+//            }
+//
+//            for (Journal journal : journals) journalImportStrategy.store(journal);
+//
+//            strategyId = Integer.parseInt(propertyParser.getProperty(StrategyConstants.TASK_IMPORT_STRATEGY));
+//            ImportStrategy<Task> taskImportStrategy = importStrategyHelper.resolveTaskStrategy(strategyId);
+//
+//            try {
+//                if (taskImportStrategy == null) throw
+//                        new StrategyNotFoundException(StrategyConstants.IMPORT_STRATEGY_NOT_FOUND_EXCEPTION_MESSAGE);
+//            } catch (StrategyNotFoundException e) {
+//                throw new PrintableImportException(StrategyConstants.IMPORT_EXCEPTION_MESSAGE + e.getMessage());
+//            }
+//            for (Task task : tasks) taskImportStrategy.store(task);
+//        }
+    }
