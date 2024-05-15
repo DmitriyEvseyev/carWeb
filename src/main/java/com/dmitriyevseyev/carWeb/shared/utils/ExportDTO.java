@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ExportList {
+public class ExportDTO {
     private List<CarDealership> dealers;
     private List<Car> cars;
 
-    public ExportList() {
+    public ExportDTO() {
         this.dealers = new ArrayList<>();
         this.cars = new ArrayList<>();
     }

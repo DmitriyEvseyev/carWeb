@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
+import com.dmitriyevseyev.carWeb.shared.utils.JsonValidator;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
@@ -31,51 +33,27 @@ public class ImportDealerServlet extends HttpServlet {
             }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-//        boolean isMultipart = ServletFileUpload.isMultipartContent(req);
-//        System.out.println("isMultipart - " + isMultipart);
-//
-//        DiskFileItemFactory factory = new DiskFileItemFactory();
-//        // Configure a repository (to ensure a secure temp location is used)
-//        ServletContext servletContext = this.getServletConfig().getServletContext();
-//        File repository = (File) servletContext.getAttribute("jakarta.servlet.context.tempdir"); // Or "javax.servlet.context.tempdir" for javax
-//        factory.setRepository(repository);
-//
-//// Create a new file upload handler
-//        JakartaServletDiskFileUpload upload = new JakartaServletDiskFileUpload(factory);
-//
-//// Parse the request
-//        List<DiskFileItem> items = upload.parseRequest(req);
-
-
-
-
-        System.out.println("ssssssssss");
-
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         FileItemFactory factory = new DiskFileItemFactory();
         ServletFileUpload upload = new ServletFileUpload(factory);
         List<FileItem> files = null;
         try {
             files = upload.parseRequest(req);
         } catch (FileUploadException e) {
-            e.printStackTrace();
-        }
-        String xml = null;
+            System.out.println("ImportDealerServlet, FileUploadException. " + e.getMessage());        }
+        String json = null;
         if (files != null) {
-            xml = files.get(0).getString();
+            json = files.get(0).getString();
         }
 
-        System.out.println("xml - " + xml);
+        System.out.println("json - " + json);
 
-//        resp.addHeader(ServletConstants.ATTRIBUTE_ERROR, ServletConstants.NOT_ERROR_VALUE);
-//        int userId = (int) req.getSession().getAttribute(ServletConstants.ATTRIBUTE_USER_ID);
-//        try {
-//            EIBean.importObjects(xml, userId);
-//        } catch (ImportException e) {
-//            resp.setHeader(ServletConstants.ATTRIBUTE_ERROR, ServletConstants.COMMON_ERROR);
-//        } catch (PrintableImportException e) {
-//            resp.setHeader(ServletConstants.ATTRIBUTE_ERROR, e.getMessage());
-//        }
+        JsonValidator jsonValidator = JsonValidator.getInstance();
+        if (!jsonValidator.isValidImport(json)) {
+            getServletContext().getRequestDispatcher(ServletConstants.IMRORT_ERROR).forward(req, resp);
+        } else {
+            EIBean.importObjects(json);
+        }
     }
 
     @Override

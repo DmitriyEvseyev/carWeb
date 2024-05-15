@@ -4,6 +4,7 @@ import com.dmitriyevseyev.carWeb.server.dao.CarDAO;
 import com.dmitriyevseyev.carWeb.server.dao.ManagerDAO;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.*;
 import com.dmitriyevseyev.carWeb.model.Car;
+import com.dmitriyevseyev.carWeb.server.strategy.importFile.exeption.CarIdAlreadyExistException;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -43,7 +44,7 @@ public class CarController {
         try {
             carDAO.createCar(car);
         } catch (SQLException e) {
-            throw new AddCarExeption(String.format("Error: %s. Code: %s", e.getMessage(), e.getSQLState()));
+            throw new AddCarExeption(String.format("AddCarExeption: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
     }
 
@@ -54,7 +55,7 @@ public class CarController {
             }
             carDAO.delete(id);
         } catch (SQLException e) {
-            throw new DeleteCarExeption(String.format("Error: %s. Code: %s", e.getMessage(), e.getSQLState()));
+            throw new DeleteCarExeption(String.format("DeleteCarExeption: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
     }
 
@@ -62,7 +63,7 @@ public class CarController {
         try {
             return carDAO.getCar(id);
         } catch (SQLException e) {
-            throw new NotFoundException(String.format("Error: %s. Code: %s", e.getMessage(), e.getSQLState()));
+            throw new NotFoundException(String.format("The car was not found!  %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
     }
 
@@ -78,7 +79,7 @@ public class CarController {
         try {
             carDAO.update(car);
         } catch (SQLException e) {
-            throw new UpdateCarException(String.format("Error: %s. Code: %s", e.getMessage(), e.getSQLState()));
+            throw new UpdateCarException(String.format("UpdateCarException: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
     }
 
@@ -111,6 +112,21 @@ public class CarController {
             return Collections.unmodifiableList(new ArrayList<>(carDAO.getFilteredByCrashPattern(idDealer, column, pattern, criteria)));
         } catch (SQLException e) {
             throw new GetAllCarExeption(String.format("GetAllCarExeption, getFilteredByPattern: %s. Code: %s", e.getMessage(), e.getSQLState()));
+        }
+    }
+
+    public void addCarWithId(Car car) throws CarIdAlreadyExistException, NotFoundException, AddCarExeption {
+        try {
+            if (carDAO.getCar(car.getId()) != null) {
+                throw new CarIdAlreadyExistException("Car with this id already exist: id = " + car.getId());
+            }
+        } catch (SQLException e) {
+            throw new NotFoundException(String.format("The car was not found!  %s. Code: %s", e.getMessage(), e.getSQLState()));
+        }
+        try {
+            carDAO.createCar(car);
+        } catch (SQLException e) {
+            throw new AddCarExeption(String.format("AddCarExeption: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
     }
 }

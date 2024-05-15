@@ -1,9 +1,9 @@
 package com.dmitriyevseyev.carWeb.server.strategy.export;
 
-import com.dmitriyevseyev.carWeb.shared.utils.ExportList;
+import com.dmitriyevseyev.carWeb.shared.utils.ExportDTO;
 
 import java.util.List;
 
 public interface ExportStrategy {
-    void collectExportIds(ExportList exportList, List<Integer> ids);
+    void collectExportIds(ExportDTO exportList, List<Integer> ids);
 }

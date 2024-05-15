@@ -43,7 +43,7 @@ public class EditDealerServlet extends HttpServlet {
         String address = request.getParameter("address");
         DealerController controller = DealerController.getInstance();
         try {
-            controller.updateCar(id, name, address);
+            controller.updateDealer(id, name, address);
         } catch (UpdateDealerException e) {
             throw new RuntimeException("EditDealerServlet. RuntimeException. " + e.getMessage());
         }

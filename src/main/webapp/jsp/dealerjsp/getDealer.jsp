@@ -16,13 +16,27 @@
 </head>
 <body>
 <div>
-    <form method="post" action="importDealerServlet" enctype="multipart/form-data">
-        <input type="file" name="multiPartServlet" accept=".txt, .json" />
-        </br>
-        </br>
-        <input type="submit" value="Upload" />
-    </form>
+    <input type="submit" class="import" id="open" value="Import"/>
+    <dialog>
+        <form   enctype="multipart/form-data">
+            <input type="file" id="file" name="importFile" value="Import" accept=".txt, .json" required/>
+            <br/>
+            <br/>
+            <input type="submit" id="close" value="Close"/>
+            <input type="submit" class="imtBut" value="Upload file" formmethod="post" formaction="importDealerServlet"/>
+        </form>
+    </dialog>
+    <script>
+        var dialog = document.querySelector('dialog')
+        document.querySelector('#open').onclick = function () {
+            dialog.showModal()
+        }
+        document.querySelector('#close').onclick = function () {
+            dialog.close()
+        }
+    </script>
 </div>
+
 
 <h1> CarDealerships </h1>
 

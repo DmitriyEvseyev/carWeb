@@ -8,14 +8,14 @@ import com.dmitriyevseyev.carWeb.server.exceptions.car.GetAllCarExeption;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
 import com.dmitriyevseyev.carWeb.server.exceptions.dealer.GetDealerException;
 import com.dmitriyevseyev.carWeb.server.strategy.export.ExportStrategy;
-import com.dmitriyevseyev.carWeb.shared.utils.ExportList;
+import com.dmitriyevseyev.carWeb.shared.utils.ExportDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DealerExportStrategyWithCar implements ExportStrategy {
     @Override
-    public void collectExportIds(ExportList exportList, List<Integer> ids) {
+    public void collectExportIds(ExportDTO exportList, List<Integer> ids) {
         DealerController controllerDealer = DealerController.getInstance();
         List<CarDealership> dealerList = new ArrayList<>();
         try {

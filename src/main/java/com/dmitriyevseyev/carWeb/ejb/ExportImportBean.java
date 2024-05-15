@@ -1,12 +1,20 @@
 package com.dmitriyevseyev.carWeb.ejb;
 
+import com.dmitriyevseyev.carWeb.model.Car;
+import com.dmitriyevseyev.carWeb.model.CarDealership;
+import com.dmitriyevseyev.carWeb.server.strategy.ExportConfigStrategy;
+import com.dmitriyevseyev.carWeb.server.strategy.StrategyConstants;
 import com.dmitriyevseyev.carWeb.server.strategy.StrategyNotFoundException;
 import com.dmitriyevseyev.carWeb.server.strategy.export.ExportListFactory;
-import com.dmitriyevseyev.carWeb.shared.utils.ExportList;
+import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportStrategy;
+import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportStrategyHelper;
+import com.dmitriyevseyev.carWeb.shared.utils.ExportDTO;
+import com.dmitriyevseyev.carWeb.shared.utils.JSONDeserialization;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.ejb.Stateless;
+import java.util.ArrayList;
 import java.util.List;
 
 @Stateless
@@ -14,16 +22,16 @@ public class ExportImportBean implements IExportImport {
 
     @Override
     public String exportObjects(List<Integer> dealersIds, List<Integer> carsIds) {
-        ExportList exportList = null;
+        ExportDTO exportDTO = null;
         try {
-            exportList = ExportListFactory.getInstance().create(dealersIds, carsIds);
+            exportDTO = ExportListFactory.getInstance().create(dealersIds, carsIds);
         } catch (StrategyNotFoundException e) {
             System.out.println("ExportImportBean. " + e.getMessage());
         }
         ObjectMapper mapper = new ObjectMapper();
         String json = null;
         try {
-            json = mapper.writeValueAsString(exportList);
+            json = mapper.writeValueAsString(exportDTO);
         } catch (JsonProcessingException e) {
             System.out.println("JsonProcessingException, ExportImportBean. " + e.getMessage());
         }
@@ -34,51 +42,31 @@ public class ExportImportBean implements IExportImport {
 
         return json;
     }
-    @Override
-    public void importObjects(String xml, int userId) {
 
+    @Override
+    public void importObjects(String json) throws StrategyNotFoundException /*throws PrintableImportException, ImportException*/ {
+        List<CarDealership> dealerList = new ArrayList<>();
+        List<Car> carList = new ArrayList<>();
+
+        ExportDTO exportDTO = JSONDeserialization.getInstance().deserialization(json);
+        dealerList.addAll(exportDTO.getDealers());
+        carList.addAll(exportDTO.getCars());
+
+        ExportConfigStrategy config = ExportConfigStrategy.getInstance();
+        int dealerImpIdStrategy = config.getImportConfig().get(StrategyConstants.DEALER_TYPE);
+        int carImpIdStrategy = config.getImportConfig().get(StrategyConstants.CAR_TYPE);
+
+        ImportStrategyHelper importStrategyHelper = ImportStrategyHelper.getInstance();
+        ImportStrategy<CarDealership> dealerImportStrategy = importStrategyHelper.resolveDealerStrategy(dealerImpIdStrategy);
+        if (dealerImportStrategy == null)
+            throw new StrategyNotFoundException(StrategyConstants.IMPORT_STRATEGY_NOT_FOUND_EXCEPTION_MESSAGE);
+        for (CarDealership dealer : dealerList) {
+            dealerImportStrategy.store(dealer);
+        }
+        ImportStrategy<Car> carImportStrategy = importStrategyHelper.resolveCarStrategy(carImpIdStrategy);
+        if (carImportStrategy == null) throw new StrategyNotFoundException(StrategyConstants.IMPORT_STRATEGY_NOT_FOUND_EXCEPTION_MESSAGE);
+        for (Car car : carList) {
+            carImportStrategy.store(car);
+        }
     }
-            //throws PrintableImportException, ImportException {
-//            XMLMarshaller xmlMarshaller = new XMLMarshaller();
-//
-//            List<Journal> journals = new ArrayList<>();
-//            List<Task> tasks = new ArrayList<>();
-//
-//            try {
-//                xmlMarshaller.unmarshal(journals, tasks, xml, userId);
-//            } catch (UnmarshalException e) {
-//                throw new PrintableImportException(StrategyConstants.IMPORT_EXCEPTION_MESSAGE + e.getMessage());
-//            }
-//
-//            ImportStrategyHelper importStrategyHelper = ImportStrategyHelper.getInstance();
-//            PropertyParser propertyParser;
-//            try {
-//                propertyParser = PropertyParser.getInstance();
-//            } catch (PropertyFileException e) {
-//                throw new PrintableImportException(StrategyConstants.IMPORT_EXCEPTION_MESSAGE + e.getMessage());
-//            }
-//
-//            int strategyId = Integer.parseInt(propertyParser.getProperty(StrategyConstants.JOURNAL_IMPORT_STRATEGY));
-//            ImportStrategy<Journal> journalImportStrategy =
-//                    importStrategyHelper.resolveJournalStrategy(strategyId);
-//            try {
-//                if (journalImportStrategy == null) throw
-//                        new StrategyNotFoundException(StrategyConstants.IMPORT_STRATEGY_NOT_FOUND_EXCEPTION_MESSAGE);
-//            } catch (StrategyNotFoundException e) {
-//                throw new PrintableImportException(StrategyConstants.IMPORT_EXCEPTION_MESSAGE + e.getMessage());
-//            }
-//
-//            for (Journal journal : journals) journalImportStrategy.store(journal);
-//
-//            strategyId = Integer.parseInt(propertyParser.getProperty(StrategyConstants.TASK_IMPORT_STRATEGY));
-//            ImportStrategy<Task> taskImportStrategy = importStrategyHelper.resolveTaskStrategy(strategyId);
-//
-//            try {
-//                if (taskImportStrategy == null) throw
-//                        new StrategyNotFoundException(StrategyConstants.IMPORT_STRATEGY_NOT_FOUND_EXCEPTION_MESSAGE);
-//            } catch (StrategyNotFoundException e) {
-//                throw new PrintableImportException(StrategyConstants.IMPORT_EXCEPTION_MESSAGE + e.getMessage());
-//            }
-//            for (Task task : tasks) taskImportStrategy.store(task);
-//        }
-    }
+}

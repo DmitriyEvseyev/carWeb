@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "dealers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "address"
+        ]
+      }
+    },
+    "cars": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "idDealer": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          },
+          "afterCrash": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "idDealer",
+          "name",
+          "date",
+          "color",
+          "afterCrash"
+        ]
+      }
+    }
+  },
+  "required": [
+    "dealers",
+    "cars"
+  ]
+}
