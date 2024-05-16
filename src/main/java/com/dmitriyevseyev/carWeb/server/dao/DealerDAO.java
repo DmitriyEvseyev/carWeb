@@ -31,12 +31,20 @@ public class DealerDAO {
         }
     }
 
-    public CarDealership read(Integer id) throws SQLException {
+    public CarDealership getDealer(Integer id) throws SQLException {
         String sql = "SELECT * FROM DEALERS WHERE id = ?";
-        CarDealership dealer;
+        CarDealership dealer = null;
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setInt(1, id);
-            dealer = createDealerByResultSet(stm.executeQuery());
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                dealer = CarDealership.builder()
+                        .id(rs.getInt("Id"))
+                        .name(rs.getString("Name"))
+                        .address(rs.getString("Address"))
+                        .build();
+                return dealer;
+            }
         }
         return dealer;
     }

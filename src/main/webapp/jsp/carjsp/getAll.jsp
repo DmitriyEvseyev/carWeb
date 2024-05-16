@@ -5,8 +5,36 @@
 <head>
     <title>Car manager</title>
     <link rel="stylesheet" href="css/carcss/gAll.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
+<div>
+    <input type="hidden" name="idDealer" value="${dealer.id}"/>
+    <input type="submit" class="import" id="open" value="Import"/>
+    <dialog>
+        <form   enctype="multipart/form-data">
+            <input type="hidden" name="idDealer" value="${dealer.id}"/>
+            <input type="hidden" name="rrr" value="ggggg"/>
+            <input type="file" id="file" name="importFile" value="Import" accept=".txt, .json" required/>
+            <br/>
+            <br/>
+            <input type="submit" id="close" value="Close"/>
+            <input type="hidden" name="idDealer" value="${dealer.id}"/>
+            <input type="submit" class="imtBut" value="Upload file" formmethod="post" formaction="importCarServlet"/>
+        </form>
+    </dialog>
+    <script>
+        var dialog = document.querySelector('dialog')
+        document.querySelector('#open').onclick = function () {
+            dialog.showModal()
+        }
+        document.querySelector('#close').onclick = function () {
+            dialog.close()
+        }
+    </script>
+</div>
+
 <h1> Cars / Dealer - "${dealer.name}" </h1>
 <form class="select">
     <input type="hidden" name="idDealer" value="${dealer.id}"/>

@@ -55,18 +55,17 @@ public class DealerController {
     }
 
     public CarDealership getDealer(Integer id) throws GetDealerException, NotFoundException {
-        CarDealership dealer = null;
         try {
-            if (!dealerDAO.isDealerExist(id)) {
-                throw new NotFoundException("The dealer was not found!");
-            }
-            dealer = dealerDAO.read(id);
+//            if (!dealerDAO.isDealerExist(id)) {
+//                throw new NotFoundException("The dealer was not found!");
+//            }
+            return dealerDAO.getDealer(id);
         } catch (SQLException e) {
-            throw new GetDealerException(String.format("GetDealerException: %s. Code: %s", e.getMessage(), e.getSQLState()));
+            throw new NotFoundException(String.format("The dealer was not found!  %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
-        return dealer;
     }
-    public List<CarDealership> getDealers (List<Integer> ids) throws GetDealerException, NotFoundException {
+
+    public List<CarDealership> getDealers(List<Integer> ids) throws GetDealerException, NotFoundException {
         List<CarDealership> dealersList = new ArrayList<>();
         for (Integer id : ids) {
             dealersList.add(getDealer(id));
@@ -98,10 +97,10 @@ public class DealerController {
         }
     }
 
-    public void addDealerWithId (CarDealership dealer) throws DealerIdAlreadyExistException, GetDealerException, AddDealerExeption {
+    public void addDealerWithId(CarDealership dealer) throws DealerIdAlreadyExistException, GetDealerException, AddDealerExeption {
         try {
-            if (dealerDAO.read(dealer.getId()) != null) {
-            throw new DealerIdAlreadyExistException("Dealer with this id already exist: id = " + dealer.getId());
+            if (dealerDAO.getDealer(dealer.getId()) != null) {
+                throw new DealerIdAlreadyExistException("Dealer with this id already exist: id = " + dealer.getId());
             }
         } catch (SQLException e) {
             throw new GetDealerException(String.format("GetDealerException: %s. Code: %s", e.getMessage(), e.getSQLState()));

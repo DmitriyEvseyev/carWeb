@@ -1,5 +1,6 @@
 package com.dmitriyevseyev.carWeb.server.strategy.export;
 
+import com.dmitriyevseyev.carWeb.server.strategy.ExportConfigStrategy;
 import com.dmitriyevseyev.carWeb.server.strategy.StrategyConstants;
 import com.dmitriyevseyev.carWeb.server.strategy.StrategyNotFoundException;
 import com.dmitriyevseyev.carWeb.shared.utils.ExportDTO;
@@ -20,17 +21,33 @@ public class ExportListFactory {
 
     public ExportDTO create(List<Integer> dealersIds, List<Integer> carsIds) throws StrategyNotFoundException  {
         ExportDTO exportList = new ExportDTO();
-        this.fillExportByType(exportList, StrategyConstants.DEALER_TYPE, dealersIds);
-        this.fillExportByType(exportList, StrategyConstants.CAR_TYPE, carsIds);
+        this.fillExportDealer(exportList, dealersIds);
+        this.fillExportCar(exportList, carsIds);
         return exportList;
     }
-    private void fillExportByType(ExportDTO exportList, String type, List<Integer> ids) throws StrategyNotFoundException {
-        ExportConfigItem configItem = ExportConfig.getInstance().get(type);
 
-        ExportStrategy exportStrategy = ExportStrategyHelper.getInstance().resolveStrategy(configItem);
-            if (exportStrategy == null) {
-                throw new StrategyNotFoundException(StrategyConstants.EXPORT_STRATEGY_NOT_FOUND_EXCEPTION_MESSAGE);
-            }
-        exportStrategy.collectExportIds(exportList, ids);
+
+    private void fillExportDealer(ExportDTO exportList, List<Integer> dealersIds) throws StrategyNotFoundException {
+        ExportConfigStrategy config = ExportConfigStrategy.getInstance();
+        int dealerExpIdStrategy = config.getExportConfig().get(StrategyConstants.DEALER_TYPE);
+
+        ExportStrategy dealerExportStrategy = ExportStrategyHelper.getInstance().resolveDealerStrategy(dealerExpIdStrategy);
+        if (dealerExportStrategy == null) {
+            throw new StrategyNotFoundException(StrategyConstants.EXPORT_STRATEGY_NOT_FOUND_EXCEPTION_MESSAGE);
+        }
+        dealerExportStrategy.collectExportIds(exportList, dealersIds);
+    }
+
+
+
+    private void fillExportCar(ExportDTO exportList, List<Integer> carIds) throws StrategyNotFoundException {
+        ExportConfigStrategy config = ExportConfigStrategy.getInstance();
+        int carExpIdStrategy = config.getExportConfig().get(StrategyConstants.CAR_TYPE);
+
+        ExportStrategy carExportStrategy = ExportStrategyHelper.getInstance().resolveCarStrategy(carExpIdStrategy);
+        if (carExportStrategy == null) {
+            throw new StrategyNotFoundException(StrategyConstants.EXPORT_STRATEGY_NOT_FOUND_EXCEPTION_MESSAGE);
+        }
+        carExportStrategy.collectExportIds(exportList, carIds);
     }
 }
