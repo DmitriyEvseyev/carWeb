@@ -10,12 +10,9 @@
 </head>
 <body>
 <div>
-    <input type="hidden" name="idDealer" value="${dealer.id}"/>
     <input type="submit" class="import" id="open" value="Import"/>
     <dialog>
         <form   enctype="multipart/form-data">
-            <input type="hidden" name="idDealer" value="${dealer.id}"/>
-            <input type="hidden" name="rrr" value="ggggg"/>
             <input type="file" id="file" name="importFile" value="Import" accept=".txt, .json" required/>
             <br/>
             <br/>
