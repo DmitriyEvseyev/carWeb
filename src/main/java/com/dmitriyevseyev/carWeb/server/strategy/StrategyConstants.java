@@ -31,5 +31,8 @@ public class StrategyConstants {
     public final static String CAR_IMPORT_STRATEGY = "carImportStrategy";
 
 
+    public final static String  PATH_TO_PROPERTIES_NOT_FOUND_EXCEPTION_MESSAGE = "Properties file not found!";
+
+
 
 }

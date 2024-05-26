@@ -9,9 +9,9 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Car not found</title>
+    <title>Error</title>
 </head>
 <body>
-<h2>Car not found</h2>
+<h2>"${error}"</h2>
 </body>
 </html>

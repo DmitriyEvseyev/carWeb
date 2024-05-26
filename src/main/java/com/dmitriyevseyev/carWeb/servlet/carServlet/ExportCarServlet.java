@@ -1,6 +1,11 @@
 package com.dmitriyevseyev.carWeb.servlet.carServlet;
 
 import com.dmitriyevseyev.carWeb.ejb.IExportImport;
+import com.dmitriyevseyev.carWeb.server.strategy.PrintableExportException;
+import com.dmitriyevseyev.carWeb.server.strategy.StrategyNotFoundException;
+import com.dmitriyevseyev.carWeb.server.strategy.export.ExportExeption;
+import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
+
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -24,7 +29,7 @@ public class ExportCarServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String[] idCar = req.getParameterValues("check");
         List<Integer> carsIds = new ArrayList<>();
         for (String id : idCar) {
@@ -32,7 +37,21 @@ public class ExportCarServlet extends HttpServlet {
         }
         String fileName = req.getParameter("fileName");
 
-        String exportList = exportImportBean.exportObjects(new ArrayList<>(), carsIds);
+        String exportList = null;
+        try {
+            exportList = exportImportBean.exportObjects(new ArrayList<>(), carsIds);
+        } catch (StrategyNotFoundException e) {
+//            req.setAttribute("error", e.getMessage());
+//            getServletContext().getRequestDispatcher(ServletConstants.NOT_CAR_ADDRESS).forward(req, resp);
+
+            resp.sendError(503, e.getMessage());
+        } catch (ExportExeption e) {
+            getServletContext().getRequestDispatcher(ServletConstants.NOT_CAR_ADDRESS).forward(req, resp);
+         //resp.sendError(403, e.getMessage());
+        } catch (PrintableExportException e) {
+            getServletContext().getRequestDispatcher(ServletConstants.NOT_CAR_ADDRESS).forward(req, resp);
+            //resp.sendError(403, e.getMessage());
+        }
 
         resp.setContentType("text/html");
         resp.setHeader("Content-disposition", "attachment; filename = " + fileName + ".json");

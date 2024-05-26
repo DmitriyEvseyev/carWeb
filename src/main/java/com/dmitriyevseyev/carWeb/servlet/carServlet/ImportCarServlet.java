@@ -12,7 +12,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.dmitriyevseyev.carWeb.ejb.IExportImport;
+import com.dmitriyevseyev.carWeb.server.strategy.PrintableExportException;
 import com.dmitriyevseyev.carWeb.server.strategy.StrategyNotFoundException;
+import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportExeption;
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
 import com.dmitriyevseyev.carWeb.shared.utils.JsonValidator;
 import org.apache.commons.fileupload.FileItem;
@@ -25,9 +27,11 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 public class ImportCarServlet extends HttpServlet {
     @EJB
     private IExportImport EIBean;
+
     @Override
     public void init() throws ServletException {
     }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         FileItemFactory factory = new DiskFileItemFactory();
@@ -50,10 +54,9 @@ public class ImportCarServlet extends HttpServlet {
         Iterator iter = files.iterator();
         while (iter.hasNext()) {
             FileItem item = (FileItem) iter.next();
-
             if (item.isFormField()) {
                 idDealer = item.getString();
-                System.out.println("value - "  + idDealer);
+                System.out.println("value - " + idDealer);
             }
         }
 
@@ -63,8 +66,8 @@ public class ImportCarServlet extends HttpServlet {
         } else {
             try {
                 EIBean.importObjects(json);
-            } catch (StrategyNotFoundException e) {
-                System.out.println("ImportCarServlet. " + e.getMessage());
+            } catch (ImportExeption e) {
+                throw new RuntimeException(e);
             }
         }
         HttpSession session = req.getSession();

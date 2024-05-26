@@ -48,9 +48,6 @@ public class SearchCarServlet extends HttpServlet {
         try {
             dealer = DealerController.getInstance().getDealer(idDealer);
         } catch (
-                GetDealerException e) {
-            System.out.println("GetDealerException. SearchCarServlet. " + e.getMessage());
-        } catch (
                 NotFoundException e) {
             getServletContext().getRequestDispatcher(ServletConstants.NOT_DEALER_ADDRESS).forward(req, resp);
         }

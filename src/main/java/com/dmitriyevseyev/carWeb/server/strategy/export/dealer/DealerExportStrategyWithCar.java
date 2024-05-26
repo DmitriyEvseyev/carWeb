@@ -20,8 +20,6 @@ public class DealerExportStrategyWithCar implements ExportStrategy {
         List<CarDealership> dealerList = new ArrayList<>();
         try {
             dealerList = controllerDealer.getDealers(ids);
-        } catch (GetDealerException e) {
-            System.out.println("DealerExportStrategyWithCar, GetDealerException" + e.getMessage());
         } catch (NotFoundException e) {
             System.out.println("DealerExportStrategyWithCar, NotFoundException. " + e.getMessage());
         }

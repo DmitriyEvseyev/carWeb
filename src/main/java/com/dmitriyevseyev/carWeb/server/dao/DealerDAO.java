@@ -48,6 +48,24 @@ public class DealerDAO {
         }
         return dealer;
     }
+    public CarDealership getDealerByNameAddress(String name, String address) throws SQLException {
+        String sql = "SELECT * FROM DEALERS WHERE NAME = ? AND ADDRESS = ?";
+        CarDealership dealer = null;
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setString(1, name);
+            stm.setString(2, address);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                dealer = CarDealership.builder()
+                        .id(rs.getInt("Id"))
+                        .name(rs.getString("Name"))
+                        .address(rs.getString("Address"))
+                        .build();
+                return dealer;
+            }
+        }
+        return dealer;
+    }
 
     public void update(Integer id, String name, String address) throws SQLException {
         String sql = "UPDATE DEALERS SET NAME = ?, ADDRESS = ?  WHERE ID = ?";

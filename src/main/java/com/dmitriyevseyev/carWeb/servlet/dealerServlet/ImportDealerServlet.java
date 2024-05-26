@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
+import com.dmitriyevseyev.carWeb.server.strategy.PrintableExportException;
 import com.dmitriyevseyev.carWeb.server.strategy.StrategyNotFoundException;
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
 import com.dmitriyevseyev.carWeb.shared.utils.JsonValidator;
@@ -56,7 +58,15 @@ public class ImportDealerServlet extends HttpServlet {
             try {
                 EIBean.importObjects(json);
             } catch (StrategyNotFoundException e) {
-                System.out.println("ImportDealerrServlet. " + e.getMessage());
+                resp.setContentType("text/html");
+                PrintWriter pw = resp.getWriter();
+                pw.println("<script type=\"text/javascript\">");
+                pw.println("alert('Invalid Username or Password!');");
+                pw.println("location='index.jsp'");
+                pw.println("</script>");
+                //        System.out.println("ImportDealerrServlet. " + e.getMessage());
+            } catch (PrintableExportException e) {
+                throw new RuntimeException(e);
             }
         }
         resp.sendRedirect(ServletConstants.PATH_DEALER);

@@ -7,7 +7,8 @@ import com.dmitriyevseyev.carWeb.server.exceptions.dealer.AddDealerExeption;
 import com.dmitriyevseyev.carWeb.server.exceptions.dealer.GetDealerException;
 import com.dmitriyevseyev.carWeb.server.strategy.StrategyConstants;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportStrategy;
-import com.dmitriyevseyev.carWeb.server.strategy.importFile.exeption.DealerIdAlreadyExistException;
+import com.dmitriyevseyev.carWeb.server.strategy.importFile.exeption.DealerIdAlreadyExException;
+import com.dmitriyevseyev.carWeb.server.strategy.importFile.exeption.DealerNAmeAddressAlreadyExistException;
 
 public class DealerIgnoreImportStrategy implements ImportStrategy<CarDealership> {
     @Override
@@ -21,9 +22,9 @@ public class DealerIgnoreImportStrategy implements ImportStrategy<CarDealership>
             if (oldDealer == null) {
                 dealerController.addDealerWithId(dealer);
             }
-        } catch (DealerIdAlreadyExistException e) {
+        } catch (DealerNAmeAddressAlreadyExistException | DealerIdAlreadyExException e) {
             System.out.println(StrategyConstants.IMPORT_EXCEPTION_MESSAGE + e.getMessage());
-        } catch (GetDealerException | NotFoundException | AddDealerExeption e) {
+        } catch ( NotFoundException | AddDealerExeption e) {
             System.out.println("DealerIgnoreImportStrategy.  " + e.getMessage());
         }
     }

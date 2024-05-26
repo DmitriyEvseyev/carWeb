@@ -1,6 +1,7 @@
 package com.dmitriyevseyev.carWeb.server.strategy.export;
 
 import com.dmitriyevseyev.carWeb.server.strategy.ExportConfigStrategy;
+import com.dmitriyevseyev.carWeb.server.strategy.PrintableExportException;
 import com.dmitriyevseyev.carWeb.server.strategy.StrategyConstants;
 import com.dmitriyevseyev.carWeb.server.strategy.StrategyNotFoundException;
 import com.dmitriyevseyev.carWeb.shared.utils.ExportDTO;
@@ -19,7 +20,7 @@ public class ExportListFactory {
     private ExportListFactory() {
     }
 
-    public ExportDTO create(List<Integer> dealersIds, List<Integer> carsIds) throws StrategyNotFoundException  {
+    public ExportDTO create(List<Integer> dealersIds, List<Integer> carsIds) throws StrategyNotFoundException, ExportExeption, PrintableExportException {
         ExportDTO exportList = new ExportDTO();
         this.fillExportDealer(exportList, dealersIds);
         this.fillExportCar(exportList, carsIds);
@@ -27,7 +28,7 @@ public class ExportListFactory {
     }
 
 
-    private void fillExportDealer(ExportDTO exportList, List<Integer> dealersIds) throws StrategyNotFoundException {
+    private void fillExportDealer(ExportDTO exportList, List<Integer> dealersIds) throws StrategyNotFoundException, ExportExeption, PrintableExportException {
         ExportConfigStrategy config = ExportConfigStrategy.getInstance();
         int dealerExpIdStrategy = config.getExportConfig().get(StrategyConstants.DEALER_TYPE);
 
@@ -40,7 +41,7 @@ public class ExportListFactory {
 
 
 
-    private void fillExportCar(ExportDTO exportList, List<Integer> carIds) throws StrategyNotFoundException {
+    private void fillExportCar(ExportDTO exportList, List<Integer> carIds) throws StrategyNotFoundException, ExportExeption, PrintableExportException {
         ExportConfigStrategy config = ExportConfigStrategy.getInstance();
         int carExpIdStrategy = config.getExportConfig().get(StrategyConstants.CAR_TYPE);
 

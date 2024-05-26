@@ -5,7 +5,8 @@ import com.dmitriyevseyev.carWeb.server.dao.DealerDAO;
 import com.dmitriyevseyev.carWeb.server.dao.ManagerDAO;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.*;
 import com.dmitriyevseyev.carWeb.server.exceptions.dealer.*;
-import com.dmitriyevseyev.carWeb.server.strategy.importFile.exeption.DealerIdAlreadyExistException;
+import com.dmitriyevseyev.carWeb.server.strategy.importFile.exeption.DealerIdAlreadyExException;
+import com.dmitriyevseyev.carWeb.server.strategy.importFile.exeption.DealerNAmeAddressAlreadyExistException;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -54,18 +55,15 @@ public class DealerController {
         }
     }
 
-    public CarDealership getDealer(Integer id) throws GetDealerException, NotFoundException {
+    public CarDealership getDealer(Integer id) throws NotFoundException {
         try {
-//            if (!dealerDAO.isDealerExist(id)) {
-//                throw new NotFoundException("The dealer was not found!");
-//            }
             return dealerDAO.getDealer(id);
         } catch (SQLException e) {
             throw new NotFoundException(String.format("The dealer was not found!  %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
     }
 
-    public List<CarDealership> getDealers(List<Integer> ids) throws GetDealerException, NotFoundException {
+    public List<CarDealership> getDealers(List<Integer> ids) throws NotFoundException {
         List<CarDealership> dealersList = new ArrayList<>();
         for (Integer id : ids) {
             dealersList.add(getDealer(id));
@@ -97,18 +95,29 @@ public class DealerController {
         }
     }
 
-    public void addDealerWithId(CarDealership dealer) throws DealerIdAlreadyExistException, GetDealerException, AddDealerExeption {
+    public void addDealerWithId(CarDealership dealer) throws DealerNAmeAddressAlreadyExistException, NotFoundException, AddDealerExeption, DealerIdAlreadyExException {
         try {
+            if (dealerDAO.getDealerByNameAddress(dealer.getName(), dealer.getAddress()) != null) {
+                throw new DealerNAmeAddressAlreadyExistException("Dealer with this name, address already exist: name = " + dealer.getName());
+            }
             if (dealerDAO.getDealer(dealer.getId()) != null) {
-                throw new DealerIdAlreadyExistException("Dealer with this id already exist: id = " + dealer.getId());
+                throw new DealerIdAlreadyExException("Dealer with this id already exist: id = " + dealer.getId());
             }
         } catch (SQLException e) {
-            throw new GetDealerException(String.format("GetDealerException: %s. Code: %s", e.getMessage(), e.getSQLState()));
+            throw new NotFoundException(String.format("The dealer was not found!  %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
         try {
             dealerDAO.createDealer(dealer);
         } catch (SQLException e) {
             throw new AddDealerExeption(String.format("AddDealerExeption: %s. Code: %s", e.getMessage(), e.getSQLState()));
+        }
+    }
+
+    public CarDealership getDealerByNameAddress(String name, String address) throws NotFoundException {
+        try {
+            return dealerDAO.getDealerByNameAddress(name, address);
+        } catch (SQLException e) {
+            throw new NotFoundException(String.format("The dealer was not found!  %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
     }
 }

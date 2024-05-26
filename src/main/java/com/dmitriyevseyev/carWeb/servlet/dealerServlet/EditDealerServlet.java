@@ -27,8 +27,6 @@ public class EditDealerServlet extends HttpServlet {
         CarDealership dealer = null;
         try {
             dealer = DealerController.getInstance().getDealer(Integer.valueOf(idDealer));
-        } catch (GetDealerException e) {
-            System.out.println("GetDealerException. EditDealerExeption. " + e.getMessage());
         } catch (NotFoundException e) {
             getServletContext().getRequestDispatcher(ServletConstants.NOT_DEALER_ADDRESS).forward(req, resp);
         }
@@ -45,7 +43,7 @@ public class EditDealerServlet extends HttpServlet {
         try {
             controller.updateDealer(id, name, address);
         } catch (UpdateDealerException e) {
-            throw new RuntimeException("EditDealerServlet. RuntimeException. " + e.getMessage());
+            System.out.println("EditDealerServlet. RuntimeException. " + e.getMessage());
         }
 
         response.sendRedirect(ServletConstants.PATH_DEALER);
