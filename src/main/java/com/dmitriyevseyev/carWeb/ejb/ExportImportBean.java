@@ -60,6 +60,7 @@ public class ExportImportBean implements IExportImport {
         int carImpIdStrategy = config.getImportConfig().get(StrategyConstants.CAR_TYPE);
 
         ImportStrategyHelper importStrategyHelper = ImportStrategyHelper.getInstance();
+
         try {
             if (importStrategyHelper.resolveDealerStrategy(dealerImpIdStrategy).equals(null)) {
                 throw new StrategyNotFoundException(StrategyConstants.IMPORT_STRATEGY_NOT_FOUND_EXCEPTION_MESSAGE);
@@ -72,15 +73,18 @@ public class ExportImportBean implements IExportImport {
         } catch (StrategyNotFoundException e) {
             throw new ImportExeption("Can't export! " + e.getMessage());
         }
-        ImportStrategy<CarDealership> dealerImportStrategy = importStrategyHelper.resolveDealerStrategy(dealerImpIdStrategy);
 
-
-        ImportStrategy<Car> carImportStrategy = importStrategyHelper.resolveCarStrategy(carImpIdStrategy);
-        if (carImportStrategy == null) {
-            throw new StrategyNotFoundException(StrategyConstants.IMPORT_STRATEGY_NOT_FOUND_EXCEPTION_MESSAGE);
-        }
-        for (Car car : carList) {
-            carImportStrategy.store(car);
+        try {
+            if (importStrategyHelper.resolveCarStrategy(carImpIdStrategy).equals(null)) {
+                throw new StrategyNotFoundException(StrategyConstants.IMPORT_STRATEGY_NOT_FOUND_EXCEPTION_MESSAGE);
+            } else {
+                ImportStrategy<Car> carImportStrategy = importStrategyHelper.resolveCarStrategy(carImpIdStrategy);
+                for (Car car : carList) {
+                    carImportStrategy.store(car);
+                }
+            }
+        } catch (StrategyNotFoundException e) {
+            throw new ImportExeption("Can't export! " + e.getMessage());
         }
     }
 }
