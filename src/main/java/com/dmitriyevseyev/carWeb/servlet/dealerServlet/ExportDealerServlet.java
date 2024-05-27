@@ -41,18 +41,8 @@ public class ExportDealerServlet extends HttpServlet {
         try {
             exportList = exportImportBean.exportObjects(dealersIds, new ArrayList<>());
         } catch (ExportExeption e) {
-            resp.setContentType("text/html");
-            PrintWriter pw = resp.getWriter();
-            for (String s : Arrays.asList("<script type=\"text/javascript\">", "alert('Invalid Username or Password!');", "location='index.jsp'", "</script>")) {
-                pw.println(s);
-            }
-            //          getServletContext().getRequestDispatcher("ExportDealerServlet. " + e.getMessage()).forward(req, resp);
-        } catch (StrategyNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (PrintableExportException e) {
-            throw new RuntimeException(e);
+            resp.sendError(503, e.getMessage());
         }
-
         resp.setContentType("text/html");
         resp.setHeader("Content-disposition", "attachment; filename = " + fileName + ".json");
 

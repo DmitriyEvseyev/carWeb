@@ -40,17 +40,8 @@ public class ExportCarServlet extends HttpServlet {
         String exportList = null;
         try {
             exportList = exportImportBean.exportObjects(new ArrayList<>(), carsIds);
-        } catch (StrategyNotFoundException e) {
-//            req.setAttribute("error", e.getMessage());
-//            getServletContext().getRequestDispatcher(ServletConstants.NOT_CAR_ADDRESS).forward(req, resp);
-
-            resp.sendError(503, e.getMessage());
         } catch (ExportExeption e) {
-            getServletContext().getRequestDispatcher(ServletConstants.NOT_CAR_ADDRESS).forward(req, resp);
-         //resp.sendError(403, e.getMessage());
-        } catch (PrintableExportException e) {
-            getServletContext().getRequestDispatcher(ServletConstants.NOT_CAR_ADDRESS).forward(req, resp);
-            //resp.sendError(403, e.getMessage());
+            resp.sendError(503, e.getMessage());
         }
 
         resp.setContentType("text/html");

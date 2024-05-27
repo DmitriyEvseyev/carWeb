@@ -16,6 +16,8 @@ import java.util.List;
 
 import com.dmitriyevseyev.carWeb.server.strategy.PrintableExportException;
 import com.dmitriyevseyev.carWeb.server.strategy.StrategyNotFoundException;
+import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportExeption;
+import com.dmitriyevseyev.carWeb.servlet.JSONValidatorExeption;
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
 import com.dmitriyevseyev.carWeb.shared.utils.JsonValidator;
 import org.apache.commons.fileupload.FileItem;
@@ -33,7 +35,7 @@ public class ImportDealerServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-            }
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -43,34 +45,34 @@ public class ImportDealerServlet extends HttpServlet {
         try {
             files = upload.parseRequest(req);
         } catch (FileUploadException e) {
-            System.out.println("ImportDealerServlet, FileUploadException. " + e.getMessage());        }
+            resp.sendError(503, e.getMessage());
+        }
         String json = null;
         if (files != null) {
             json = files.get(0).getString();
         }
 
-        System.out.println("json - " + json);
+        System.out.println("IIIIIIIIImportDealerServlet json - " + json);
+
 
         JsonValidator jsonValidator = JsonValidator.getInstance();
-        if (!jsonValidator.isValidImport(json)) {
-            getServletContext().getRequestDispatcher(ServletConstants.IMRORT_ERROR).forward(req, resp);
-        } else {
-            try {
-                EIBean.importObjects(json);
-            } catch (StrategyNotFoundException e) {
-                resp.setContentType("text/html");
-                PrintWriter pw = resp.getWriter();
-                pw.println("<script type=\"text/javascript\">");
-                pw.println("alert('Invalid Username or Password!');");
-                pw.println("location='index.jsp'");
-                pw.println("</script>");
-                //        System.out.println("ImportDealerrServlet. " + e.getMessage());
-            } catch (PrintableExportException e) {
-                throw new RuntimeException(e);
+        try {
+            if (!jsonValidator.isValidImport(json).isEmpty()) {
+                throw new JSONValidatorExeption(ServletConstants.VALIDATION_EXEPTION +
+                        jsonValidator.isValidImport(json));
+            } else {
+                try {
+                    EIBean.importObjects(json);
+                    resp.sendRedirect(ServletConstants.PATH_DEALER);
+                } catch (ImportExeption e) {
+                    resp.sendError(503, e.getMessage());
+                }
             }
+        } catch (JSONValidatorExeption e) {
+            resp.sendError(422, e.getMessage());
         }
-        resp.sendRedirect(ServletConstants.PATH_DEALER);
     }
+
 
     @Override
     public void destroy() {

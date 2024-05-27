@@ -10,7 +10,7 @@ import java.util.List;
 
 @Local
 public interface IExportImport {
-    String exportObjects(List<Integer> dealersIds, List<Integer> carsIds) throws StrategyNotFoundException, ExportExeption, PrintableExportException;
+    String exportObjects(List<Integer> dealersIds, List<Integer> carsIds) throws  ExportExeption;
            // throws ExportException, PrintableExportException;
 
     void importObjects(String json) throws   ImportExeption;

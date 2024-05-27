@@ -1,29 +1,25 @@
 package com.dmitriyevseyev.carWeb.shared.utils;
 
-import com.dmitriyevseyev.carWeb.model.Car;
-import com.dmitriyevseyev.carWeb.model.CarDealership;
-import com.dmitriyevseyev.carWeb.server.controller.CarController;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class JSONDeserialization {
-    private static JSONDeserialization instance;
-
-    public static JSONDeserialization getInstance() {
+public class JSONDeserSer {
+    private static JSONDeserSer instance;
+    private ObjectMapper objectMapper;
+    public static JSONDeserSer getInstance() {
         if (instance == null) {
-            instance = new JSONDeserialization();
+            instance = new JSONDeserSer();
         }
         return instance;
     }
 
-    private JSONDeserialization() {
+    private JSONDeserSer() {
+        this.objectMapper = new ObjectMapper();
     }
 
     public ExportDTO deserialization(String json) {
-        ObjectMapper objectMapper = new ObjectMapper();
         ExportDTO exportDTO = null;
         try {
             exportDTO = objectMapper.readValue(json, ExportDTO.class);
@@ -31,6 +27,10 @@ public class JSONDeserialization {
             System.out.println("JSONDeserialization. " + e.getMessage());
         }
         return exportDTO;
+    }
+
+    public String serialization (ExportDTO exportDTO) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(exportDTO);
     }
 }
 

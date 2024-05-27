@@ -15,7 +15,11 @@ public class StrategyConstants {
 
 
     public final static String EXPORT_STRATEGY_NOT_FOUND_EXCEPTION_MESSAGE = "Export strategy not found. ";
-    public final static String IMPORT_EXCEPTION_MESSAGE = "Can't import!";
+    public final static String IMPORT_STRATEGY_NOT_FOUND_EXCEPTION_MESSAGE =  "Import strategy not found. ";
+
+    public final static String IMPORT_EXCEPTION_MESSAGE = "Import is not possible! ";
+
+    public final static String EXPORT_EXCEPTION_MESSAGE = "Export is not possible! ";
 
     public final static Integer CAR_OVERWRITE_IMPORT_ID = 1;
     public final static Integer CAR_IGNORE_IMPORT_ID = 2;
@@ -25,9 +29,7 @@ public class StrategyConstants {
     public final static Integer DEALER_IGNORE_IMPORT_ID = 2;
     public final static Integer DEALER_CONFLICT_IMPORT_ID = 3;
 
-    public final static String IMPORT_STRATEGY_NOT_FOUND_EXCEPTION_MESSAGE =  "import strategy not found";
-
-    public final static String DEALER_IMPORT_STRATEGY = "dealerImportStrategy";
+        public final static String DEALER_IMPORT_STRATEGY = "dealerImportStrategy";
     public final static String CAR_IMPORT_STRATEGY = "carImportStrategy";
 
 

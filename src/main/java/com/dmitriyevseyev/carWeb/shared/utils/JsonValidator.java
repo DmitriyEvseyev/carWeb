@@ -1,5 +1,6 @@
 package com.dmitriyevseyev.carWeb.shared.utils;
 
+import com.dmitriyevseyev.carWeb.servlet.JSONValidatorExeption;
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,18 +18,17 @@ import java.util.Set;
 public class JsonValidator {
     public static JsonValidator instance;
 
-    public static  JsonValidator getInstance() {
+    public static JsonValidator getInstance() {
         if (instance == null) {
             instance = new JsonValidator();
         }
         return instance;
     }
 
-    private JsonValidator() {}
+    private JsonValidator() {
+    }
 
-    public boolean isValidImport (String json) throws IOException {
-        boolean isValid = false;
-
+    public String isValidImport(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonSchemaFactory schemaFactory = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V4);
 
@@ -39,13 +39,13 @@ public class JsonValidator {
         JsonSchema jsonSchema = schemaFactory.getSchema(schema);
         Set<ValidationMessage> validationResult = jsonSchema.validate(jsonNode);
 
-        // print validation errors
-        if (validationResult.isEmpty()) {
-            isValid = true;
-        } else {
-            validationResult.forEach(vm -> System.out.println(vm.getMessage()));
-            isValid = false;
-        }
-        return isValid;
+        StringBuilder error = new StringBuilder();
+        validationResult.forEach(vm -> error.append(vm.getMessage()));
+
+
+        System.out.println("JJJJJJJKsonValidator" + error);
+
+
+        return error.toString();
     }
 }

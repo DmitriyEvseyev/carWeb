@@ -15,6 +15,7 @@ import com.dmitriyevseyev.carWeb.ejb.IExportImport;
 import com.dmitriyevseyev.carWeb.server.strategy.PrintableExportException;
 import com.dmitriyevseyev.carWeb.server.strategy.StrategyNotFoundException;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportExeption;
+import com.dmitriyevseyev.carWeb.servlet.JSONValidatorExeption;
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
 import com.dmitriyevseyev.carWeb.shared.utils.JsonValidator;
 import org.apache.commons.fileupload.FileItem;
@@ -61,18 +62,25 @@ public class ImportCarServlet extends HttpServlet {
         }
 
         JsonValidator jsonValidator = JsonValidator.getInstance();
-        if (!jsonValidator.isValidImport(json)) {
-            getServletContext().getRequestDispatcher(ServletConstants.IMRORT_ERROR).forward(req, resp);
-        } else {
-            try {
-                EIBean.importObjects(json);
-            } catch (ImportExeption e) {
-                throw new RuntimeException(e);
+
+        try {
+            if (!jsonValidator.isValidImport(json).isEmpty()) {
+                throw new JSONValidatorExeption(ServletConstants.VALIDATION_EXEPTION +
+                        jsonValidator.isValidImport(json));
+            } else {
+                try {
+                    EIBean.importObjects(json);
+                    HttpSession session = req.getSession();
+                    session.setAttribute("idD", idDealer);
+                    resp.sendRedirect(ServletConstants.PATH_CARS);
+                } catch (ImportExeption e) {
+                    resp.sendError(503, e.getMessage());
+                }
             }
+        } catch (
+                JSONValidatorExeption e) {
+            resp.sendError(422, e.getMessage());
         }
-        HttpSession session = req.getSession();
-        session.setAttribute("idD", idDealer);
-        resp.sendRedirect(ServletConstants.PATH_CARS);
     }
 
     @Override

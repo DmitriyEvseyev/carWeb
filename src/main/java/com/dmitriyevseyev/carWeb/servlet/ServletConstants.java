@@ -19,4 +19,8 @@ public class ServletConstants {
 
     public static final String IMRORT_ERROR = "Can't import!";
     public static final String PATH_SCHEMA_JSON = "C:\\Users\\VivoB\\IdeaProjects\\carWeb\\src\\main\\resources\\schema.json";
+
+    public static final String VALIDATION_EXEPTION = "Validation failed! ";
+
+
 }
