@@ -10,7 +10,6 @@ import com.dmitriyevseyev.carWeb.server.exceptions.car.UpdateCarException;
 import com.dmitriyevseyev.carWeb.server.strategy.StrategyConstants;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportExeption;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportStrategy;
-import com.dmitriyevseyev.carWeb.server.strategy.importFile.exeption.CarIdAlreadyExistException;
 
 public class CarOverwriteImportStrategy implements ImportStrategy<Car> {
     @Override
@@ -24,19 +23,15 @@ public class CarOverwriteImportStrategy implements ImportStrategy<Car> {
                 throw new NotFoundException("The dealer was not found with id = " + car.getIdDealer() + "! "
                         + StrategyConstants.IMPORT_EXCEPTION_MESSAGE);
             } else {
-                oldCar = carController.getCar(car.getId());
-                if (oldCar != null) {
-                    try {
+                try {
+                    oldCar = carController.getCar(car.getId());
+                    if (oldCar != null) {
                         carController.updateCar(car);
-                    } catch (UpdateCarException ex) {
-                        throw new ImportExeption(ex.getMessage());
-                    }
-                } else {
-                    try {
+                    } else {
                         carController.addCar(car);
-                    } catch (AddCarExeption ex) {
-                        throw new ImportExeption(ex.getMessage());
                     }
+                } catch (AddCarExeption | UpdateCarException ex) {
+                    throw new ImportExeption(ex.getMessage());
                 }
             }
         } catch (NotFoundException e) {

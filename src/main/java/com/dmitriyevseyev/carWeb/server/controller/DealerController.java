@@ -6,7 +6,7 @@ import com.dmitriyevseyev.carWeb.server.dao.ManagerDAO;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.*;
 import com.dmitriyevseyev.carWeb.server.exceptions.dealer.*;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.exeption.DealerIdAlreadyExException;
-import com.dmitriyevseyev.carWeb.server.strategy.importFile.exeption.DealerNAmeAddressAlreadyExistException;
+import com.dmitriyevseyev.carWeb.server.strategy.importFile.exeption.DealerNameAlreadyExistException;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -96,10 +96,10 @@ public class DealerController {
         }
     }
 
-    public void addDealerWithId(CarDealership dealer) throws DealerNAmeAddressAlreadyExistException, NotFoundException, AddDealerExeption, DealerIdAlreadyExException {
+    public void addDealerWithId(CarDealership dealer) throws DealerNameAlreadyExistException, NotFoundException, AddDealerExeption, DealerIdAlreadyExException {
         try {
-            if (dealerDAO.getDealerByNameAddress(dealer.getName(), dealer.getAddress()) != null) {
-                throw new DealerNAmeAddressAlreadyExistException("Dealer with this name, address already exist: name = " + dealer.getName());
+            if (dealerDAO.getDealerByName(dealer.getName()) != null) {
+                throw new DealerNameAlreadyExistException("Dealer with this name, address already exist: name = " + dealer.getName());
             }
             if (dealerDAO.getDealer(dealer.getId()) != null) {
                 throw new DealerIdAlreadyExException("Dealer with this id already exist: id = " + dealer.getId());
@@ -114,9 +114,9 @@ public class DealerController {
         }
     }
 
-    public CarDealership getDealerByNameAddress(String name, String address) throws NotFoundException {
+    public CarDealership getDealerByName(String name) throws NotFoundException {
         try {
-            return dealerDAO.getDealerByNameAddress(name, address);
+            return dealerDAO.getDealerByName(name);
         } catch (SQLException e) {
             throw new NotFoundException(String.format("The dealer was not found!  %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
