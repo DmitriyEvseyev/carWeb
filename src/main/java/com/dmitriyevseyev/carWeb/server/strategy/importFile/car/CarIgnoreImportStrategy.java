@@ -1,26 +1,39 @@
 package com.dmitriyevseyev.carWeb.server.strategy.importFile.car;
 
 import com.dmitriyevseyev.carWeb.model.Car;
+import com.dmitriyevseyev.carWeb.model.CarDealership;
 import com.dmitriyevseyev.carWeb.server.controller.CarController;
+import com.dmitriyevseyev.carWeb.server.controller.DealerController;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.AddCarExeption;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
 import com.dmitriyevseyev.carWeb.server.strategy.StrategyConstants;
+import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportExeption;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportStrategy;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.exeption.CarIdAlreadyExistException;
 
 public class CarIgnoreImportStrategy implements ImportStrategy<Car> {
     @Override
-    public void store(Car car) {
+    public void store(Car car) throws ImportExeption {
+        DealerController dealerController = DealerController.getInstance();
+        CarController carController = CarController.getInstance();
+        CarDealership dealer = null;
+        Car oldCar = null;
         try {
-            CarController carController = CarController.getInstance();
-            Car oldCar = null;
-            oldCar = carController.getCar(car.getId());
-
-            if (oldCar == null) carController.addCarWithId(car);
-        } catch (CarIdAlreadyExistException e) {
-            System.out.println(StrategyConstants.IMPORT_EXCEPTION_MESSAGE + e.getMessage());
-        } catch (NotFoundException | AddCarExeption e) {
-            System.out.println("CarIgnoreImportStrategy. NotFoundException. " + e.getMessage());
+            if (dealerController.getDealer(car.getIdDealer()) == null) {
+                throw new NotFoundException("The dealer was not found with id = " + car.getIdDealer() + "! "
+                        + StrategyConstants.IMPORT_EXCEPTION_MESSAGE);
+            } else {
+                oldCar = carController.getCar(car.getId());
+                if (oldCar == null) {
+                    try {
+                        carController.addCar(car);
+                    } catch (AddCarExeption ex) {
+                        throw new ImportExeption(ex.getMessage());
+                    }
+                }
+            }
+        } catch (NotFoundException e) {
+            throw new ImportExeption(e.getMessage());
         }
     }
 }

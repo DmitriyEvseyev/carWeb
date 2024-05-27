@@ -4,6 +4,7 @@ import com.dmitriyevseyev.carWeb.model.Car;
 import com.dmitriyevseyev.carWeb.model.CarDealership;
 import com.dmitriyevseyev.carWeb.server.strategy.StrategyConstants;
 import com.dmitriyevseyev.carWeb.server.strategy.export.car.CarExportStrategy;
+import com.dmitriyevseyev.carWeb.server.strategy.export.car.CarExportStrategyWithDealer;
 import com.dmitriyevseyev.carWeb.server.strategy.export.dealer.DealerExportStrategy;
 import com.dmitriyevseyev.carWeb.server.strategy.export.dealer.DealerExportStrategyWithCar;
 
@@ -28,7 +29,8 @@ public class ExportStrategyHelper {
         dealerStrategies.put(StrategyConstants.DEALER_EXPORT_WITH_CARS_NUMBER_STRATEGY, new DealerExportStrategyWithCar());
 
         this.carStrategies = new HashMap<>();
-        carStrategies.put(StrategyConstants.CAR_EXPORT_NUMBER_STRATEGY, new CarExportStrategy());
+        carStrategies.put(StrategyConstants.CAR_EXPORT_WITHOUT_DEALER_NUMBER_STRATEGY, new CarExportStrategy());
+        carStrategies.put(StrategyConstants.CAR_EXPORT_WITH_DEALER_NUMBER_STRATEGY, new CarExportStrategyWithDealer());
 
     }
 

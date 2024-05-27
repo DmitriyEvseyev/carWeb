@@ -3,6 +3,7 @@ package com.dmitriyevseyev.carWeb.server.strategy.export.car;
 import com.dmitriyevseyev.carWeb.model.Car;
 import com.dmitriyevseyev.carWeb.server.controller.CarController;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
+import com.dmitriyevseyev.carWeb.server.strategy.StrategyConstants;
 import com.dmitriyevseyev.carWeb.server.strategy.export.ExportExeption;
 import com.dmitriyevseyev.carWeb.server.strategy.export.ExportStrategy;
 import com.dmitriyevseyev.carWeb.shared.utils.ExportDTO;
@@ -18,10 +19,15 @@ public class CarExportStrategy implements ExportStrategy {
         try {
             carList = carController.getCars(ids);
 
-            System.out.println(carList);
+
+
+            System.out.println("CarExportStrategy - " + carList);
+
+
+
 
         } catch (NotFoundException e) {
-            throw new ExportExeption("Can't export. " + e.getMessage());
+            throw new ExportExeption(StrategyConstants.EXPORT_EXCEPTION_MESSAGE + e.getMessage());
         }
         exportList.addCars(carList);
     }

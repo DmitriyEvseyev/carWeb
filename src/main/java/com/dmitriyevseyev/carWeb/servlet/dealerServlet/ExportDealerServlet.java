@@ -1,8 +1,6 @@
 package com.dmitriyevseyev.carWeb.servlet.dealerServlet;
 
 import com.dmitriyevseyev.carWeb.ejb.IExportImport;
-import com.dmitriyevseyev.carWeb.server.strategy.PrintableExportException;
-import com.dmitriyevseyev.carWeb.server.strategy.StrategyNotFoundException;
 import com.dmitriyevseyev.carWeb.server.strategy.export.ExportExeption;
 
 import javax.ejb.EJB;
@@ -13,9 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @WebServlet(name = "exportDealerServlet", value = "/exportDealerServlet")

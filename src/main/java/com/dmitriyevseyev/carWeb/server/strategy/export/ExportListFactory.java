@@ -45,12 +45,17 @@ public class ExportListFactory {
     }
 
     private void fillExportCar(ExportDTO exportList, List<Integer> carIds) throws StrategyNotFoundException, ExportExeption {
+
         ExportConfigStrategy config = null;
         int carExpIdStrategy;
         config = ExportConfigStrategy.getInstance();
 
         try {
-            carExpIdStrategy = config.getExportConfig().get(StrategyConstants.CAR_TYPE);
+            if (exportList.getDealers().size() > 0) {
+                carExpIdStrategy = StrategyConstants.CAR_EXPORT_WITHOUT_DEALER_NUMBER_STRATEGY;
+            } else {
+                carExpIdStrategy = config.getExportConfig().get(StrategyConstants.CAR_TYPE);
+            }
         } catch (PropertyFileException e) {
             throw new ExportExeption(StrategyConstants.EXPORT_EXCEPTION_MESSAGE + e.getMessage());
         }

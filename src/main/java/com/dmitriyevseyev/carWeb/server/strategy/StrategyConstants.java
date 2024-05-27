@@ -11,8 +11,8 @@ public class StrategyConstants {
     public static final String CAR_TYPE = "Car";
     public final static String CAR_EXPORT_STRATEGY = "carExportStrategy";
 
-    public final static int CAR_EXPORT_NUMBER_STRATEGY = 1;
-
+    public final static int CAR_EXPORT_WITHOUT_DEALER_NUMBER_STRATEGY = 1;
+    public final static int CAR_EXPORT_WITH_DEALER_NUMBER_STRATEGY = 2;
 
     public final static String EXPORT_STRATEGY_NOT_FOUND_EXCEPTION_MESSAGE = "Export strategy not found. ";
     public final static String IMPORT_STRATEGY_NOT_FOUND_EXCEPTION_MESSAGE =  "Import strategy not found. ";

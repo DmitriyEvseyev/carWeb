@@ -48,8 +48,9 @@ public class DealerController {
         try {
             if (!dealerDAO.isDealerExist(id)) {
                 throw new NotFoundException("The dealer was not found!");
+            } else {
+                dealerDAO.delete(id);
             }
-            dealerDAO.delete(id);
         } catch (SQLException e) {
             throw new DeleteDealerExeption(String.format("DeleteDealerExeption: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }

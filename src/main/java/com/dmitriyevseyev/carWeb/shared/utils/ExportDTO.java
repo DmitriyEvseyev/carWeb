@@ -40,5 +40,11 @@ public class ExportDTO {
         return Collections.unmodifiableList(this.cars);
     }
 
-
+    @Override
+    public String toString() {
+        return "ExportDTO{" +
+                "dealers=" + dealers +
+                ", cars=" + cars +
+                '}';
+    }
 }

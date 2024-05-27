@@ -6,7 +6,8 @@ import com.dmitriyevseyev.carWeb.server.controller.CarController;
 import com.dmitriyevseyev.carWeb.server.controller.DealerController;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.GetAllCarExeption;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
-import com.dmitriyevseyev.carWeb.server.exceptions.dealer.GetDealerException;
+import com.dmitriyevseyev.carWeb.server.strategy.StrategyConstants;
+import com.dmitriyevseyev.carWeb.server.strategy.export.ExportExeption;
 import com.dmitriyevseyev.carWeb.server.strategy.export.ExportStrategy;
 import com.dmitriyevseyev.carWeb.shared.utils.ExportDTO;
 
@@ -15,13 +16,13 @@ import java.util.List;
 
 public class DealerExportStrategyWithCar implements ExportStrategy {
     @Override
-    public void collectExportIds(ExportDTO exportList, List<Integer> ids) {
+    public void collectExportIds(ExportDTO exportList, List<Integer> ids) throws ExportExeption {
         DealerController controllerDealer = DealerController.getInstance();
         List<CarDealership> dealerList = new ArrayList<>();
         try {
             dealerList = controllerDealer.getDealers(ids);
         } catch (NotFoundException e) {
-            System.out.println("DealerExportStrategyWithCar, NotFoundException. " + e.getMessage());
+            throw new ExportExeption(StrategyConstants.EXPORT_EXCEPTION_MESSAGE + e.getMessage());
         }
         exportList.addDelers(dealerList);
 
@@ -30,7 +31,7 @@ public class DealerExportStrategyWithCar implements ExportStrategy {
         try {
             carList = carController.getCarsByDealersIds(ids);
         } catch (GetAllCarExeption e) {
-            System.out.println("DealerExportStrategyWithCar, GetAllCarExeption. " + e.getMessage());
+            throw new ExportExeption(StrategyConstants.EXPORT_EXCEPTION_MESSAGE + e.getMessage());
         }
         exportList.addCars(carList);
     }

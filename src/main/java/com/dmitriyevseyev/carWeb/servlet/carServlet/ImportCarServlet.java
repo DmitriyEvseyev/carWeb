@@ -41,14 +41,12 @@ public class ImportCarServlet extends HttpServlet {
         try {
             files = upload.parseRequest(req);
         } catch (FileUploadException e) {
-            System.out.println("ImportCarServlet, FileUploadException. " + e.getMessage());
+            resp.sendError(503, e.getMessage());
         }
         String json = null;
         if (files != null) {
             json = files.get(0).getString();
         }
-
-        System.out.println("json - " + json);
 
         String idDealer = null;
 
@@ -57,7 +55,6 @@ public class ImportCarServlet extends HttpServlet {
             FileItem item = (FileItem) iter.next();
             if (item.isFormField()) {
                 idDealer = item.getString();
-                System.out.println("value - " + idDealer);
             }
         }
 
