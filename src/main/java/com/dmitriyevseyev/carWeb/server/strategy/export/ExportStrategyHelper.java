@@ -31,7 +31,6 @@ public class ExportStrategyHelper {
         this.carStrategies = new HashMap<>();
         carStrategies.put(StrategyConstants.CAR_EXPORT_WITHOUT_DEALER_NUMBER_STRATEGY, new CarExportStrategy());
         carStrategies.put(StrategyConstants.CAR_EXPORT_WITH_DEALER_NUMBER_STRATEGY, new CarExportStrategyWithDealer());
-
     }
 
     public ExportStrategy resolveDealerStrategy(int strategyID) {
