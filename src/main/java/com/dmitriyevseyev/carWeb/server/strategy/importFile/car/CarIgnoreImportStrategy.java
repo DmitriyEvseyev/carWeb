@@ -9,7 +9,6 @@ import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
 import com.dmitriyevseyev.carWeb.server.strategy.StrategyConstants;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportExeption;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportStrategy;
-import com.dmitriyevseyev.carWeb.server.strategy.importFile.exeption.CarIdAlreadyExistException;
 
 public class CarIgnoreImportStrategy implements ImportStrategy<Car> {
     @Override

@@ -21,14 +21,10 @@ import java.text.SimpleDateFormat;
 public class AddCarServlet extends HttpServlet {
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         Integer idDealer = Integer.parseInt(request.getParameter("idDealer"));
         request.setAttribute("idDealer", idDealer);
-        try {
-            getServletContext().getRequestDispatcher(ServletConstants.ADD_CAR_ADDRESS).forward(request, response);
-        } catch (ServletException e) {
-            System.out.println("AddCarServlet. " + e.getMessage());
-        }
+        getServletContext().getRequestDispatcher(ServletConstants.ADD_CAR_ADDRESS).forward(request, response);
     }
 
     @Override
@@ -52,13 +48,13 @@ public class AddCarServlet extends HttpServlet {
                     .isAfterCrash(isAfterCrash)
                     .build();
         } catch (ParseException e) {
-            System.out.println("ParseException. " + e.getMessage());
+            resp.sendError(503, "ParseException. " + e.getMessage());
         }
 
         try {
             CarController.getInstance().addCar(car);
         } catch (AddCarExeption e) {
-            System.out.println("AddCarExeption. " + e.getMessage());
+            resp.sendError(503, e.getMessage());
         }
 
         HttpSession session = req.getSession();
