@@ -25,7 +25,7 @@ public class EditCarServlet extends HttpServlet {
     }
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         Integer idDealer = Integer.parseInt(request.getParameter("idDealer"));
         Integer id = Integer.valueOf(String.valueOf(request.getParameter("check")));
 
@@ -33,16 +33,13 @@ public class EditCarServlet extends HttpServlet {
         try {
             car = CarController.getInstance().getCar(id);
         } catch (NotFoundException e) {
-            System.out.println("NotFoundException. EditCarServlet. " + e.getMessage());
+            response.sendError(503, e.getMessage());
         }
 
         request.setAttribute("car", car);
         request.setAttribute("idDealer", idDealer);
-        try {
-            getServletContext().getRequestDispatcher(ServletConstants.EDIT_CAR_ADDRESS).forward(request, response);
-        } catch (ServletException e) {
-            throw new RuntimeException(e);
-        }
+
+        getServletContext().getRequestDispatcher(ServletConstants.EDIT_CAR_ADDRESS).forward(request, response);
     }
 
     @Override
@@ -72,13 +69,13 @@ public class EditCarServlet extends HttpServlet {
                     .isAfterCrash(isAfterCrash)
                     .build();
         } catch (ParseException e) {
-            System.out.println("ParseException. " + e.getMessage());
+            resp.sendError(503, "ParseException. " + e.getMessage());
         }
 
         try {
             CarController.getInstance().updateCar(car);
         } catch (UpdateCarException e) {
-            System.out.println("UpdateCarException. EditCarServlet. " + e.getMessage());
+            resp.sendError(503, e.getMessage());
         }
         HttpSession session = req.getSession();
         session.setAttribute("idD", idDealer);

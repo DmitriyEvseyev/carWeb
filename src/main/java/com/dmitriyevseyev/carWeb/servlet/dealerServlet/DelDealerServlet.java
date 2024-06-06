@@ -28,9 +28,9 @@ public class DelDealerServlet extends HttpServlet {
             try {
                 controller.removeDealer(Integer.valueOf(id));
             } catch (NotFoundException e) {
-                getServletContext().getRequestDispatcher(ServletConstants.NOT_DEALER_ADDRESS).forward(req, resp);
+                resp.sendError(503, e.getMessage());
             } catch (DeleteDealerExeption e) {
-                System.out.println("DelDealerServlet. DeleteDealerExeption. " + e.getMessage());
+                resp.sendError(503, e.getMessage());
             }
         }
         resp.sendRedirect(ServletConstants.PATH_DEALER);

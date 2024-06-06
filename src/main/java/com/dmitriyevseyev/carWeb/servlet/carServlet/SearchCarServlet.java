@@ -6,7 +6,6 @@ import com.dmitriyevseyev.carWeb.server.controller.CarController;
 import com.dmitriyevseyev.carWeb.server.controller.DealerController;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.GetAllCarExeption;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
-import com.dmitriyevseyev.carWeb.server.exceptions.dealer.GetDealerException;
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
 
 import javax.servlet.ServletException;
@@ -38,18 +37,16 @@ public class SearchCarServlet extends HttpServlet {
                 startDatePattern = formatter.parse(startDate);
                 endDatePattern = formatter.parse(enddate);
             }
-        } catch (
-                ParseException e) {
-            System.out.println("ParseException. " + e.getMessage());
+        } catch (ParseException e) {
+            resp.sendError(503, "ParseException. " + e.getMessage());
         }
 
         Integer idDealer = Integer.valueOf(String.valueOf(req.getParameter("idDealer")));
         CarDealership dealer = null;
         try {
             dealer = DealerController.getInstance().getDealer(idDealer);
-        } catch (
-                NotFoundException e) {
-            getServletContext().getRequestDispatcher(ServletConstants.NOT_DEALER_ADDRESS).forward(req, resp);
+        } catch (NotFoundException e) {
+            resp.sendError(503, e.getMessage());
         }
 
         List<Car> carList = null;
@@ -67,19 +64,13 @@ public class SearchCarServlet extends HttpServlet {
             } else if (namePattern.length() == 0 && startDatePattern != null && endDatePattern != null) {
                 carList = carContr.getFilteredByDatePattern(dealer.getId(), nameColumn, startDatePattern, endDatePattern, criteria);
             }
-        } catch (
-                GetAllCarExeption e) {
-            System.out.println("GetAllCarExeption, SearchCarServlet - " + e.getMessage());
+        } catch (GetAllCarExeption e) {
+            resp.sendError(503, e.getMessage());
         }
         req.setAttribute("carList", carList);
         req.setAttribute("dealer", dealer);
 
-        try {
-            getServletContext().getRequestDispatcher(ServletConstants.CARS_PAGE_ADDRESS).forward(req, resp);
-        } catch (
-                ServletException e) {
-            System.out.println("SelectDealerServlet. " + e.getMessage());
-        }
+        getServletContext().getRequestDispatcher(ServletConstants.CARS_PAGE_ADDRESS).forward(req, resp);
     }
 
     @Override

@@ -21,7 +21,7 @@ public class DelCarServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Integer idDealer = Integer.parseInt(req.getParameter("idDealer"));
         String[] ids = req.getParameterValues("check");
 
@@ -34,9 +34,9 @@ public class DelCarServlet extends HttpServlet {
             try {
                 CarController.getInstance().removeCar(id);
             } catch (NotFoundException e) {
-                getServletContext().getRequestDispatcher(ServletConstants.NOT_CAR_ADDRESS).forward(req, resp);
+                resp.sendError(503, e.getMessage());
             } catch (DeleteCarExeption e) {
-                System.out.println("DeleteCarExeption. " + e.getMessage());
+                resp.sendError(503, e.getMessage());
             }
         }
         HttpSession session = req.getSession();

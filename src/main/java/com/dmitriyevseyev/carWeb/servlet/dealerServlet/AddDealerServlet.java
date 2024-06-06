@@ -20,16 +20,12 @@ public class AddDealerServlet extends HttpServlet {
     }
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        try {
-            getServletContext().getRequestDispatcher(ServletConstants.ADD_DEALER_ADDRESS).forward(request, response);
-        } catch (ServletException e) {
-            System.out.println("AddDealerServlet. " + e.getMessage());
-        }
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        getServletContext().getRequestDispatcher(ServletConstants.ADD_DEALER_ADDRESS).forward(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws  IOException {
         String name = req.getParameter("name");
         String address = req.getParameter("address");
 
@@ -40,7 +36,7 @@ public class AddDealerServlet extends HttpServlet {
         try {
             DealerController.getInstance().addDealer(dealer);
         } catch (AddDealerExeption e) {
-            System.out.println("AddDealerExeption. " + e.getMessage());
+            resp.sendError(503, e.getMessage());
         }
         resp.sendRedirect(ServletConstants.PATH_DEALER);
     }

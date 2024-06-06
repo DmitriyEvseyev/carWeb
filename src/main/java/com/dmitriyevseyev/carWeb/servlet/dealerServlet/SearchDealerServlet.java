@@ -28,7 +28,7 @@ public class SearchDealerServlet extends HttpServlet {
         try {
             carDealerships = dealerContr.getFilteredByPattern(column, pattern, criteria);
         } catch (GetAllDealerExeption e) {
-            System.out.println("GetAllDealerExeption, SearchDealerServlet - " + e.getMessage());
+            resp.sendError(503, e.getMessage());
         }
 
         req.setAttribute("carDealerships", carDealerships);

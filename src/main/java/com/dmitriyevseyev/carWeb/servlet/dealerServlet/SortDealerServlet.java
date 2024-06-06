@@ -41,7 +41,7 @@ public class SortDealerServlet extends HttpServlet {
                     break;
             }
         } catch (GetAllDealerExeption e) {
-            System.out.println("GetAllDealerExeption, SortDealerServlet - " + e.getMessage());
+            resp.sendError(503, e.getMessage());
         }
 
         req.setAttribute("carDealerships", carDealerships);

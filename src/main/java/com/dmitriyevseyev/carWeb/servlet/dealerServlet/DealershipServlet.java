@@ -25,7 +25,7 @@ public class DealershipServlet extends HttpServlet {
         try {
             carDealerships = DealerController.getInstance().getAllDealers();
         } catch (GetAllDealerExeption e) {
-            throw new RuntimeException("DealershipServlet. " + e.getMessage());
+            resp.sendError(503, e.getMessage());
         }
         req.setAttribute("carDealerships", carDealerships);
 

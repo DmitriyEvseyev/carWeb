@@ -25,7 +25,7 @@ public class ExportDealerServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String[] idDealer = req.getParameterValues("idDealer");
         List<Integer> dealersIds = new ArrayList<>();
         for (String id : idDealer) {

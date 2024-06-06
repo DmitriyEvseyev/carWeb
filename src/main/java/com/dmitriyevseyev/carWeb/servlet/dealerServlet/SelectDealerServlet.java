@@ -6,7 +6,6 @@ import com.dmitriyevseyev.carWeb.server.controller.DealerController;
 import com.dmitriyevseyev.carWeb.server.controller.CarController;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.GetAllCarExeption;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
-import com.dmitriyevseyev.carWeb.server.exceptions.dealer.GetDealerException;
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
 
 import javax.servlet.ServletException;
@@ -43,22 +42,19 @@ public class SelectDealerServlet extends HttpServlet {
         try {
             dealer = DealerController.getInstance().getDealer(idDealer);
         } catch (NotFoundException e) {
-            getServletContext().getRequestDispatcher(ServletConstants.NOT_DEALER_ADDRESS).forward(req, resp);
+            resp.sendError(503, e.getMessage());
         }
 
         List<Car> carList = null;
         try {
             carList = CarController.getInstance().getCarList(idDealer);
         } catch (GetAllCarExeption e) {
-            System.out.println("GetAllCarExeption. SelectDealerExeption. " + e.getMessage());
+            resp.sendError(503, e.getMessage());
         }
         req.setAttribute("carList", carList);
         req.setAttribute("dealer", dealer);
-        try {
-            getServletContext().getRequestDispatcher(ServletConstants.CARS_PAGE_ADDRESS).forward(req, resp);
-        } catch (ServletException e) {
-            System.out.println("SelectDealerServlet. " + e.getMessage());
-        }
+
+        getServletContext().getRequestDispatcher(ServletConstants.CARS_PAGE_ADDRESS).forward(req, resp);
     }
 
     @Override

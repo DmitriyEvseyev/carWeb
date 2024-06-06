@@ -3,7 +3,6 @@ package com.dmitriyevseyev.carWeb.servlet.dealerServlet;
 import com.dmitriyevseyev.carWeb.model.CarDealership;
 import com.dmitriyevseyev.carWeb.server.controller.DealerController;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
-import com.dmitriyevseyev.carWeb.server.exceptions.dealer.GetDealerException;
 import com.dmitriyevseyev.carWeb.server.exceptions.dealer.UpdateDealerException;
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
 
@@ -28,7 +27,7 @@ public class EditDealerServlet extends HttpServlet {
         try {
             dealer = DealerController.getInstance().getDealer(Integer.valueOf(idDealer));
         } catch (NotFoundException e) {
-            getServletContext().getRequestDispatcher(ServletConstants.NOT_DEALER_ADDRESS).forward(req, resp);
+            resp.sendError(503, e.getMessage());
         }
         req.setAttribute("dealer", dealer);
         getServletContext().getRequestDispatcher(ServletConstants.EDIT_DEALER_ADDRESS).forward(req, resp);
@@ -43,7 +42,7 @@ public class EditDealerServlet extends HttpServlet {
         try {
             controller.updateDealer(id, name, address);
         } catch (UpdateDealerException e) {
-            System.out.println("EditDealerServlet. RuntimeException. " + e.getMessage());
+            response.sendError(503, e.getMessage());
         }
 
         response.sendRedirect(ServletConstants.PATH_DEALER);
