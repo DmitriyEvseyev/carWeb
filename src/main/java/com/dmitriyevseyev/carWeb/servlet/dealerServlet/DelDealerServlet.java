@@ -1,6 +1,7 @@
 package com.dmitriyevseyev.carWeb.servlet.dealerServlet;
 
 import com.dmitriyevseyev.carWeb.server.controller.DealerController;
+import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
 import com.dmitriyevseyev.carWeb.server.exceptions.dealer.DeleteDealerExeption;
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
@@ -22,17 +23,16 @@ public class DelDealerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String[] idDealer = req.getParameterValues("idDealer");
 
-        DealerController controller = DealerController.getInstance();
-
-        for (String id : idDealer) {
-            try {
+        DealerController controller = null;
+        try {
+            controller = DealerController.getInstance();
+            for (String id : idDealer) {
                 controller.removeDealer(Integer.valueOf(id));
-            } catch (NotFoundException e) {
-                resp.sendError(503, e.getMessage());
-            } catch (DeleteDealerExeption e) {
-                resp.sendError(503, e.getMessage());
             }
+        } catch (NotFoundException | DeleteDealerExeption | DAOFactoryActionException e) {
+            resp.sendError(503, e.getMessage());
         }
+
         resp.sendRedirect(ServletConstants.PATH_DEALER);
     }
 

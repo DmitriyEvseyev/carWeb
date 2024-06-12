@@ -2,6 +2,7 @@ package com.dmitriyevseyev.carWeb.servlet.dealerServlet;
 
 import com.dmitriyevseyev.carWeb.model.CarDealership;
 import com.dmitriyevseyev.carWeb.server.controller.DealerController;
+import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
 import com.dmitriyevseyev.carWeb.server.exceptions.dealer.UpdateDealerException;
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
@@ -26,7 +27,7 @@ public class EditDealerServlet extends HttpServlet {
         CarDealership dealer = null;
         try {
             dealer = DealerController.getInstance().getDealer(Integer.valueOf(idDealer));
-        } catch (NotFoundException e) {
+        } catch (NotFoundException | DAOFactoryActionException e) {
             resp.sendError(503, e.getMessage());
         }
         req.setAttribute("dealer", dealer);
@@ -38,10 +39,11 @@ public class EditDealerServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         String address = request.getParameter("address");
-        DealerController controller = DealerController.getInstance();
+        DealerController controller;
         try {
+            controller = DealerController.getInstance();
             controller.updateDealer(id, name, address);
-        } catch (UpdateDealerException e) {
+        } catch (UpdateDealerException | DAOFactoryActionException e) {
             response.sendError(503, e.getMessage());
         }
 

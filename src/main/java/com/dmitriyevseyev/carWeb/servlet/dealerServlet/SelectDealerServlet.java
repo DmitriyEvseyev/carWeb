@@ -4,6 +4,7 @@ import com.dmitriyevseyev.carWeb.model.Car;
 import com.dmitriyevseyev.carWeb.model.CarDealership;
 import com.dmitriyevseyev.carWeb.server.controller.DealerController;
 import com.dmitriyevseyev.carWeb.server.controller.CarController;
+import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.GetAllCarExeption;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
@@ -41,14 +42,14 @@ public class SelectDealerServlet extends HttpServlet {
         CarDealership dealer = null;
         try {
             dealer = DealerController.getInstance().getDealer(idDealer);
-        } catch (NotFoundException e) {
+        } catch (NotFoundException | DAOFactoryActionException e) {
             resp.sendError(503, e.getMessage());
         }
 
         List<Car> carList = null;
         try {
             carList = CarController.getInstance().getCarList(idDealer);
-        } catch (GetAllCarExeption e) {
+        } catch (GetAllCarExeption  | DAOFactoryActionException e) {
             resp.sendError(503, e.getMessage());
         }
         req.setAttribute("carList", carList);

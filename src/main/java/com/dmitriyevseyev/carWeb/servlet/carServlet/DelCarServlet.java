@@ -1,6 +1,7 @@
 package com.dmitriyevseyev.carWeb.servlet.carServlet;
 
 import com.dmitriyevseyev.carWeb.server.controller.CarController;
+import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.DeleteCarExeption;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
@@ -33,9 +34,7 @@ public class DelCarServlet extends HttpServlet {
         for (Integer id : idList) {
             try {
                 CarController.getInstance().removeCar(id);
-            } catch (NotFoundException e) {
-                resp.sendError(503, e.getMessage());
-            } catch (DeleteCarExeption e) {
+            } catch (NotFoundException | DAOFactoryActionException | DeleteCarExeption e) {
                 resp.sendError(503, e.getMessage());
             }
         }

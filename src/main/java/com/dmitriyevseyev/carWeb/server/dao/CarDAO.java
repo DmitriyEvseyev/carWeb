@@ -33,7 +33,7 @@ public class CarDAO implements DAO {
             stmt.executeUpdate();
         }
     }
-
+    @Override
     public List<Car> getCarListDealer(Integer idDealer) throws SQLException {
         String sql = "SELECT * FROM CAR WHERE IDDEALER = ?";
         List<Car> list = null;
@@ -43,7 +43,7 @@ public class CarDAO implements DAO {
         }
         return Collections.unmodifiableList(list);
     }
-
+    @Override
     public Car getCar(Integer id) throws SQLException {
         Car car = null;
         String sql = "SELECT * FROM CAR WHERE ID = ?";
@@ -85,8 +85,8 @@ public class CarDAO implements DAO {
             stm.execute();
         }
     }
-
-    private List<Car> createListByResultSet(ResultSet rs) throws SQLException {
+    @Override
+    public List<Car> createListByResultSet(ResultSet rs) throws SQLException {
         List<Car> list = new LinkedList<>();
         while (rs.next()) {
             list.add(Car.builder()
@@ -100,7 +100,7 @@ public class CarDAO implements DAO {
         }
         return list;
     }
-
+    @Override
     public boolean isCarExist(Integer Id) throws SQLException {
         boolean carExist;
         String sqlExistCar = "SELECT * FROM CAR WHERE Id = ?";
@@ -115,7 +115,7 @@ public class CarDAO implements DAO {
         }
         return carExist;
     }
-
+    @Override
     public List<Car> getSortedByCriteria(Integer IdDealer, String column, String criteria) throws SQLException {
         List<Car> list;
         String sql = "SELECT * FROM CAR WHERE idDealer = ? ORDER BY %s %s";
@@ -130,7 +130,7 @@ public class CarDAO implements DAO {
         }
         return Collections.unmodifiableList(list);
     }
-
+    @Override
     public List<Car> getFilteredByPattern(Integer IdDealer, String column, String pattern, String criteria) throws SQLException {
         List<Car> list;
         String sql = "SELECT * FROM CAR WHERE idDealer = ? AND %s LIKE \'%s\' ORDER BY %s %s";
@@ -141,7 +141,7 @@ public class CarDAO implements DAO {
         }
         return Collections.unmodifiableList(list);
     }
-
+    @Override
     public List<Car> getFilteredByDatePattern(Integer IdDealer, String columnDate, Date startDatePattern, Date endDatePattern, String criteria) throws SQLException {
         List<Car> list;
         String sql = "SELECT * FROM CAR WHERE idDealer = ? AND %s BETWEEN \'%s\' AND  \'%s\' ORDER BY %s %s";
@@ -154,7 +154,7 @@ public class CarDAO implements DAO {
         }
         return Collections.unmodifiableList(list);
     }
-
+    @Override
     public List<Car> getFilteredByCrashPattern(Integer IdDealer, String column, String pattern, String criteria) throws SQLException {
         List<Car> list;
         String sql = "SELECT * FROM CAR WHERE idDealer = ? AND isAfterCrash = ? ORDER BY %s %s";

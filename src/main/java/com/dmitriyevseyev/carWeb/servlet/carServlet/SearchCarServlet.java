@@ -4,6 +4,7 @@ import com.dmitriyevseyev.carWeb.model.Car;
 import com.dmitriyevseyev.carWeb.model.CarDealership;
 import com.dmitriyevseyev.carWeb.server.controller.CarController;
 import com.dmitriyevseyev.carWeb.server.controller.DealerController;
+import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.GetAllCarExeption;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
@@ -45,12 +46,17 @@ public class SearchCarServlet extends HttpServlet {
         CarDealership dealer = null;
         try {
             dealer = DealerController.getInstance().getDealer(idDealer);
-        } catch (NotFoundException e) {
+        } catch (NotFoundException | DAOFactoryActionException  e) {
             resp.sendError(503, e.getMessage());
         }
 
         List<Car> carList = null;
-        CarController carContr = CarController.getInstance();
+        CarController carContr = null;
+        try {
+            carContr = CarController.getInstance();
+        } catch (DAOFactoryActionException e) {
+            resp.sendError(503, e.getMessage());
+        }
         String criteria = "ASC";
 
         try {

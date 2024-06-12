@@ -2,7 +2,11 @@ package com.dmitriyevseyev.carWeb.servlet.userServlet;
 
 import com.dmitriyevseyev.carWeb.model.User;
 import com.dmitriyevseyev.carWeb.server.controller.UserController;
+import com.dmitriyevseyev.carWeb.server.dao.ManagerDAO;
+import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.user.AddUserExeption;
+import com.dmitriyevseyev.carWeb.server.exceptions.user.UserNotFoundExeption;
+import com.dmitriyevseyev.carWeb.server.exceptions.user.UserPasswordExeption;
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
 
 import javax.servlet.ServletException;
@@ -26,7 +30,10 @@ public class UserRegServlet extends HttpServlet {
         String userPassword = req.getParameter("password");
         String userPass2 = req.getParameter("password2");
 
-        UserController userCont = UserController.getInstance();
+        UserController userCont;
+        try {
+            ManagerDAO.getInstance(ServletConstants.PATH_SQL);
+            userCont = UserController.getInstance();
 
         if (userPassword.equals(userPass2) == false) {
             resp.setContentType("text/html");
@@ -50,9 +57,12 @@ public class UserRegServlet extends HttpServlet {
             try {
                 userCont.addUser(user);
             } catch (AddUserExeption e) {
-                System.out.println("AddUserExeption. " + e.getMessage());
+                resp.sendError(503,  e.getMessage());
             }
             resp.sendRedirect(ServletConstants.PATH_DEALER);
+        }
+        } catch (DAOFactoryActionException | UserNotFoundExeption e) {
+            resp.sendError(503,  e.getMessage());
         }
     }
 

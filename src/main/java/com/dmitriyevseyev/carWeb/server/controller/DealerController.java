@@ -3,6 +3,7 @@ package com.dmitriyevseyev.carWeb.server.controller;
 import com.dmitriyevseyev.carWeb.model.CarDealership;
 import com.dmitriyevseyev.carWeb.server.dao.DealerDAO;
 import com.dmitriyevseyev.carWeb.server.dao.ManagerDAO;
+import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.*;
 import com.dmitriyevseyev.carWeb.server.exceptions.dealer.*;
 
@@ -15,15 +16,16 @@ public class DealerController {
     private static DealerController instance;
     private DealerDAO dealerDAO;
 
-    public static DealerController getInstance() {
+    public static DealerController getInstance() throws DAOFactoryActionException {
         if (instance == null) {
             instance = new DealerController();
         }
         return instance;
     }
 
-    private DealerController() {
-        this.dealerDAO = ManagerDAO.getInstance().getDealerDAO();
+    private DealerController() throws DAOFactoryActionException {
+        ManagerDAO managerDAO = ManagerDAO.getInstance();
+        this.dealerDAO = managerDAO.getDealerDAO();
     }
 
     public List<CarDealership> getAllDealers() throws GetAllDealerExeption {

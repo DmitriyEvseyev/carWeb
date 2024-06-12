@@ -2,6 +2,7 @@ package com.dmitriyevseyev.carWeb.servlet.carServlet;
 
 import com.dmitriyevseyev.carWeb.model.Car;
 import com.dmitriyevseyev.carWeb.server.controller.CarController;
+import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.AddCarExeption;
 
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
@@ -53,9 +54,9 @@ public class AddCarServlet extends HttpServlet {
 
         try {
             CarController.getInstance().addCar(car);
-        } catch (AddCarExeption e) {
+        } catch (AddCarExeption | DAOFactoryActionException e) {
             resp.sendError(503, e.getMessage());
-        }
+        }  
 
         HttpSession session = req.getSession();
         session.setAttribute("idD", idDealer);

@@ -2,6 +2,7 @@ package com.dmitriyevseyev.carWeb.servlet.dealerServlet;
 
 import com.dmitriyevseyev.carWeb.model.CarDealership;
 import com.dmitriyevseyev.carWeb.server.controller.DealerController;
+import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.dealer.GetAllDealerExeption;
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
 
@@ -24,7 +25,7 @@ public class DealershipServlet extends HttpServlet {
         List<CarDealership> carDealerships = null;
         try {
             carDealerships = DealerController.getInstance().getAllDealers();
-        } catch (GetAllDealerExeption e) {
+        } catch (GetAllDealerExeption | DAOFactoryActionException e) {
             resp.sendError(503, e.getMessage());
         }
         req.setAttribute("carDealerships", carDealerships);

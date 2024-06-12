@@ -4,6 +4,7 @@ import com.dmitriyevseyev.carWeb.model.Car;
 import com.dmitriyevseyev.carWeb.model.CarDealership;
 import com.dmitriyevseyev.carWeb.server.controller.CarController;
 import com.dmitriyevseyev.carWeb.server.controller.DealerController;
+import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.AddCarExeption;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.UpdateCarException;
@@ -14,11 +15,12 @@ import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportStrategy;
 public class CarOverwriteImportStrategy implements ImportStrategy<Car> {
     @Override
     public void store(Car car) throws ImportExeption {
-        DealerController dealerController = DealerController.getInstance();
-        CarController carController = CarController.getInstance();
+
         CarDealership dealer = null;
         Car oldCar = null;
         try {
+            DealerController dealerController = DealerController.getInstance();
+            CarController carController = CarController.getInstance();
             if (dealerController.getDealer(car.getIdDealer()) == null) {
                 throw new NotFoundException("The dealer was not found with id = " + car.getIdDealer() + "! "
                         + StrategyConstants.IMPORT_EXCEPTION_MESSAGE);
@@ -34,7 +36,7 @@ public class CarOverwriteImportStrategy implements ImportStrategy<Car> {
                     throw new ImportExeption(ex.getMessage());
                 }
             }
-        } catch (NotFoundException e) {
+        } catch (NotFoundException | DAOFactoryActionException e) {
             throw new ImportExeption(e.getMessage());
         }
     }

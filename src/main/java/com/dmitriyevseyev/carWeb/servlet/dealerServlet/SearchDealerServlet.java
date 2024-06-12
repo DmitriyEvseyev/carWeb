@@ -2,6 +2,7 @@ package com.dmitriyevseyev.carWeb.servlet.dealerServlet;
 
 import com.dmitriyevseyev.carWeb.model.CarDealership;
 import com.dmitriyevseyev.carWeb.server.controller.DealerController;
+import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.dealer.GetAllDealerExeption;
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
 
@@ -22,12 +23,13 @@ public class SearchDealerServlet extends HttpServlet {
         String pattern = req.getParameter("pattern");
 
         List<CarDealership> carDealerships = null;
-        DealerController dealerContr = DealerController.getInstance();
+        DealerController dealerContr;
         String criteria = "ASC";
 
         try {
+            dealerContr = DealerController.getInstance();
             carDealerships = dealerContr.getFilteredByPattern(column, pattern, criteria);
-        } catch (GetAllDealerExeption e) {
+        } catch (GetAllDealerExeption | DAOFactoryActionException e) {
             resp.sendError(503, e.getMessage());
         }
 

@@ -2,6 +2,7 @@ package com.dmitriyevseyev.carWeb.server.controller;
 
 import com.dmitriyevseyev.carWeb.server.dao.CarDAO;
 import com.dmitriyevseyev.carWeb.server.dao.ManagerDAO;
+import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.*;
 import com.dmitriyevseyev.carWeb.model.Car;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.exeption.CarIdAlreadyExistException;
@@ -13,16 +14,18 @@ public class CarController {
     private static CarController instance;
     private CarDAO carDAO;
 
-    public static CarController getInstance() {
+    public static CarController getInstance() throws DAOFactoryActionException {
         if (instance == null) {
             instance = new CarController();
         }
         return instance;
     }
 
-    private CarController() {
-        this.carDAO = ManagerDAO.getInstance().getDaoCar();
+    private CarController() throws DAOFactoryActionException {
+        ManagerDAO managerDAO = ManagerDAO.getInstance();
+        this.carDAO = managerDAO.getDaoCar();
     }
+
 
     public List<Car> getCarList(Integer idDealer) throws GetAllCarExeption {
         try {

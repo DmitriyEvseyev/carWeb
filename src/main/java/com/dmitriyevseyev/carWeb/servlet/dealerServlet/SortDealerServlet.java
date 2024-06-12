@@ -2,6 +2,7 @@ package com.dmitriyevseyev.carWeb.servlet.dealerServlet;
 
 import com.dmitriyevseyev.carWeb.model.CarDealership;
 import com.dmitriyevseyev.carWeb.server.controller.DealerController;
+import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.dealer.GetAllDealerExeption;
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
 
@@ -20,12 +21,13 @@ public class SortDealerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Integer code = Integer.valueOf(req.getParameter("sort"));
         List<CarDealership> carDealerships = null;
-        DealerController dealerContr = DealerController.getInstance();
+        DealerController dealerContr;
         String columnName = "Name";
         String columnAddress = "Address";
         String criteriaA = "ASC";
         String criteriaD = "DESC";
         try {
+            dealerContr = DealerController.getInstance();
             switch (code) {
                 case (1):
                     carDealerships = dealerContr.getSortedByCriteria(columnName, criteriaA);
@@ -40,7 +42,7 @@ public class SortDealerServlet extends HttpServlet {
                     carDealerships = dealerContr.getSortedByCriteria(columnAddress, criteriaD);
                     break;
             }
-        } catch (GetAllDealerExeption e) {
+        } catch (GetAllDealerExeption | DAOFactoryActionException e) {
             resp.sendError(503, e.getMessage());
         }
 

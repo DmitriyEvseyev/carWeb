@@ -2,6 +2,7 @@ package com.dmitriyevseyev.carWeb.server.strategy.importFile.dealer;
 
 import com.dmitriyevseyev.carWeb.model.CarDealership;
 import com.dmitriyevseyev.carWeb.server.controller.DealerController;
+import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
 import com.dmitriyevseyev.carWeb.server.exceptions.dealer.AddDealerExeption;
 import com.dmitriyevseyev.carWeb.server.exceptions.dealer.UpdateDealerException;
@@ -22,7 +23,7 @@ public class DealerOverwriteImportStrategy implements ImportStrategy<CarDealersh
                     dealerController.getDealer(dealer.getId()) == null) {
                 dealerController.addDealer(dealer);
             }
-        } catch (NotFoundException | UpdateDealerException | AddDealerExeption e) {
+        } catch (NotFoundException | UpdateDealerException | AddDealerExeption | DAOFactoryActionException e) {
             throw new ImportExeption(e.getMessage());
         }
     }

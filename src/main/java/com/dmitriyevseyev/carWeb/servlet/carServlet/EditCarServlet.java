@@ -2,6 +2,7 @@ package com.dmitriyevseyev.carWeb.servlet.carServlet;
 
 import com.dmitriyevseyev.carWeb.model.Car;
 import com.dmitriyevseyev.carWeb.server.controller.CarController;
+import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.UpdateCarException;
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
@@ -32,7 +33,7 @@ public class EditCarServlet extends HttpServlet {
         Car car = null;
         try {
             car = CarController.getInstance().getCar(id);
-        } catch (NotFoundException e) {
+        } catch (NotFoundException | DAOFactoryActionException e) {
             response.sendError(503, e.getMessage());
         }
 
@@ -74,7 +75,7 @@ public class EditCarServlet extends HttpServlet {
 
         try {
             CarController.getInstance().updateCar(car);
-        } catch (UpdateCarException e) {
+        } catch (UpdateCarException | DAOFactoryActionException e) {
             resp.sendError(503, e.getMessage());
         }
         HttpSession session = req.getSession();

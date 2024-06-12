@@ -2,6 +2,7 @@ package com.dmitriyevseyev.carWeb.servlet.dealerServlet;
 
 import com.dmitriyevseyev.carWeb.model.CarDealership;
 import com.dmitriyevseyev.carWeb.server.controller.DealerController;
+import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.dealer.AddDealerExeption;
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
 
@@ -35,7 +36,7 @@ public class AddDealerServlet extends HttpServlet {
                 .build();
         try {
             DealerController.getInstance().addDealer(dealer);
-        } catch (AddDealerExeption e) {
+        } catch (AddDealerExeption | DAOFactoryActionException e) {
             resp.sendError(503, e.getMessage());
         }
         resp.sendRedirect(ServletConstants.PATH_DEALER);

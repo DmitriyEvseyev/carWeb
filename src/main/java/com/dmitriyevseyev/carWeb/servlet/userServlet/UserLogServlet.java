@@ -1,6 +1,9 @@
 package com.dmitriyevseyev.carWeb.servlet.userServlet;
 
 import com.dmitriyevseyev.carWeb.server.controller.UserController;
+import com.dmitriyevseyev.carWeb.server.dao.ManagerDAO;
+import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
+import com.dmitriyevseyev.carWeb.server.exceptions.user.UserPasswordExeption;
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
 
 import javax.servlet.ServletException;
@@ -24,7 +27,13 @@ public class UserLogServlet extends HttpServlet {
         String userPassword = req.getParameter("password");
 
         boolean isCorrect = false;
-        isCorrect = UserController.getInstance().isUserExistServer(userName, userPassword);
+
+        try {
+            ManagerDAO.getInstance("C:\\Users\\VivoB\\IdeaProjects\\carWeb\\src\\main\\resources\\script.sql");
+            isCorrect = UserController.getInstance().isUserExistServer(userName, userPassword);
+        } catch (DAOFactoryActionException | UserPasswordExeption e) {
+            resp.sendError(503,  e.getMessage());
+        }
 
         if (isCorrect == true) {
             resp.sendRedirect(ServletConstants.PATH_DEALER);
