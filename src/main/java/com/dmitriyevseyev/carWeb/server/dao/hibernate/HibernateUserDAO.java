@@ -1,4 +1,6 @@
 package com.dmitriyevseyev.carWeb.server.dao.hibernate;
 
-public class HibernateUserDAO {
+import com.dmitriyevseyev.carWeb.server.dao.interfaces.UserDAO;
+
+public class HibernateUserDAO implements UserDAO {
 }

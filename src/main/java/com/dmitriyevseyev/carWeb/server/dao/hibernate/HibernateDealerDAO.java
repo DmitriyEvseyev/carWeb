@@ -1,4 +1,6 @@
 package com.dmitriyevseyev.carWeb.server.dao.hibernate;
 
-public class HibernateDealerDAO {
+import com.dmitriyevseyev.carWeb.server.dao.interfaces.DealerDAO;
+
+public class HibernateDealerDAO implements DealerDAO {
 }

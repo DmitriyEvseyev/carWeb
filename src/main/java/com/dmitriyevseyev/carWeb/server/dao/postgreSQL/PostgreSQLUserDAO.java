@@ -1,21 +1,22 @@
-package com.dmitriyevseyev.carWeb.server.dao;
+package com.dmitriyevseyev.carWeb.server.dao.postgreSQL;
 
 import com.dmitriyevseyev.carWeb.model.User;
+import com.dmitriyevseyev.carWeb.server.dao.interfaces.UserDAO;
 
 import java.sql.*;
 
-public class UserDAO {
-    private static UserDAO instance;
+public class PostgreSQLUserDAO implements UserDAO {
+    private static PostgreSQLUserDAO instance;
     private Connection connection;
 
-       public static UserDAO getInstance(Connection connection) {
+       public static PostgreSQLUserDAO getInstance(Connection connection) {
         if (instance == null) {
-            instance = new UserDAO(connection);
+            instance = new PostgreSQLUserDAO(connection);
         }
         return instance;
     }
 
-    public UserDAO(Connection connection) {
+    public PostgreSQLUserDAO(Connection connection) {
         this.connection = connection;
     }
 

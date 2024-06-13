@@ -1,5 +1,7 @@
-package com.dmitriyevseyev.carWeb.server.dao;
+package com.dmitriyevseyev.carWeb.server.dao.postgreSQL;
 
+import com.dmitriyevseyev.carWeb.server.dao.DAOConstants;
+import com.dmitriyevseyev.carWeb.server.dao.interfaces.ManagerDAO;
 import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.shared.utils.Constants;
 
@@ -8,46 +10,43 @@ import java.io.FileNotFoundException;
 import java.sql.*;
 import java.util.Scanner;
 
-public class ManagerDAO {
+public class PostgreSQLManagerDAO implements ManagerDAO {
     public static Connection connection;
-    public static ManagerDAO instance;
-    private CarDAO carDAO;
-    private UserDAO userDAO;
-    private DealerDAO dealerDAO;
+    public static PostgreSQLManagerDAO instance;
 
-    public static ManagerDAO getInstance(String path) throws DAOFactoryActionException {
+    public static PostgreSQLManagerDAO getInstance(String path) throws DAOFactoryActionException {
         if (instance == null) {
-            instance = new ManagerDAO(path);
+            instance = new PostgreSQLManagerDAO(path);
         }
         return instance;
     }
 
-    public static ManagerDAO getInstance() throws DAOFactoryActionException {
+    public static PostgreSQLManagerDAO getInstance() throws DAOFactoryActionException {
         if (instance == null) {
-            instance = new ManagerDAO();
+            instance = new PostgreSQLManagerDAO();
         }
         return instance;
     }
 
-    public ManagerDAO(String path) throws DAOFactoryActionException {
+    public PostgreSQLManagerDAO(String path) throws DAOFactoryActionException {
         connection = getConnect();
         executeSqlStartScript(path);
     }
 
-    public ManagerDAO() throws DAOFactoryActionException {
+    public PostgreSQLManagerDAO() throws DAOFactoryActionException {
         connection = getConnect();
     }
 
-    public CarDAO getDaoCar() {
-        return carDAO;
+    public PostgreSQLCarDAO getDaoCar() {
+        return PostgreSQLCarDAO.getInstance(connection);
     }
 
-    public UserDAO getDaoUser() {
-        return userDAO;
+    public PostgreSQLUserDAO getDaoUser() {
+        return PostgreSQLUserDAO.getInstance(connection);
     }
 
-    public DealerDAO getDealerDAO() {
-        return dealerDAO;
+    public PostgreSQLDealerDAO getDealerDAO() {
+        return PostgreSQLDealerDAO.getInstance(connection);
     }
 
 
@@ -82,9 +81,6 @@ public class ManagerDAO {
                     Constants.JDBC,
                     Constants.USER,
                     Constants.PASSWORD);
-            this.carDAO = CarDAO.getInstance(connection);
-            this.userDAO = UserDAO.getInstance(connection);
-            this.dealerDAO = DealerDAO.getInstance(connection);
         } catch (SQLException | ClassNotFoundException e) {
             throw new DAOFactoryActionException(DAOConstants.CONNECTION_ERROR);
         }

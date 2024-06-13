@@ -1,8 +1,8 @@
 package com.dmitriyevseyev.carWeb.server.controller;
 
 import com.dmitriyevseyev.carWeb.model.CarDealership;
-import com.dmitriyevseyev.carWeb.server.dao.DealerDAO;
-import com.dmitriyevseyev.carWeb.server.dao.ManagerDAO;
+import com.dmitriyevseyev.carWeb.server.dao.postgreSQL.PostgreSQLDealerDAO;
+import com.dmitriyevseyev.carWeb.server.dao.postgreSQL.PostgreSQLManagerDAO;
 import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.*;
 import com.dmitriyevseyev.carWeb.server.exceptions.dealer.*;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class DealerController {
     private static DealerController instance;
-    private DealerDAO dealerDAO;
+    private PostgreSQLDealerDAO postgreSQLDealerDAO;
 
     public static DealerController getInstance() throws DAOFactoryActionException {
         if (instance == null) {
@@ -24,13 +24,13 @@ public class DealerController {
     }
 
     private DealerController() throws DAOFactoryActionException {
-        ManagerDAO managerDAO = ManagerDAO.getInstance();
-        this.dealerDAO = managerDAO.getDealerDAO();
+        PostgreSQLManagerDAO postgreSQLManagerDAO = PostgreSQLManagerDAO.getInstance();
+        this.postgreSQLDealerDAO = postgreSQLManagerDAO.getDealerDAO();
     }
 
     public List<CarDealership> getAllDealers() throws GetAllDealerExeption {
         try {
-            return Collections.unmodifiableList(new ArrayList<>(dealerDAO.getAll()));
+            return Collections.unmodifiableList(new ArrayList<>(postgreSQLDealerDAO.getAll()));
         } catch (SQLException e) {
             throw new GetAllDealerExeption(String.format("GetAllDealerExeption: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
@@ -38,7 +38,7 @@ public class DealerController {
 
     public void addDealer(CarDealership dealer) throws AddDealerExeption {
         try {
-            dealerDAO.createDealer(dealer);
+            postgreSQLDealerDAO.createDealer(dealer);
         } catch (SQLException e) {
             throw new AddDealerExeption(String.format("AddDealerExeption: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
@@ -46,10 +46,10 @@ public class DealerController {
 
     public void removeDealer(Integer id) throws NotFoundException, DeleteDealerExeption {
         try {
-            if (!dealerDAO.isDealerExist(id)) {
+            if (!postgreSQLDealerDAO.isDealerExist(id)) {
                 throw new NotFoundException("The dealer was not found!");
             } else {
-                dealerDAO.delete(id);
+                postgreSQLDealerDAO.delete(id);
             }
         } catch (SQLException e) {
             throw new DeleteDealerExeption(String.format("DeleteDealerExeption: %s. Code: %s", e.getMessage(), e.getSQLState()));
@@ -58,7 +58,7 @@ public class DealerController {
 
     public CarDealership getDealer(Integer id) throws NotFoundException {
         try {
-            return dealerDAO.getDealer(id);
+            return postgreSQLDealerDAO.getDealer(id);
         } catch (SQLException e) {
             throw new NotFoundException(String.format("The dealer was not found!  %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
@@ -74,7 +74,7 @@ public class DealerController {
 
     public void updateDealer(Integer id, String name, String address) throws UpdateDealerException {
         try {
-            dealerDAO.update(id, name, address);
+            postgreSQLDealerDAO.update(id, name, address);
         } catch (SQLException e) {
             throw new UpdateDealerException(String.format("EditDealerExeption: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
@@ -82,7 +82,7 @@ public class DealerController {
 
     public List<CarDealership> getSortedByCriteria(String column, String criteria) throws GetAllDealerExeption {
         try {
-            return Collections.unmodifiableList(new ArrayList<>(dealerDAO.getSortedByCriteria(column, criteria)));
+            return Collections.unmodifiableList(new ArrayList<>(postgreSQLDealerDAO.getSortedByCriteria(column, criteria)));
         } catch (SQLException e) {
             throw new GetAllDealerExeption(String.format("GetAllDealerExeption, getSortedByCriteria: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
@@ -90,7 +90,7 @@ public class DealerController {
 
     public List<CarDealership> getFilteredByPattern(String column, String pattern, String criteria) throws GetAllDealerExeption {
         try {
-            return Collections.unmodifiableList(new ArrayList<>(dealerDAO.getFilteredByPattern(column, pattern, criteria)));
+            return Collections.unmodifiableList(new ArrayList<>(postgreSQLDealerDAO.getFilteredByPattern(column, pattern, criteria)));
         } catch (SQLException e) {
             throw new GetAllDealerExeption(String.format("GetAllDealerExeption, getFilteredByPattern: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
@@ -98,7 +98,7 @@ public class DealerController {
 
     public CarDealership getDealerByName(String name) throws NotFoundException {
         try {
-            return dealerDAO.getDealerByName(name);
+            return postgreSQLDealerDAO.getDealerByName(name);
         } catch (SQLException e) {
             throw new NotFoundException(String.format("The dealer was not found!  %s. Code: %s", e.getMessage(), e.getSQLState()));
         }

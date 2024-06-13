@@ -1,28 +1,30 @@
-package com.dmitriyevseyev.carWeb.server.dao;
+package com.dmitriyevseyev.carWeb.server.dao.postgreSQL;
 
 import com.dmitriyevseyev.carWeb.model.Car;
+import com.dmitriyevseyev.carWeb.server.dao.interfaces.CarDAO;
+import com.dmitriyevseyev.carWeb.server.exceptions.car.*;
 
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
 
-public class CarDAO implements DAO {
-    private static CarDAO instance;
+public class PostgreSQLCarDAO implements CarDAO {
+    private static PostgreSQLCarDAO instance;
     private Connection connection;
 
-    public static CarDAO getInstance(Connection connection) {
+    public static PostgreSQLCarDAO getInstance(Connection connection) {
         if (instance == null) {
-            instance = new CarDAO(connection);
+            instance = new PostgreSQLCarDAO(connection);
         }
         return instance;
     }
 
-    public CarDAO(Connection connection) {
+    public PostgreSQLCarDAO(Connection connection) {
         this.connection = connection;
     }
 
     @Override
-    public void createCar(Car car) throws SQLException {
+    public void createCar(Car car) throws AddCarExeption {
         String sql = "INSERT INTO CAR (IDDEALER, NAME, DATE, COLOR, ISAFTERCRASH)  VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, car.getIdDealer());
@@ -31,20 +33,26 @@ public class CarDAO implements DAO {
             stmt.setString(4, car.getColor());
             stmt.setBoolean(5, car.isAfterCrash());
             stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new AddCarExeption(String.format("AddCarExeption: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
     }
+
     @Override
-    public List<Car> getCarListDealer(Integer idDealer) throws SQLException {
+    public List<Car> getCarListDealer(Integer idDealer) throws GetAllCarExeption {
         String sql = "SELECT * FROM CAR WHERE IDDEALER = ?";
         List<Car> list = null;
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setInt(1, idDealer);
             list = createListByResultSet(stm.executeQuery());
+        } catch (SQLException e) {
+            throw new GetAllCarExeption(String.format("GetAllCarExeption. Error: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
         return Collections.unmodifiableList(list);
     }
+
     @Override
-    public Car getCar(Integer id) throws SQLException {
+    public Car getCar(Integer id) throws NotFoundException {
         Car car = null;
         String sql = "SELECT * FROM CAR WHERE ID = ?";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
@@ -60,12 +68,14 @@ public class CarDAO implements DAO {
                         .isAfterCrash(rs.getBoolean("isAfterCrash"))
                         .build();
             }
+        } catch (SQLException e) {
+            throw new NotFoundException(String.format("The car was not found!  %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
         return car;
     }
 
     @Override
-    public void update(Car car) throws SQLException {
+    public void update(Car car) throws UpdateCarException {
         String sql = "UPDATE CAR SET NAME = ?, DATE = ?, COLOR = ?, ISAFTERCRASH = ?  WHERE ID = ?";
         try (PreparedStatement stm = connection.prepareStatement(sql);) {
             stm.setString(1, car.getName());
@@ -74,34 +84,44 @@ public class CarDAO implements DAO {
             stm.setBoolean(4, car.isAfterCrash());
             stm.setInt(5, car.getId());
             stm.executeUpdate();
+        } catch (SQLException e) {
+            throw new UpdateCarException(String.format("UpdateCarException: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
     }
 
     @Override
-    public void delete(Integer id) throws SQLException {
+    public void delete(Integer id) throws DeleteCarExeption {
         String sql = "DELETE FROM CAR WHERE Id = ?";
         try (PreparedStatement stm = connection.prepareStatement(sql);) {
             stm.setInt(1, id);
             stm.execute();
+        } catch (SQLException e) {
+            throw new DeleteCarExeption(String.format("DeleteCarExeption: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
     }
+
     @Override
-    public List<Car> createListByResultSet(ResultSet rs) throws SQLException {
+    public List<Car> createListByResultSet(ResultSet rs) throws GetAllCarExeption {
         List<Car> list = new LinkedList<>();
-        while (rs.next()) {
-            list.add(Car.builder()
-                    .id(rs.getInt("Id"))
-                    .idDealer(rs.getInt("IdDealer"))
-                    .name(rs.getString("Name"))
-                    .color(rs.getString("Color"))
-                    .date(rs.getDate("Date"))
-                    .isAfterCrash(rs.getBoolean("isAfterCrash"))
-                    .build());
+        try {
+            while (rs.next()) {
+                list.add(Car.builder()
+                        .id(rs.getInt("Id"))
+                        .idDealer(rs.getInt("IdDealer"))
+                        .name(rs.getString("Name"))
+                        .color(rs.getString("Color"))
+                        .date(rs.getDate("Date"))
+                        .isAfterCrash(rs.getBoolean("isAfterCrash"))
+                        .build());
+            }
+        } catch (SQLException e) {
+            throw new GetAllCarExeption(String.format("GetAllCarExeption. Error: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
         return list;
     }
+
     @Override
-    public boolean isCarExist(Integer Id) throws SQLException {
+    public boolean isCarExist(Integer Id) throws NotFoundException {
         boolean carExist;
         String sqlExistCar = "SELECT * FROM CAR WHERE Id = ?";
         try (PreparedStatement stm = connection.prepareStatement(sqlExistCar)) {
@@ -112,37 +132,45 @@ public class CarDAO implements DAO {
             } else {
                 carExist = false;
             }
-        }
+        } catch (SQLException e) {
+            throw new NotFoundException(String.format("The car was not found!  %s. Code: %s", e.getMessage(), e.getSQLState()));
+                }
         return carExist;
     }
+
     @Override
-    public List<Car> getSortedByCriteria(Integer IdDealer, String column, String criteria) throws SQLException {
+    public List<Car> getSortedByCriteria(Integer IdDealer, String column, String criteria) throws GetAllCarExeption {
         List<Car> list;
         String sql = "SELECT * FROM CAR WHERE idDealer = ? ORDER BY %s %s";
 
-               sql = String.format(sql, column, criteria);
-
+        sql = String.format(sql, column, criteria);
 
         System.out.println(sql);
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, IdDealer);
             list = createListByResultSet(statement.executeQuery());
+        } catch (SQLException e) {
+            throw new GetAllCarExeption(String.format("GetAllCarExeption. Error: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
         return Collections.unmodifiableList(list);
     }
+
     @Override
-    public List<Car> getFilteredByPattern(Integer IdDealer, String column, String pattern, String criteria) throws SQLException {
+    public List<Car> getFilteredByPattern(Integer IdDealer, String column, String pattern, String criteria) throws GetAllCarExeption {
         List<Car> list;
         String sql = "SELECT * FROM CAR WHERE idDealer = ? AND %s LIKE \'%s\' ORDER BY %s %s";
         sql = String.format(sql, column, pattern, column, criteria);
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, IdDealer);
             list = createListByResultSet(statement.executeQuery());
+        } catch (SQLException e) {
+            throw new GetAllCarExeption(String.format("GetAllCarExeption. Error: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
         return Collections.unmodifiableList(list);
     }
+
     @Override
-    public List<Car> getFilteredByDatePattern(Integer IdDealer, String columnDate, Date startDatePattern, Date endDatePattern, String criteria) throws SQLException {
+    public List<Car> getFilteredByDatePattern(Integer IdDealer, String columnDate, Date startDatePattern, Date endDatePattern, String criteria) throws GetAllCarExeption {
         List<Car> list;
         String sql = "SELECT * FROM CAR WHERE idDealer = ? AND %s BETWEEN \'%s\' AND  \'%s\' ORDER BY %s %s";
         Date beginDate = new java.sql.Date(startDatePattern.getTime());
@@ -151,18 +179,23 @@ public class CarDAO implements DAO {
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, IdDealer);
             list = createListByResultSet(statement.executeQuery());
+        } catch (SQLException e) {
+            throw new GetAllCarExeption(String.format("GetAllCarExeption. Error: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
         return Collections.unmodifiableList(list);
     }
+
     @Override
-    public List<Car> getFilteredByCrashPattern(Integer IdDealer, String column, String pattern, String criteria) throws SQLException {
+    public List<Car> getFilteredByCrashPattern(Integer IdDealer, String column, String pattern, String criteria) throws GetAllCarExeption {
         List<Car> list;
         String sql = "SELECT * FROM CAR WHERE idDealer = ? AND isAfterCrash = ? ORDER BY %s %s";
-        sql = String.format(sql,  column, criteria);
+        sql = String.format(sql, column, criteria);
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, IdDealer);
             statement.setBoolean(2, Boolean.parseBoolean(pattern));
             list = createListByResultSet(statement.executeQuery());
+        } catch (SQLException e) {
+            throw new GetAllCarExeption(String.format("GetAllCarExeption. Error: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
         return Collections.unmodifiableList(list);
     }

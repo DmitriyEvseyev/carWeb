@@ -1,7 +1,7 @@
 package com.dmitriyevseyev.carWeb.servlet.userServlet;
 
 import com.dmitriyevseyev.carWeb.server.controller.UserController;
-import com.dmitriyevseyev.carWeb.server.dao.ManagerDAO;
+import com.dmitriyevseyev.carWeb.server.dao.postgreSQL.PostgreSQLManagerDAO;
 import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.user.UserPasswordExeption;
 import com.dmitriyevseyev.carWeb.servlet.ServletConstants;
@@ -29,7 +29,7 @@ public class UserLogServlet extends HttpServlet {
         boolean isCorrect = false;
 
         try {
-            ManagerDAO.getInstance("C:\\Users\\VivoB\\IdeaProjects\\carWeb\\src\\main\\resources\\script.sql");
+            PostgreSQLManagerDAO.getInstance("C:\\Users\\VivoB\\IdeaProjects\\carWeb\\src\\main\\resources\\script.sql");
             isCorrect = UserController.getInstance().isUserExistServer(userName, userPassword);
         } catch (DAOFactoryActionException | UserPasswordExeption e) {
             resp.sendError(503,  e.getMessage());

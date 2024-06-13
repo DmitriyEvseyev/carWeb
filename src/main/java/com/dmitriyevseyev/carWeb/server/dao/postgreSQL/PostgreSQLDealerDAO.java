@@ -1,24 +1,25 @@
-package com.dmitriyevseyev.carWeb.server.dao;
+package com.dmitriyevseyev.carWeb.server.dao.postgreSQL;
 
 import com.dmitriyevseyev.carWeb.model.CarDealership;
+import com.dmitriyevseyev.carWeb.server.dao.interfaces.DealerDAO;
 
 import java.sql.*;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class DealerDAO {
-    private static DealerDAO instance;
+public class PostgreSQLDealerDAO implements DealerDAO {
+    private static PostgreSQLDealerDAO instance;
     private Connection connection;
 
-    public static DealerDAO getInstance(Connection connection) {
+    public static PostgreSQLDealerDAO getInstance(Connection connection) {
         if (instance == null) {
-            instance = new DealerDAO(connection);
+            instance = new PostgreSQLDealerDAO(connection);
         }
         return instance;
     }
 
-    public DealerDAO(Connection connection) {
+    public PostgreSQLDealerDAO(Connection connection) {
         this.connection = connection;
     }
 
