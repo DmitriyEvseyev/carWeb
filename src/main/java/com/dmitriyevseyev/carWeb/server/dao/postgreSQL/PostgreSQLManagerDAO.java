@@ -3,7 +3,6 @@ package com.dmitriyevseyev.carWeb.server.dao.postgreSQL;
 import com.dmitriyevseyev.carWeb.server.dao.DAOConstants;
 import com.dmitriyevseyev.carWeb.server.dao.interfaces.ManagerDAO;
 import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
-import com.dmitriyevseyev.carWeb.shared.utils.Constants;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -59,9 +58,6 @@ public class PostgreSQLManagerDAO implements ManagerDAO {
             while (scanner.hasNext()) {
                 String rawStatement = scanner.next() + delimiter;
                 try (Statement currentStatement = connection.createStatement()) {
-
-                    System.out.println("rawStatement DAO SQL - " + rawStatement);
-
                     currentStatement.executeUpdate(rawStatement);
                 } catch (SQLException e) {
                     throw new DAOFactoryActionException(DAOConstants.STATEMENT_ERROR);
@@ -78,9 +74,9 @@ public class PostgreSQLManagerDAO implements ManagerDAO {
         try {
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(
-                    Constants.JDBC,
-                    Constants.USER,
-                    Constants.PASSWORD);
+                    DAOConstants.JDBC,
+                    DAOConstants.USER,
+                    DAOConstants.PASSWORD);
         } catch (SQLException | ClassNotFoundException e) {
             throw new DAOFactoryActionException(DAOConstants.CONNECTION_ERROR);
         }
