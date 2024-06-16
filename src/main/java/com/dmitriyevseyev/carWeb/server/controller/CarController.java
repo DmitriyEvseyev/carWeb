@@ -81,17 +81,11 @@ public class CarController {
         return Collections.unmodifiableList(new ArrayList<>(CarDAO.getFilteredByCrashPattern(idDealer, column, pattern, criteria)));
     }
 
-    public void addCarWithId(Car car) throws CarIdAlreadyExistException, NotFoundException, AddCarExeption {
-        if (CarDAO.getCar(car.getId()) != null) {
-            throw new CarIdAlreadyExistException("Car with this id already exist: id = " + car.getId());
-        }
-        CarDAO.createCar(car);
-    }
+//    public void addCarWithId(Car car) throws CarIdAlreadyExistException, NotFoundException, AddCarExeption {
+//        if (CarDAO.getCar(car.getId()) != null) {
+//            throw new CarIdAlreadyExistException("Car with this id already exist: id = " + car.getId());
+//        }
+//        CarDAO.createCar(car);
+//    }
 }
 
-
-//if (carDAO.getCar(car.getId()) != null) {
-//        throw new CarIdAlreadyExistException("Car with this id already exist: id = " + car.getId());
-//        } else {
-//        carDAO.createCar(car);
-//        }
