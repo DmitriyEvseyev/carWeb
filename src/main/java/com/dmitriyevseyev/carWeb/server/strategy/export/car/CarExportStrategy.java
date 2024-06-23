@@ -19,11 +19,6 @@ public class CarExportStrategy implements ExportStrategy {
         try {
             CarController carController = CarController.getInstance();
             carList = carController.getCars(ids);
-
-
-            System.out.println("CarExportStrategy - " + carList);
-
-
         } catch (NotFoundException | DAOFactoryActionException e) {
             throw new ExportExeption(e.getMessage());
         }

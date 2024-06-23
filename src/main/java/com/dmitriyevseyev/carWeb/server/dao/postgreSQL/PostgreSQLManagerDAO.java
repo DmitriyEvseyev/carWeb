@@ -5,8 +5,11 @@ import com.dmitriyevseyev.carWeb.server.dao.interfaces.ManagerDAO;
 import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.shared.utils.Constants;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+import java.io.*;
 import java.sql.*;
 import java.util.Scanner;
 
@@ -51,30 +54,33 @@ public class PostgreSQLManagerDAO implements ManagerDAO {
 
 
     private void executeSqlStartScript(String path) throws DAOFactoryActionException {
-        String delimiter = ";";
-        Scanner scanner;
+        StringBuilder rawStatement = new StringBuilder();
+        File file = new File(getClass().getClassLoader().getResource(path).getFile());
         try {
-            scanner = new Scanner(new FileInputStream(path)).useDelimiter(delimiter);
-
-            while (scanner.hasNext()) {
-                String rawStatement = scanner.next() + delimiter;
-                try (Statement currentStatement = connection.createStatement()) {
-
-                    System.out.println("rawStatement DAO SQL - " + rawStatement);
-
-                    currentStatement.executeUpdate(rawStatement);
-                } catch (SQLException e) {
-                    throw new DAOFactoryActionException(DAOConstants.STATEMENT_ERROR);
-                }
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+            String ls = System.getProperty("line.separator");
+            while ((line = br.readLine()) != null) {
+                rawStatement.append(line);
+                rawStatement.append(ls);
             }
-            scanner.close();
-        } catch (FileNotFoundException e) {
+
+            try (Statement currentStatement = connection.createStatement()) {
+
+                System.out.println("rawStatement DAO SQL - " + rawStatement);
+
+                currentStatement.executeUpdate(String.valueOf(rawStatement));
+            } catch (SQLException e) {
+                throw new DAOFactoryActionException(DAOConstants.STATEMENT_ERROR);
+            }
+
+
+        } catch (IOException e) {
             throw new DAOFactoryActionException(DAOConstants.START_SCRIPT_ERROR);
         }
     }
 
     public Connection getConnect() throws DAOFactoryActionException {
-        Connection connection;
         try {
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(
@@ -84,6 +90,40 @@ public class PostgreSQLManagerDAO implements ManagerDAO {
         } catch (SQLException | ClassNotFoundException e) {
             throw new DAOFactoryActionException(DAOConstants.CONNECTION_ERROR);
         }
+
+
+//        final String JDBC_DB_NAME = "java:comp/env/jdbc/cars";
+//
+//        DataSource dataSource;
+//        Context ctx;
+//
+//        Context initialContext = null;
+//        try {
+//            initialContext = new InitialContext();
+//            Context envContext = (Context) initialContext.lookup("java:/comp/env");
+//            DataSource ds = (DataSource) envContext.lookup("jdbc/cars");
+//
+//        } catch (NamingException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        Connection connection = null;
+//        try {
+//            System.out.println("CONNDKF - " + ctx.getNameInNamespace());
+//            System.out.println("FFFFFFFFFFF");
+//            System.out.println("DDDDDDD - " + dataSource.getLoginTimeout());
+//
+//
+//            connection = dataSource.getConnection();
+//
+//
+//            System.out.println("CCCCCCCC - " + connection);
+//
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        } catch (NamingException e) {
+//            throw new RuntimeException(e);
+//        }
         return connection;
     }
 }
