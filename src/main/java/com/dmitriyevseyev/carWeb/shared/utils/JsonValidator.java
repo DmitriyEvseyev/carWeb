@@ -12,6 +12,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Set;
 
@@ -32,7 +33,17 @@ public class JsonValidator {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonSchemaFactory schemaFactory = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V4);
 
-        File schemaFile = new File(ServletConstants.PATH_SCHEMA_JSON);
+
+        File schemaFile;
+        ClassLoader classLoader = getClass().getClassLoader();
+        URL resource = classLoader.getResource(ServletConstants.PATH_SCHEMA_JSON);
+        if (resource == null) {
+            throw new IllegalArgumentException("schema.json is not found!");
+        } else {
+            schemaFile = new File(resource.getFile());
+        }
+
+
         String schema = FileUtils.readFileToString(schemaFile, StandardCharsets.UTF_8);
 
         JsonNode jsonNode = objectMapper.readTree(json);

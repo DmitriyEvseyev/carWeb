@@ -4,7 +4,6 @@ import com.dmitriyevseyev.carWeb.model.Car;
 import com.dmitriyevseyev.carWeb.server.controller.CarController;
 import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
-import com.dmitriyevseyev.carWeb.server.strategy.StrategyConstants;
 import com.dmitriyevseyev.carWeb.server.strategy.export.ExportExeption;
 import com.dmitriyevseyev.carWeb.server.strategy.export.ExportStrategy;
 import com.dmitriyevseyev.carWeb.shared.utils.ExportDTO;
@@ -19,11 +18,6 @@ public class CarExportStrategy implements ExportStrategy {
         try {
             CarController carController = CarController.getInstance();
             carList = carController.getCars(ids);
-
-
-            System.out.println("CarExportStrategy - " + carList);
-
-
         } catch (NotFoundException | DAOFactoryActionException e) {
             throw new ExportExeption(e.getMessage());
         }

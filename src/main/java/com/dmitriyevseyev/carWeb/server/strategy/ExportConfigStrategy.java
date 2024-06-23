@@ -1,5 +1,6 @@
 package com.dmitriyevseyev.carWeb.server.strategy;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -9,7 +10,7 @@ import java.util.Properties;
 public class ExportConfigStrategy {
     private static ExportConfigStrategy instance;
 
-    private ExportConfigStrategy()  {
+    private ExportConfigStrategy() {
     }
 
     public static ExportConfigStrategy getInstance() {
@@ -23,8 +24,9 @@ public class ExportConfigStrategy {
         Map<String, Integer> exportConfig = new HashMap<>();
         Properties property = new Properties();
         FileInputStream stream = null;
+        File file = new File(getClass().getClassLoader().getResource(StrategyConstants.PATH_TO_PROPERTIES).getFile());
         try {
-            stream = new FileInputStream(StrategyConstants.PATH_TO_PROPERTIES);
+            stream = new FileInputStream(file);
             property.load(stream);
         } catch (IOException e) {
             throw new PropertyFileException(StrategyConstants.PATH_TO_PROPERTIES_NOT_FOUND_EXCEPTION_MESSAGE + e.getMessage());
@@ -50,8 +52,9 @@ public class ExportConfigStrategy {
         Map<String, Integer> importConfig = new HashMap<>();
         Properties property = new Properties();
         FileInputStream stream = null;
+        File file = new File(getClass().getClassLoader().getResource(StrategyConstants.PATH_TO_PROPERTIES).getFile());
         try {
-            stream = new FileInputStream(StrategyConstants.PATH_TO_PROPERTIES);
+            stream = new FileInputStream(file);
             property.load(stream);
         } catch (IOException e) {
             throw new PropertyFileException(StrategyConstants.PATH_TO_PROPERTIES_NOT_FOUND_EXCEPTION_MESSAGE + e.getMessage());

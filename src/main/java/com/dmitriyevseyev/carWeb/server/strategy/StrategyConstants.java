@@ -1,7 +1,7 @@
 package com.dmitriyevseyev.carWeb.server.strategy;
 
 public class StrategyConstants {
-    public final static String PATH_TO_PROPERTIES = "C:\\Users\\VivoB\\IdeaProjects\\carWeb\\src\\main\\resources\\config.properties";
+    public final static String PATH_TO_PROPERTIES = "config.properties";
 
     public static final String DEALER_TYPE = "Dealer";
     public final static String DEALER_EXPORT_STRATEGY = "dealerExportStrategy";

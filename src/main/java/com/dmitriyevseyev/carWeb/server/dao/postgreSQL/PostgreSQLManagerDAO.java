@@ -4,10 +4,9 @@ import com.dmitriyevseyev.carWeb.server.dao.DAOConstants;
 import com.dmitriyevseyev.carWeb.server.dao.interfaces.ManagerDAO;
 import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.net.URL;
 import java.sql.*;
-import java.util.Scanner;
 
 public class PostgreSQLManagerDAO implements ManagerDAO {
     public static Connection connection;
@@ -50,21 +49,32 @@ public class PostgreSQLManagerDAO implements ManagerDAO {
 
 
     private void executeSqlStartScript(String path) throws DAOFactoryActionException {
-        String delimiter = ";";
-        Scanner scanner;
         try {
-            scanner = new Scanner(new FileInputStream(path)).useDelimiter(delimiter);
-
-            while (scanner.hasNext()) {
-                String rawStatement = scanner.next() + delimiter;
-                try (Statement currentStatement = connection.createStatement()) {
-                    currentStatement.executeUpdate(rawStatement);
-                } catch (SQLException e) {
-                    throw new DAOFactoryActionException(DAOConstants.STATEMENT_ERROR);
-                }
+            StringBuilder rawStatement = new StringBuilder();
+            // File file = new File(getClass().getClassLoader().getResource(path).getFile());
+            File file;
+            ClassLoader classLoader = getClass().getClassLoader();
+            URL resource = classLoader.getResource(path);
+            if (resource == null) {
+                throw new IllegalArgumentException("script.sql is not found!");
+            } else {
+                file = new File(resource.getFile());
             }
-            scanner.close();
-        } catch (FileNotFoundException e) {
+
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+            String ls = System.getProperty("line.separator");
+            while ((line = br.readLine()) != null) {
+                rawStatement.append(line);
+                rawStatement.append(ls);
+            }
+            try (Statement currentStatement = connection.createStatement()) {
+                currentStatement.executeUpdate(String.valueOf(rawStatement));
+            } catch (SQLException e) {
+                throw new DAOFactoryActionException(DAOConstants.STATEMENT_ERROR);
+            }
+
+        } catch (IOException e) {
             throw new DAOFactoryActionException(DAOConstants.START_SCRIPT_ERROR);
         }
     }
