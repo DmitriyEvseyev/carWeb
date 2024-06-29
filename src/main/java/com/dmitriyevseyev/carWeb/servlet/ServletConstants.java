@@ -1,7 +1,7 @@
 package com.dmitriyevseyev.carWeb.servlet;
 
 public class ServletConstants {
-    public static final String PATH_SQL = "C:\\Users\\VivoB\\IdeaProjects\\carWeb\\src\\main\\resources\\script.sql";
+    public static final String PATH_SQL = "script.sql";
     public static final String PATH_CARS = "selectDealerServlet";
     public static final String CARS_PAGE_ADDRESS = "/jsp/carjsp/getAll.jsp";
 

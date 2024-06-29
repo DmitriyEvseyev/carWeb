@@ -1,6 +1,8 @@
 package com.dmitriyevseyev.carWeb.server.controller;
 
+import com.dmitriyevseyev.carWeb.server.dao.hibernate.HibernateManagerDAO;
 import com.dmitriyevseyev.carWeb.server.dao.interfaces.CarDAO;
+import com.dmitriyevseyev.carWeb.server.dao.interfaces.ManagerDAO;
 import com.dmitriyevseyev.carWeb.server.dao.postgreSQL.PostgreSQLManagerDAO;
 import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.*;
@@ -12,7 +14,7 @@ import java.util.*;
 
 public class CarController {
     private static CarController instance;
-    private CarDAO CarDAO;
+    private CarDAO carDAO;
 
     public static CarController getInstance() throws DAOFactoryActionException {
         if (instance == null) {
@@ -21,36 +23,46 @@ public class CarController {
         return instance;
     }
 
-    private CarController() throws DAOFactoryActionException {
-        PostgreSQLManagerDAO postgreSQLManagerDAO = PostgreSQLManagerDAO.getInstance();
-        this.CarDAO = postgreSQLManagerDAO.getDaoCar();
+    private CarController() {
+        ManagerDAO managerDAO = HibernateManagerDAO.getInstance();
+        this.carDAO = managerDAO.getCarDAO();
     }
 
-
-    public List<Car> getCarList(Integer idDealer) throws GetAllCarExeption {
-        return Collections.unmodifiableList(new ArrayList<>(CarDAO.getCarListDealer(idDealer)));
-    }
-
-    public List<Car> getCarsByDealersIds(List<Integer> ids) throws GetAllCarExeption {
-        List<Car> carList = new ArrayList<>();
-        for (Integer idDealer : ids) {
-            carList.addAll(carList.size(), getCarList(idDealer));
-        }
-        return Collections.unmodifiableList(carList);
-    }
 
     public void addCar(Car car) throws AddCarExeption {
-        CarDAO.createCar(car);
-    }
-
-    public void removeCar(Integer id) throws NotFoundException, DeleteCarExeption {
-        if (CarDAO.isCarExist(id)) {
-            CarDAO.delete(id);
-        }
+        carDAO.createCar(car);
     }
 
     public Car getCar(Integer id) throws NotFoundException {
-        return CarDAO.getCar(id);
+        return carDAO.getCar(id);
+    }
+
+    public List<Car> getCarList(Integer idDealer) throws GetAllCarExeption {
+        return Collections.unmodifiableList(new ArrayList<>(carDAO.getCarListDealer(idDealer)));
+    }
+
+    public void updateCar(Car car) throws UpdateCarException {
+        carDAO.update(car);
+    }
+
+    public void removeCar(Integer id) throws NotFoundException, DeleteCarExeption {
+        carDAO.delete(id);
+    }
+
+    public List<Car> getSortedByCriteria(Integer idDealer, String column, String criteria) throws GetAllCarExeption {
+        return Collections.unmodifiableList(new ArrayList<>(carDAO.getSortedByCriteria(idDealer, column, criteria)));
+    }
+
+    public List<Car> getFilteredByPattern(Integer idDealer, String column, String pattern, String criteria) throws GetAllCarExeption {
+        return Collections.unmodifiableList(new ArrayList<>(carDAO.getFilteredByPattern(idDealer, column, pattern, criteria)));
+    }
+
+    public List<Car> getFilteredByDatePattern(Integer idDealer, String columnDate, Date startDatePattern, Date endDatePattern, String criteria) throws GetAllCarExeption {
+        return Collections.unmodifiableList(new ArrayList<>(carDAO.getFilteredByDatePattern(idDealer, columnDate, startDatePattern, endDatePattern, criteria)));
+    }
+
+    public List<Car> getFilteredByCrashPattern(Integer idDealer, String column, String pattern, String criteria) throws GetAllCarExeption {
+        return Collections.unmodifiableList(new ArrayList<>(carDAO.getFilteredByCrashPattern(idDealer, column, pattern, criteria)));
     }
 
     public List<Car> getCars(List<Integer> ids) throws NotFoundException {
@@ -60,32 +72,6 @@ public class CarController {
         }
         return Collections.unmodifiableList(carList);
     }
-
-    public void updateCar(Car car) throws UpdateCarException {
-        CarDAO.update(car);
-    }
-
-    public List<Car> getSortedByCriteria(Integer idDealer, String column, String criteria) throws GetAllCarExeption {
-        return Collections.unmodifiableList(new ArrayList<>(CarDAO.getSortedByCriteria(idDealer, column, criteria)));
-    }
-
-    public List<Car> getFilteredByPattern(Integer idDealer, String column, String pattern, String criteria) throws GetAllCarExeption {
-        return Collections.unmodifiableList(new ArrayList<>(CarDAO.getFilteredByPattern(idDealer, column, pattern, criteria)));
-    }
-
-    public List<Car> getFilteredByDatePattern(Integer idDealer, String columnDate, Date startDatePattern, Date endDatePattern, String criteria) throws GetAllCarExeption {
-        return Collections.unmodifiableList(new ArrayList<>(CarDAO.getFilteredByDatePattern(idDealer, columnDate, startDatePattern, endDatePattern, criteria)));
-    }
-
-    public List<Car> getFilteredByCrashPattern(Integer idDealer, String column, String pattern, String criteria) throws GetAllCarExeption {
-        return Collections.unmodifiableList(new ArrayList<>(CarDAO.getFilteredByCrashPattern(idDealer, column, pattern, criteria)));
-    }
-
-//    public void addCarWithId(Car car) throws CarIdAlreadyExistException, NotFoundException, AddCarExeption {
-//        if (CarDAO.getCar(car.getId()) != null) {
-//            throw new CarIdAlreadyExistException("Car with this id already exist: id = " + car.getId());
-//        }
-//        CarDAO.createCar(car);
-//    }
 }
+
 

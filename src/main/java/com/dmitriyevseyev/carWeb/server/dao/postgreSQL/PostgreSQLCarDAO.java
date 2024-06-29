@@ -96,7 +96,7 @@ public class PostgreSQLCarDAO implements CarDAO {
         }
     }
 
-    @Override
+
     public List<Car> createListByResultSet(ResultSet rs) throws GetAllCarExeption {
         List<Car> list = new LinkedList<>();
         try {
@@ -117,25 +117,7 @@ public class PostgreSQLCarDAO implements CarDAO {
     }
 
     @Override
-    public boolean isCarExist(Integer Id) throws NotFoundException {
-        boolean carExist;
-        String sqlExistCar = "SELECT * FROM CAR WHERE Id = ?";
-        try (PreparedStatement stm = connection.prepareStatement(sqlExistCar)) {
-            stm.setInt(1, Id);
-            ResultSet rs = stm.executeQuery();
-            if (rs.next()) {
-                carExist = true;
-            } else {
-                carExist = false;
-            }
-        } catch (SQLException e) {
-            throw new NotFoundException(String.format("The car was not found!  %s. Code: %s", e.getMessage(), e.getSQLState()));
-                }
-        return carExist;
-    }
-
-    @Override
-    public List<Car> getSortedByCriteria(Integer IdDealer, String column, String criteria) throws GetAllCarExeption {
+    public List<Car> getSortedByCriteria(Integer idDealer, String column, String criteria) throws GetAllCarExeption {
         List<Car> list;
         String sql = "SELECT * FROM CAR WHERE idDealer = ? ORDER BY %s %s";
 
@@ -143,7 +125,7 @@ public class PostgreSQLCarDAO implements CarDAO {
 
         System.out.println(sql);
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, IdDealer);
+            statement.setInt(1, idDealer);
             list = createListByResultSet(statement.executeQuery());
         } catch (SQLException e) {
             throw new GetAllCarExeption(String.format("GetAllCarExeption. Error: %s. Code: %s", e.getMessage(), e.getSQLState()));
@@ -152,12 +134,12 @@ public class PostgreSQLCarDAO implements CarDAO {
     }
 
     @Override
-    public List<Car> getFilteredByPattern(Integer IdDealer, String column, String pattern, String criteria) throws GetAllCarExeption {
+    public List<Car> getFilteredByPattern(Integer idDealer, String column, String pattern, String criteria) throws GetAllCarExeption {
         List<Car> list;
         String sql = "SELECT * FROM CAR WHERE idDealer = ? AND %s LIKE \'%s\' ORDER BY %s %s";
         sql = String.format(sql, column, pattern, column, criteria);
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, IdDealer);
+            statement.setInt(1, idDealer);
             list = createListByResultSet(statement.executeQuery());
         } catch (SQLException e) {
             throw new GetAllCarExeption(String.format("GetAllCarExeption. Error: %s. Code: %s", e.getMessage(), e.getSQLState()));
@@ -166,14 +148,14 @@ public class PostgreSQLCarDAO implements CarDAO {
     }
 
     @Override
-    public List<Car> getFilteredByDatePattern(Integer IdDealer, String columnDate, Date startDatePattern, Date endDatePattern, String criteria) throws GetAllCarExeption {
+    public List<Car> getFilteredByDatePattern(Integer idDealer, String columnDate, Date startDatePattern, Date endDatePattern, String criteria) throws GetAllCarExeption {
         List<Car> list;
         String sql = "SELECT * FROM CAR WHERE idDealer = ? AND %s BETWEEN \'%s\' AND  \'%s\' ORDER BY %s %s";
         Date beginDate = new java.sql.Date(startDatePattern.getTime());
         Date endDate = new java.sql.Date(endDatePattern.getTime());
         sql = String.format(sql, columnDate, beginDate, endDate, columnDate, criteria);
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, IdDealer);
+            statement.setInt(1, idDealer);
             list = createListByResultSet(statement.executeQuery());
         } catch (SQLException e) {
             throw new GetAllCarExeption(String.format("GetAllCarExeption. Error: %s. Code: %s", e.getMessage(), e.getSQLState()));
@@ -182,12 +164,12 @@ public class PostgreSQLCarDAO implements CarDAO {
     }
 
     @Override
-    public List<Car> getFilteredByCrashPattern(Integer IdDealer, String column, String pattern, String criteria) throws GetAllCarExeption {
+    public List<Car> getFilteredByCrashPattern(Integer idDealer, String column, String pattern, String criteria) throws GetAllCarExeption {
         List<Car> list;
         String sql = "SELECT * FROM CAR WHERE idDealer = ? AND isAfterCrash = ? ORDER BY %s %s";
         sql = String.format(sql, column, criteria);
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, IdDealer);
+            statement.setInt(1, idDealer);
             statement.setBoolean(2, Boolean.parseBoolean(pattern));
             list = createListByResultSet(statement.executeQuery());
         } catch (SQLException e) {

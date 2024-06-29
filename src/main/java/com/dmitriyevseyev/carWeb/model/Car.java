@@ -1,23 +1,35 @@
 package com.dmitriyevseyev.carWeb.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
 
+@Entity
+@Table(name = "CARS")
 public class Car implements Serializable {
+    @Id
+    @Column(name = "car_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer idDealer;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dealer_id")
+    private CarDealership dealer;
+    @Column(name = "car_name")
     private String name;
+    @Column(name = "car_date")
     private Date date;
+    @Column(name = "car_color")
     private String color;
+    @Column(name = "is_after_crash")
     private boolean isAfterCrash;
 
     public Car() {
     }
 
-    public Car(Integer id, Integer idDealer, String name, Date date, String color, boolean isAfterCrash) {
-        this.idDealer = idDealer;
+    public Car(Integer id, String name, Date date, String color, boolean isAfterCrash) {
         this.id = id;
         this.name = name;
         this.date = date;
@@ -33,12 +45,12 @@ public class Car implements Serializable {
         this.id = id;
     }
 
-    public Integer getIdDealer() {
-        return idDealer;
+    public CarDealership getDealer() {
+        return dealer;
     }
 
-    public void setIdDealer(Integer idDealer) {
-        this.idDealer = idDealer;
+    public void setIdDealer(CarDealership dealer) {
+        this.dealer = dealer;
     }
 
     public String getName() {
@@ -80,7 +92,7 @@ public class Car implements Serializable {
         Car car = (Car) o;
         return isAfterCrash == car.isAfterCrash &&
                 Objects.equals(id, car.id) &&
-                Objects.equals(idDealer, car.idDealer) &&
+                Objects.equals(dealer.getId(), car.dealer.getId()) &&
                 Objects.equals(name, car.name) &&
                 Objects.equals(date, car.date) &&
                 Objects.equals(color, car.color);
@@ -88,14 +100,14 @@ public class Car implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, idDealer, name, date, color, isAfterCrash);
+        return Objects.hash(id, dealer.getId(), name, date, color, isAfterCrash);
     }
 
     @Override
     public String toString() {
         return "Car{" +
                 "id=" + id +
-                ", idDealer=" + idDealer +
+                ", dealerId =" + dealer.getId() +
                 ", name='" + name + '\'' +
                 ", date=" + date +
                 ", color='" + color + '\'' +
@@ -109,7 +121,6 @@ public class Car implements Serializable {
 
     public static class Builder {
         private Integer id;
-        private Integer idDealer;
         private String name;
         private Date date;
         private String color;
@@ -120,10 +131,6 @@ public class Car implements Serializable {
 
         public Builder id(Integer id) {
             this.id = id;
-            return this;
-        }
-        public Builder idDealer(Integer idDealer) {
-            this.idDealer = idDealer;
             return this;
         }
 
@@ -154,7 +161,6 @@ public class Car implements Serializable {
         public Car build() {
             return new Car(
                     id,
-                    idDealer,
                     name,
                     date,
                     color,

@@ -40,7 +40,7 @@ public class PostgreSQLManagerDAO implements ManagerDAO {
         connection = getConnect();
     }
 
-    public PostgreSQLCarDAO getDaoCar() {
+    public PostgreSQLCarDAO getCarDAO() {
         return PostgreSQLCarDAO.getInstance(connection);
     }
 
@@ -53,7 +53,7 @@ public class PostgreSQLManagerDAO implements ManagerDAO {
     }
 
 
-    private void executeSqlStartScript(String path) throws DAOFactoryActionException {
+    public void executeSqlStartScript(String path) throws DAOFactoryActionException {
         StringBuilder rawStatement = new StringBuilder();
         File file = new File(getClass().getClassLoader().getResource(path).getFile());
         try {

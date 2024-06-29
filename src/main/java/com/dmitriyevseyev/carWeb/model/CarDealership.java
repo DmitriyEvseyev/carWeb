@@ -1,12 +1,25 @@
 package com.dmitriyevseyev.carWeb.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name = "DEALERS")
 public class CarDealership implements Serializable {
+    @Id
+    @Column(name = "dealer_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "dealer_name")
     private String name;
+    @Column(name = "dealer_address")
     private String address;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "dealer",
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Car> cars;
 
     public CarDealership() {
     }
@@ -39,6 +52,14 @@ public class CarDealership implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public List<Car> getCars() {
+        return cars;
+    }
+
+    public void setCars(List<Car> cars) {
+        this.cars = cars;
     }
 
     @Override

@@ -1,12 +1,20 @@
 package com.dmitriyevseyev.carWeb.model;
 
-import java.util.Objects;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
-public class User implements Serializable {
-    private Integer id;
-    private String userName;
-    private String password;
+    @Entity
+    @Table(name = "USERS")
+    public class User implements Serializable {
+        @Id
+        @Column(name = "user_id")
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Integer id;
+        @Column(name = "user_name")
+        private String userName;
+        @Column(name = "user_password")
+        private String password;
 
     public User() {
     }
