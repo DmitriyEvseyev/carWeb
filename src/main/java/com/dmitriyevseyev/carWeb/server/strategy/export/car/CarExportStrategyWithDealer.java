@@ -38,9 +38,7 @@ public class CarExportStrategyWithDealer implements ExportStrategy {
         exportList.addDelers(converterDTO.convertDealerToDealerDTO(dealerList));
 
 
-
         System.out.println("CarExportStrategyWithDealer - " + exportList);
-
 
     }
 }
