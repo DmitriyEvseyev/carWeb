@@ -31,7 +31,7 @@ public class HibernateDealerDAO implements DealerDAO {
         try {
             Session session = sessionFactory.openSession();
             Transaction tx1 = session.beginTransaction();
-            session.persist(dealer);
+            session.save(dealer);
             tx1.commit();
             session.close();
         } catch (HibernateException e) {
@@ -57,7 +57,11 @@ public class HibernateDealerDAO implements DealerDAO {
             for (Object o : query.list()) {
                 dealers.add((CarDealership) o);
             }
-            return dealers.get(0);
+            try {
+                return dealers.get(0);
+            } catch (IndexOutOfBoundsException e) {
+                return null;
+            }
         } catch (HibernateException e) {
             throw new NotFoundException(String.format("The dealer was not found!  %s. ", e.getMessage()));
         }
@@ -83,7 +87,12 @@ public class HibernateDealerDAO implements DealerDAO {
         try (Session session = sessionFactory.openSession()) {
             Transaction tx1 = session.beginTransaction();
             CarDealership dealer = session.find(CarDealership.class, id);
+
+            System.out.println("HibernateDealerDAO, del - " + dealer);
+
             session.remove(dealer);
+            tx1.commit();
+            session.close();
         } catch (HibernateException e) {
             throw new DeleteDealerExeption(String.format("DeleteDealerExeption: %s.", e.getMessage()));
         }

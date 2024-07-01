@@ -2,6 +2,7 @@ package com.dmitriyevseyev.carWeb.server.strategy.importFile.car;
 
 import com.dmitriyevseyev.carWeb.model.Car;
 import com.dmitriyevseyev.carWeb.model.CarDealership;
+import com.dmitriyevseyev.carWeb.model.dto.CarDTO;
 import com.dmitriyevseyev.carWeb.server.controller.CarController;
 import com.dmitriyevseyev.carWeb.server.controller.DealerController;
 import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
@@ -11,23 +12,35 @@ import com.dmitriyevseyev.carWeb.server.strategy.StrategyConstants;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportExeption;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportStrategy;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.exeption.CarIdAlreadyExistException;
+import com.dmitriyevseyev.carWeb.shared.utils.ConverterDTO;
 
-public class CarConflictImportStrategy implements ImportStrategy<Car> {
+public class CarConflictImportStrategy implements ImportStrategy<CarDTO> {
     @Override
-    public void store(Car car) throws ImportExeption {
+    public void store(CarDTO carDTO) throws ImportExeption {
+        ConverterDTO converterDTO = ConverterDTO.getInstance();
+        Car car = converterDTO.converterCarDTOToCar(carDTO);
         CarDealership dealer = null;
         Car oldCar = null;
         try {
             DealerController dealerController = DealerController.getInstance();
             CarController carController = CarController.getInstance();
-            if (dealerController.getDealer(car.getIdDealer()) == null) {
-                throw new NotFoundException("The dealer was not found with id = " + car.getIdDealer() + "! "
+
+            dealer = dealerController.getDealer(carDTO.getIdDealer());
+
+            if (dealer == null) {
+                throw new NotFoundException("The dealer was not found with id = " + car.getDealer().getId() + "! "
                         + StrategyConstants.IMPORT_EXCEPTION_MESSAGE);
             } else {
+                car.setDealer(dealer);
+
+
+                System.out.println("CarConflictImportStrategy car - " + car);
+
+
                 oldCar = carController.getCar(car.getId());
                 if (oldCar != null) {
                     try {
-                        throw new CarIdAlreadyExistException ("Car with this id already exist: id = " + car.getId());
+                        throw new CarIdAlreadyExistException("Car with this id already exist: id = " + car.getId());
                     } catch (CarIdAlreadyExistException e) {
                         throw new ImportExeption(e.getMessage());
                     }

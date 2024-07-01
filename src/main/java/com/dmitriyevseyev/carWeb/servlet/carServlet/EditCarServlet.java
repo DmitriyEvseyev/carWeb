@@ -1,7 +1,9 @@
 package com.dmitriyevseyev.carWeb.servlet.carServlet;
 
 import com.dmitriyevseyev.carWeb.model.Car;
+import com.dmitriyevseyev.carWeb.model.CarDealership;
 import com.dmitriyevseyev.carWeb.server.controller.CarController;
+import com.dmitriyevseyev.carWeb.server.controller.DealerController;
 import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.UpdateCarException;
@@ -48,22 +50,27 @@ public class EditCarServlet extends HttpServlet {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
         Car car = null;
+        CarDealership dealer = null;
+
         int id = Integer.parseInt(req.getParameter("id"));
-
         int idDealer = Integer.parseInt(req.getParameter("idDealer"));
-
         String name = req.getParameter("name");
-
         String date = (req.getParameter("date"));
-
         String color = req.getParameter("color");
-
         Boolean isAfterCrash = req.getParameter("isAfterCrash") != null;
+
+
+        try {
+            DealerController dealerController = DealerController.getInstance();
+            dealer = dealerController.getDealer(idDealer);
+        } catch (DAOFactoryActionException | NotFoundException e) {
+            resp.sendError(503, e.getMessage());
+        }
 
         try {
             car = Car.builder()
                     .id(id)
-                    .idDealer(idDealer)
+                    .dealer(dealer)
                     .name(name)
                     .date(formatter.parse(date))
                     .color(color)

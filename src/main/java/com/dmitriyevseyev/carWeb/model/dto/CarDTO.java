@@ -1,43 +1,30 @@
-package com.dmitriyevseyev.carWeb.model;
-
-
+package com.dmitriyevseyev.carWeb.model.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-
-@Entity
-@Table(name = "CARS")
-public class Car implements Serializable {
-    @Id
-    @Column(name = "car_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class CarDTO implements Serializable {
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "dealer_id")
- //   @JsonIgnore
-    private CarDealership dealer;
-    @Column(name = "car_name")
+    //   @JsonIgnore
+    private Integer idDealer;
     private String name;
-    @Column(name = "car_date")
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date date;
-    @Column(name = "car_color")
+
     private String color;
-    @Column(name = "is_after_crash")
+
     private boolean isAfterCrash;
 
-    public Car() {
+    public CarDTO() {
     }
 
-    public Car(Integer id, CarDealership dealer, String name, Date date, String color, boolean isAfterCrash) {
+    public CarDTO(Integer id, Integer idDealer, String name, Date date, String color, boolean isAfterCrash) {
         this.id = id;
-        this.dealer = dealer;
+        this.idDealer = idDealer;
         this.name = name;
         this.date = date;
         this.color = color;
@@ -52,12 +39,12 @@ public class Car implements Serializable {
         this.id = id;
     }
 
-    public CarDealership getDealer() {
-        return dealer;
+    public Integer getIdDealer() {
+        return idDealer;
     }
 
-    public void setDealer(CarDealership dealer) {
-        this.dealer = dealer;
+    public void setIdDealer(Integer idDealer) {
+        this.idDealer = idDealer;
     }
 
     public String getName() {
@@ -96,25 +83,25 @@ public class Car implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Car car = (Car) o;
-        return isAfterCrash == car.isAfterCrash &&
-                Objects.equals(id, car.id) &&
-                Objects.equals(dealer.getId(), car.dealer.getId()) &&
-                Objects.equals(name, car.name) &&
-                Objects.equals(date, car.date) &&
-                Objects.equals(color, car.color);
+        CarDTO carDTO = (CarDTO) o;
+        return isAfterCrash == carDTO.isAfterCrash &&
+                Objects.equals(id, carDTO.id) &&
+                Objects.equals(idDealer, carDTO.idDealer) &&
+                Objects.equals(name, carDTO.name) &&
+                Objects.equals(date, carDTO.date) &&
+                Objects.equals(color, carDTO.color);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, dealer.getId(), name, date, color, isAfterCrash);
+        return Objects.hash(id,idDealer, name, date, color, isAfterCrash);
     }
 
     @Override
     public String toString() {
-        return "Car{" +
+        return "carDTO{" +
                 "id=" + id +
-                ", dealerId=" + dealer.getId() +
+                ", idDealer=" + idDealer +
                 ", name='" + name + '\'' +
                 ", date=" + date +
                 ", color='" + color + '\'' +
@@ -128,7 +115,7 @@ public class Car implements Serializable {
 
     public static class Builder {
         private Integer id;
-        private CarDealership dealer;
+        private Integer idDealer;
         private String name;
         private Date date;
         private String color;
@@ -142,11 +129,12 @@ public class Car implements Serializable {
             return this;
         }
 
-        public Builder dealer(CarDealership dealer) {
-            this.dealer = dealer;
+        public Builder idDealer(Integer idDealer) {
+            this.idDealer = idDealer;
 
             return this;
         }
+
         public Builder name(String name) {
             this.name = name;
 
@@ -171,10 +159,10 @@ public class Car implements Serializable {
             return this;
         }
 
-        public Car build() {
-            return new Car(
+        public CarDTO build() {
+            return new CarDTO(
                     id,
-                    dealer,
+                    idDealer,
                     name,
                     date,
                     color,

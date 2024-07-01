@@ -2,6 +2,7 @@ package com.dmitriyevseyev.carWeb.server.strategy.importFile.car;
 
 import com.dmitriyevseyev.carWeb.model.Car;
 import com.dmitriyevseyev.carWeb.model.CarDealership;
+import com.dmitriyevseyev.carWeb.model.dto.CarDTO;
 import com.dmitriyevseyev.carWeb.server.controller.CarController;
 import com.dmitriyevseyev.carWeb.server.controller.DealerController;
 import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
@@ -10,25 +11,33 @@ import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
 import com.dmitriyevseyev.carWeb.server.strategy.StrategyConstants;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportExeption;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportStrategy;
+import com.dmitriyevseyev.carWeb.shared.utils.ConverterDTO;
 
-public class CarIgnoreImportStrategy implements ImportStrategy<Car> {
+public class CarIgnoreImportStrategy implements ImportStrategy<CarDTO> {
     @Override
-    public void store(Car car) throws ImportExeption {
-        DealerController dealerController;
-        CarController carController = null;
-        try {
-            dealerController = DealerController.getInstance();
-            carController = CarController.getInstance();
-        } catch (DAOFactoryActionException e) {
-            throw new ImportExeption(e.getMessage());
-        }
+    public void store(CarDTO carDTO) throws ImportExeption {
+        ConverterDTO converterDTO = ConverterDTO.getInstance();
+        Car car = converterDTO.converterCarDTOToCar(carDTO);
         CarDealership dealer = null;
-        Car oldCar = null;
+
         try {
-            if (dealerController.getDealer(car.getIdDealer()) == null) {
-                throw new NotFoundException("The dealer was not found with id = " + car.getIdDealer() + "! "
+            DealerController dealerController = DealerController.getInstance();
+            CarController carController = CarController.getInstance();
+
+            dealer = dealerController.getDealer(carDTO.getIdDealer());
+
+            Car oldCar = null;
+
+            if (dealer == null) {
+                throw new NotFoundException("The dealer was not found with id = " + car.getDealer().getId() + "! "
                         + StrategyConstants.IMPORT_EXCEPTION_MESSAGE);
             } else {
+                car.setDealer(dealer);
+
+
+                System.out.println("CarIgnoreImportStrategy car - " + car);
+
+
                 oldCar = carController.getCar(car.getId());
                 if (oldCar == null) {
                     try {
@@ -38,7 +47,7 @@ public class CarIgnoreImportStrategy implements ImportStrategy<Car> {
                     }
                 }
             }
-        } catch (NotFoundException e) {
+        } catch (DAOFactoryActionException | NotFoundException e) {
             throw new ImportExeption(e.getMessage());
         }
     }

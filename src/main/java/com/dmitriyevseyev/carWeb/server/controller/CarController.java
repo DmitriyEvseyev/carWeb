@@ -72,6 +72,14 @@ public class CarController {
         }
         return Collections.unmodifiableList(carList);
     }
+
+    public List<Car> getCarsByDealersIds(List<Integer> ids) throws GetAllCarExeption {
+        List<Car> carList = new ArrayList<>();
+        for (Integer idDealer : ids) {
+            carList.addAll(carList.size(), getCarList(idDealer));
+        }
+        return Collections.unmodifiableList(carList);
+    }
 }
 
 

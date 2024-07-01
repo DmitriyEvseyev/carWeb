@@ -1,33 +1,20 @@
-package com.dmitriyevseyev.carWeb.model;
+package com.dmitriyevseyev.carWeb.model.dto;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 
-@Entity
-@Table(name = "DEALERS")
-public class CarDealership implements Serializable {
-    @Id
-    @Column(name = "dealer_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class CarDealershipDTO implements Serializable {
+
     private Integer id;
-    @Column(name = "dealer_name")
+
     private String name;
-    @Column(name = "dealer_address")
+
     private String address;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dealer",
-            cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Car> cars;
-
-    public CarDealership() {
+    public CarDealershipDTO() {
     }
 
-    public CarDealership(Integer id, String name, String address) {
+    public CarDealershipDTO(Integer id, String name, String address) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -57,20 +44,15 @@ public class CarDealership implements Serializable {
         this.address = address;
     }
 
-    public List<Car> getCars() {
-        return cars;
-    }
-
-    public void setCars(List<Car> cars) {
-        this.cars = cars;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CarDealership that = (CarDealership) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(address, that.address);
+        CarDealershipDTO that = (CarDealershipDTO) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(address, that.address);
     }
 
     @Override
@@ -80,7 +62,7 @@ public class CarDealership implements Serializable {
 
     @Override
     public String toString() {
-        return "CarDealership{" +
+        return "CarDealershipDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
@@ -114,8 +96,8 @@ public class CarDealership implements Serializable {
             return this;
         }
 
-        public CarDealership build() {
-            return new CarDealership(
+        public CarDealershipDTO build() {
+            return new CarDealershipDTO(
                     id,
                     name,
                     address

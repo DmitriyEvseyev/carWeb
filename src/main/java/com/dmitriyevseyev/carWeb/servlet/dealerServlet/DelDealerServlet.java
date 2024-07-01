@@ -29,7 +29,7 @@ public class DelDealerServlet extends HttpServlet {
             for (String id : idDealer) {
                 controller.removeDealer(Integer.valueOf(id));
             }
-        } catch (NotFoundException | DeleteDealerExeption | DAOFactoryActionException e) {
+        } catch (DeleteDealerExeption | DAOFactoryActionException e) {
             resp.sendError(503, e.getMessage());
         }
 

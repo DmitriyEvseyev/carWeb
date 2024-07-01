@@ -2,6 +2,7 @@ package com.dmitriyevseyev.carWeb.server.strategy.importFile;
 
 import com.dmitriyevseyev.carWeb.model.Car;
 import com.dmitriyevseyev.carWeb.model.CarDealership;
+import com.dmitriyevseyev.carWeb.model.dto.CarDTO;
 import com.dmitriyevseyev.carWeb.server.strategy.StrategyConstants;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.car.CarConflictImportStrategy;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.car.CarIgnoreImportStrategy;
@@ -16,7 +17,7 @@ import java.util.Map;
 public class ImportStrategyHelper {
     private static ImportStrategyHelper instance;
     private final Map<Integer, ImportStrategy<CarDealership>> dealerStrategies;
-    private final Map<Integer, ImportStrategy<Car>> carStrategies;
+    private final Map<Integer, ImportStrategy<CarDTO>> carStrategies;
 
     public static ImportStrategyHelper getInstance() {
         if (instance == null) {
@@ -41,7 +42,7 @@ public class ImportStrategyHelper {
         return this.dealerStrategies.get(strategyID);
     }
 
-    public ImportStrategy<Car> resolveCarStrategy(int strategyId) {
+    public ImportStrategy<CarDTO> resolveCarStrategy(int strategyId) {
         return this.carStrategies.get(strategyId);
     }
 }

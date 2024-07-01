@@ -38,10 +38,10 @@ public class SortCarServlet extends HttpServlet {
         } catch (DAOFactoryActionException e) {
             resp.sendError(503, e.getMessage());
         }
-        String columnName = "Name";
-        String columnDate = "Date";
-        String columnColor = "Color";
-        String columnCrash = "isAfterCrash";
+        String columnName = "car_name";
+        String columnDate = "car_date";
+        String columnColor = "car_color";
+        String columnCrash = "is_after_crash";
         String criteriaA = "ASC";
         String criteriaD = "DESC";
 

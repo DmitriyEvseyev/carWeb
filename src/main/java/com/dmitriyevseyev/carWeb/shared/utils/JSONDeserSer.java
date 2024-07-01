@@ -30,6 +30,9 @@ public class JSONDeserSer {
     }
 
     public String serialization (ExportDTO exportDTO) throws JsonProcessingException {
+
+        System.out.println("JSONDeserSer, serialization - " + exportDTO);
+
         return objectMapper.writeValueAsString(exportDTO);
     }
 }

@@ -2,12 +2,14 @@ package com.dmitriyevseyev.carWeb.ejb;
 
 import com.dmitriyevseyev.carWeb.model.Car;
 import com.dmitriyevseyev.carWeb.model.CarDealership;
+import com.dmitriyevseyev.carWeb.model.dto.CarDTO;
 import com.dmitriyevseyev.carWeb.server.strategy.*;
 import com.dmitriyevseyev.carWeb.server.strategy.export.ExportExeption;
 import com.dmitriyevseyev.carWeb.server.strategy.export.ExportListFactory;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportExeption;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportStrategy;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportStrategyHelper;
+import com.dmitriyevseyev.carWeb.shared.utils.ConverterDTO;
 import com.dmitriyevseyev.carWeb.shared.utils.ExportDTO;
 import com.dmitriyevseyev.carWeb.shared.utils.JSONDeserSer;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -24,6 +26,9 @@ public class ExportImportBean implements IExportImport {
         ExportDTO exportDTO = null;
         try {
             exportDTO = ExportListFactory.getInstance().create(dealersIds, carsIds);
+
+
+            System.out.println("ExportImportBean, exportDTO - " + exportDTO);
         } catch (StrategyNotFoundException e) {
             throw new ExportExeption(e.getMessage());
         }
@@ -40,11 +45,12 @@ public class ExportImportBean implements IExportImport {
 
     @Override
     public void importObjects(String json) throws ImportExeption {
+        ConverterDTO converterDTO = ConverterDTO.getInstance();
         List<CarDealership> dealerList = new ArrayList<>();
-        List<Car> carList = new ArrayList<>();
+        List<CarDTO> carList = new ArrayList<>();
 
         ExportDTO exportDTO = JSONDeserSer.getInstance().deserialization(json);
-        dealerList.addAll(exportDTO.getDealers());
+        dealerList.addAll(converterDTO.convertetDealerDTOToDealer(exportDTO.getDealers()));
         carList.addAll(exportDTO.getCars());
 
         ExportConfigStrategy config = ExportConfigStrategy.getInstance();
@@ -76,9 +82,9 @@ public class ExportImportBean implements IExportImport {
             if (importStrategyHelper.resolveCarStrategy(carImpIdStrategy).equals(null)) {
                 throw new StrategyNotFoundException(StrategyConstants.IMPORT_STRATEGY_NOT_FOUND_EXCEPTION_MESSAGE);
             } else {
-                ImportStrategy<Car> carImportStrategy = importStrategyHelper.resolveCarStrategy(carImpIdStrategy);
-                for (Car car : carList) {
-                    carImportStrategy.store(car);
+                ImportStrategy<CarDTO> carImportStrategy = importStrategyHelper.resolveCarStrategy(carImpIdStrategy);
+                for (CarDTO carDTO : carList) {
+                    carImportStrategy.store(carDTO);
                 }
             }
         } catch (StrategyNotFoundException e) {

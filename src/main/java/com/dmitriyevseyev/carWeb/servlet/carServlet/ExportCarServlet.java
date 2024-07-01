@@ -38,6 +38,11 @@ public class ExportCarServlet extends HttpServlet {
         String exportList = null;
         try {
             exportList = exportImportBean.exportObjects(new ArrayList<>(), carsIds);
+
+
+            System.out.println("ExportCarServlet - " + exportList);
+
+
         } catch (ExportExeption e) {
             resp.sendError(503, e.getMessage());
         }

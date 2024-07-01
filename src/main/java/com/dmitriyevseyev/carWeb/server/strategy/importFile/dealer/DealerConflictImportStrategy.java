@@ -14,8 +14,17 @@ public class DealerConflictImportStrategy implements ImportStrategy<CarDealershi
     @Override
     public void store(CarDealership dealer) throws ImportExeption {
         DealerController dealerController;
+
+        System.out.println("DealerConflictImportStrategy - " + dealer);
+
+
         try {
             dealerController = DealerController.getInstance();
+
+
+            System.out.println("dealer.getName() - " + dealer.getName());
+
+
             if (dealerController.getDealerByName(dealer.getName()) != null) {
                 try {
                     throw new DealerNameAlreadyExistException("Dealer with this name, address already exist: name = " + dealer.getName());

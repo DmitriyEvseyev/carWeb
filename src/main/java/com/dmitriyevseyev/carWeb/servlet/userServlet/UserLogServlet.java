@@ -1,6 +1,8 @@
 package com.dmitriyevseyev.carWeb.servlet.userServlet;
 
 import com.dmitriyevseyev.carWeb.server.controller.UserController;
+import com.dmitriyevseyev.carWeb.server.dao.hibernate.HibernateManagerDAO;
+import com.dmitriyevseyev.carWeb.server.dao.interfaces.ManagerDAO;
 import com.dmitriyevseyev.carWeb.server.dao.postgreSQL.PostgreSQLManagerDAO;
 import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.user.UserNotFoundExeption;
@@ -30,7 +32,7 @@ public class UserLogServlet extends HttpServlet {
         boolean isCorrect = false;
 
         try {
-            PostgreSQLManagerDAO.getInstance(ServletConstants.PATH_SQL);
+            ManagerDAO managerDAO = HibernateManagerDAO.getInstance(ServletConstants.PATH_SQL);
             isCorrect = UserController.getInstance().isUserExistServer(userName, userPassword);
         } catch (DAOFactoryActionException | UserPasswordExeption | UserNotFoundExeption e) {
             resp.sendError(503, e.getMessage());
