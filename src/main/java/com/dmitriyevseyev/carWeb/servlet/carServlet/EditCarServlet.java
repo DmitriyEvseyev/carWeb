@@ -35,6 +35,9 @@ public class EditCarServlet extends HttpServlet {
         Car car = null;
         try {
             car = CarController.getInstance().getCar(id);
+            DealerController dealerController = DealerController.getInstance();
+            CarDealership dealer = dealerController.getDealer(idDealer);
+            dealer.getCars().remove(car);
         } catch (NotFoundException | DAOFactoryActionException e) {
             response.sendError(503, e.getMessage());
         }
@@ -61,8 +64,10 @@ public class EditCarServlet extends HttpServlet {
 
 
         try {
+            Car oldCar = CarController.getInstance().getCar(id);
             DealerController dealerController = DealerController.getInstance();
             dealer = dealerController.getDealer(idDealer);
+            dealer.getCars().remove(oldCar);
         } catch (DAOFactoryActionException | NotFoundException e) {
             resp.sendError(503, e.getMessage());
         }
@@ -85,6 +90,8 @@ public class EditCarServlet extends HttpServlet {
         } catch (UpdateCarException | DAOFactoryActionException e) {
             resp.sendError(503, e.getMessage());
         }
+        dealer.getCars().add(car);
+
         HttpSession session = req.getSession();
         session.setAttribute("idD", idDealer);
         resp.sendRedirect(ServletConstants.PATH_CARS);

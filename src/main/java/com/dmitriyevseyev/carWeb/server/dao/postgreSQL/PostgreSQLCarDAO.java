@@ -19,6 +19,7 @@ public class PostgreSQLCarDAO implements CarDAO {
         }
         return instance;
     }
+
     public PostgreSQLCarDAO(Connection connection) {
         this.connection = connection;
     }
@@ -37,6 +38,7 @@ public class PostgreSQLCarDAO implements CarDAO {
             throw new AddCarExeption(String.format("AddCarExeption: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
     }
+
     @Override
     public List<Car> getCarListDealer(Integer idDealer) throws GetAllCarExeption {
         String sql = "SELECT * FROM CAR WHERE IDDEALER = ?";
@@ -49,9 +51,11 @@ public class PostgreSQLCarDAO implements CarDAO {
         }
         return Collections.unmodifiableList(list);
     }
+
     @Override
     public Car getCar(Integer id) throws NotFoundException {
 
+// TO DO  создать CarDTO???
 
         Car car = null;
         String sql = "SELECT * FROM CAR WHERE ID = ?";
@@ -61,7 +65,7 @@ public class PostgreSQLCarDAO implements CarDAO {
             while (rs.next()) {
                 car = Car.builder()
                         .id(rs.getInt("Id"))
-  //                      .dealer.getId(rs.getInt("IdDealer"))
+                        //                      .dealer.getId(rs.getInt("IdDealer"))
                         .name(rs.getString("Name"))
                         .color(rs.getString("Color"))
                         .date(rs.getDate("Date"))
@@ -73,6 +77,7 @@ public class PostgreSQLCarDAO implements CarDAO {
         }
         return car;
     }
+
     @Override
     public void update(Car car) throws UpdateCarException {
         String sql = "UPDATE CAR SET NAME = ?, DATE = ?, COLOR = ?, ISAFTERCRASH = ?  WHERE ID = ?";
@@ -106,7 +111,9 @@ public class PostgreSQLCarDAO implements CarDAO {
             while (rs.next()) {
                 list.add(Car.builder()
                         .id(rs.getInt("Id"))
-   //                     .idDealer(rs.getInt("IdDealer"))
+
+ // TO DO тоже  создать CarDTO???
+ //                     .idDealer(rs.getInt("IdDealer"))
                         .name(rs.getString("Name"))
                         .color(rs.getString("Color"))
                         .date(rs.getDate("Date"))

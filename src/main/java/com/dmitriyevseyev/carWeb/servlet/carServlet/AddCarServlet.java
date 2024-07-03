@@ -62,6 +62,14 @@ public class AddCarServlet extends HttpServlet {
             resp.sendError(503, "ParseException. " + e.getMessage());
         }
 
+        dealer.getCars().add(car);
+
+
+
+        System.out.println("dealer.getCars().add(car); - " + dealer.getCars());
+
+
+
         try {
             CarController.getInstance().addCar(car);
         } catch (AddCarExeption | DAOFactoryActionException e) {
