@@ -8,7 +8,6 @@ import com.dmitriyevseyev.carWeb.server.controller.DealerController;
 import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.AddCarExeption;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
-import com.dmitriyevseyev.carWeb.server.strategy.StrategyConstants;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportExeption;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportStrategy;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.exeption.CarIdAlreadyExistException;
@@ -24,32 +23,20 @@ public class CarConflictImportStrategy implements ImportStrategy<CarDTO> {
         try {
             DealerController dealerController = DealerController.getInstance();
             CarController carController = CarController.getInstance();
-
             dealer = dealerController.getDealer(carDTO.getIdDealer());
-
-            if (dealer == null) {
-                throw new NotFoundException("The dealer was not found with id = " + car.getDealer().getId() + "! "
-                        + StrategyConstants.IMPORT_EXCEPTION_MESSAGE);
+            car.setDealer(dealer);
+            oldCar = carController.getCar(car.getId());
+            if (oldCar != null) {
+                try {
+                    throw new CarIdAlreadyExistException("Car with this id already exist: id = " + car.getId());
+                } catch (CarIdAlreadyExistException e) {
+                    throw new ImportExeption(e.getMessage());
+                }
             } else {
-                car.setDealer(dealer);
-
-
-                System.out.println("CarConflictImportStrategy car - " + car);
-
-
-                oldCar = carController.getCar(car.getId());
-                if (oldCar != null) {
-                    try {
-                        throw new CarIdAlreadyExistException("Car with this id already exist: id = " + car.getId());
-                    } catch (CarIdAlreadyExistException e) {
-                        throw new ImportExeption(e.getMessage());
-                    }
-                } else {
-                    try {
-                        carController.addCar(car);
-                    } catch (AddCarExeption ex) {
-                        throw new ImportExeption(ex.getMessage());
-                    }
+                try {
+                    carController.addCar(car);
+                } catch (AddCarExeption ex) {
+                    throw new ImportExeption(ex.getMessage());
                 }
             }
         } catch (NotFoundException | DAOFactoryActionException e) {

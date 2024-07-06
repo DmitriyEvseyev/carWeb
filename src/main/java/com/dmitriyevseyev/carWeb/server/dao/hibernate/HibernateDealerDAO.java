@@ -9,7 +9,6 @@ import com.dmitriyevseyev.carWeb.server.exceptions.dealer.GetAllDealerExeption;
 import com.dmitriyevseyev.carWeb.server.exceptions.dealer.UpdateDealerException;
 import org.hibernate.*;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +26,7 @@ public class HibernateDealerDAO implements DealerDAO {
         this.sessionFactory = sessionFactory;
     }
 
+    @Override
     public void createDealer(CarDealership dealer) throws AddDealerExeption {
         try {
             Session session = sessionFactory.openSession();
@@ -39,15 +39,17 @@ public class HibernateDealerDAO implements DealerDAO {
         }
     }
 
+    @Override
     public CarDealership getDealer(Integer id) throws NotFoundException {
         try (Session session = sessionFactory.openSession()) {
-            CarDealership dealer = session.find(CarDealership.class, id);
+            CarDealership dealer = session.get(CarDealership.class, id);
             return dealer;
         } catch (HibernateException e) {
             throw new NotFoundException(String.format("The dealer was not found!  %s.", e.getMessage()));
         }
     }
 
+    @Override
     public CarDealership getDealerByName(String name) throws NotFoundException {
         List<CarDealership> dealers = new ArrayList<>();
         try (Session session = sessionFactory.openSession()) {
@@ -67,12 +69,8 @@ public class HibernateDealerDAO implements DealerDAO {
         }
     }
 
-    public void update(Integer id, String name, String address) throws UpdateDealerException {
-        CarDealership dealer = CarDealership.builder().
-                id(id).
-                name(name).
-                address(address).
-                build();
+    @Override
+    public void update(CarDealership dealer) throws UpdateDealerException {
         try (Session session = sessionFactory.openSession()) {
             Transaction tx1 = session.beginTransaction();
             session.update(dealer);
@@ -83,6 +81,7 @@ public class HibernateDealerDAO implements DealerDAO {
         }
     }
 
+    @Override
     public void delete(Integer id) throws DeleteDealerExeption {
         try (Session session = sessionFactory.openSession()) {
             Transaction tx1 = session.beginTransaction();
@@ -98,6 +97,7 @@ public class HibernateDealerDAO implements DealerDAO {
         }
     }
 
+    @Override
     public List<CarDealership> getAll() throws GetAllDealerExeption {
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery("From CarDealership").getResultList();
@@ -106,6 +106,7 @@ public class HibernateDealerDAO implements DealerDAO {
         }
     }
 
+    @Override
     public List<CarDealership> getSortedByCriteria(String column, String criteria) throws GetAllDealerExeption {
         List<CarDealership> dealers = new ArrayList<>();
         try (Session session = sessionFactory.openSession()) {
@@ -121,6 +122,7 @@ public class HibernateDealerDAO implements DealerDAO {
         }
     }
 
+    @Override
     public List<CarDealership> getFilteredByPattern(String column, String pattern, String criteria) throws GetAllDealerExeption {
         List<CarDealership> dealers = new ArrayList<>();
         try (Session session = sessionFactory.openSession()) {

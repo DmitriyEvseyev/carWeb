@@ -14,10 +14,6 @@ public class DealerConflictImportStrategy implements ImportStrategy<CarDealershi
     @Override
     public void store(CarDealership dealer) throws ImportExeption {
         DealerController dealerController;
-
-        System.out.println("DealerConflictImportStrategy - " + dealer);
-
-
         try {
             dealerController = DealerController.getInstance();
             if (dealerController.getDealerByName(dealer.getName()) != null) {

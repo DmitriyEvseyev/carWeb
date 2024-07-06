@@ -83,12 +83,12 @@ public class PostgreSQLDealerDAO implements DealerDAO {
     }
 
     @Override
-    public void update(Integer id, String name, String address) throws UpdateDealerException {
+    public void update(CarDealership dealer) throws UpdateDealerException {
         String sql = "UPDATE DEALERS SET dealer_name = ?, dealer_address = ?  WHERE dealer_id = ?";
         try (PreparedStatement stm = connection.prepareStatement(sql);) {
-            stm.setString(1, name);
-            stm.setString(2, address);
-            stm.setInt(3, id);
+            stm.setString(1, dealer.getName());
+            stm.setString(2, dealer.getAddress());
+            stm.setInt(3, dealer.getId());
             stm.executeUpdate();
         } catch (SQLException e) {
             throw new UpdateDealerException(String.format("EditDealerExeption: %s.", e.getMessage()));

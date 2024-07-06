@@ -40,9 +40,14 @@ public class EditDealerServlet extends HttpServlet {
         String name = request.getParameter("name");
         String address = request.getParameter("address");
         DealerController controller;
+        CarDealership dealer = CarDealership.builder().
+                id(id).
+                name(name).
+                address(address).
+                build();
         try {
             controller = DealerController.getInstance();
-            controller.updateDealer(id, name, address);
+            controller.updateDealer(dealer);
         } catch (UpdateDealerException | DAOFactoryActionException e) {
             response.sendError(503, e.getMessage());
         }

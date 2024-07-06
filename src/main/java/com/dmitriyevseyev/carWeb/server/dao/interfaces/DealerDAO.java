@@ -17,7 +17,7 @@ public interface DealerDAO {
 
     CarDealership getDealerByName(String name) throws NotFoundException;
 
-    void update(Integer id, String name, String address) throws UpdateDealerException;
+    void update(CarDealership dealer) throws UpdateDealerException;
 
     void delete(Integer id) throws DeleteDealerExeption;
 

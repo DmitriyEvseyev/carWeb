@@ -57,7 +57,7 @@ public class ConverterDTO {
         return dealerDTOList;
     }
 
-    public List<CarDealership> convertetDealerDTOToDealer (List<CarDealershipDTO> dealerDTOList) {
+    public List<CarDealership> convertetDealerDTOToDealer(List<CarDealershipDTO> dealerDTOList) {
         List<CarDealership> dealerList = new ArrayList<>();
         for (CarDealershipDTO dealerDTO : dealerDTOList) {
             CarDealership dealer = CarDealership.builder().
@@ -70,8 +70,8 @@ public class ConverterDTO {
         return dealerList;
     }
 
-    public Car converterCarDTOToCar (CarDTO carDTO) {
-      Car car =  Car.builder().
+    public Car converterCarDTOToCar(CarDTO carDTO) {
+        Car car = Car.builder().
                 id(carDTO.getId()).
                 name(carDTO.getName()).
                 date(carDTO.getDate()).

@@ -8,7 +8,6 @@ import com.dmitriyevseyev.carWeb.server.controller.DealerController;
 import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.AddCarExeption;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
-import com.dmitriyevseyev.carWeb.server.strategy.StrategyConstants;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportExeption;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportStrategy;
 import com.dmitriyevseyev.carWeb.shared.utils.ConverterDTO;
@@ -23,28 +22,15 @@ public class CarIgnoreImportStrategy implements ImportStrategy<CarDTO> {
         try {
             DealerController dealerController = DealerController.getInstance();
             CarController carController = CarController.getInstance();
-
             dealer = dealerController.getDealer(carDTO.getIdDealer());
-
             Car oldCar = null;
-
-            if (dealer == null) {
-                throw new NotFoundException("The dealer was not found with id = " + car.getDealer().getId() + "! "
-                        + StrategyConstants.IMPORT_EXCEPTION_MESSAGE);
-            } else {
-                car.setDealer(dealer);
-
-
-                System.out.println("CarIgnoreImportStrategy car - " + car);
-
-
-                oldCar = carController.getCar(car.getId());
-                if (oldCar == null) {
-                    try {
-                        carController.addCar(car);
-                    } catch (AddCarExeption ex) {
-                        throw new ImportExeption(ex.getMessage());
-                    }
+            car.setDealer(dealer);
+            oldCar = carController.getCar(car.getId());
+            if (oldCar == null) {
+                try {
+                    carController.addCar(car);
+                } catch (AddCarExeption ex) {
+                    throw new ImportExeption(ex.getMessage());
                 }
             }
         } catch (DAOFactoryActionException | NotFoundException e) {

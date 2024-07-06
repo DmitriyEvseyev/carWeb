@@ -46,8 +46,8 @@ public class DealerController {
         return Collections.unmodifiableList(new ArrayList<>(dealerDAO.getAll()));
     }
 
-    public void updateDealer(Integer id, String name, String address) throws UpdateDealerException {
-        dealerDAO.update(id, name, address);
+    public void updateDealer(CarDealership dealer) throws UpdateDealerException {
+        dealerDAO.update(dealer);
     }
 
     public void removeDealer(Integer id) throws DeleteDealerExeption {

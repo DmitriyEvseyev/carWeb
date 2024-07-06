@@ -9,7 +9,6 @@ import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.AddCarExeption;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.NotFoundException;
 import com.dmitriyevseyev.carWeb.server.exceptions.car.UpdateCarException;
-import com.dmitriyevseyev.carWeb.server.strategy.StrategyConstants;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportExeption;
 import com.dmitriyevseyev.carWeb.server.strategy.importFile.ImportStrategy;
 import com.dmitriyevseyev.carWeb.shared.utils.ConverterDTO;
@@ -19,35 +18,20 @@ public class CarOverwriteImportStrategy implements ImportStrategy<CarDTO> {
     public void store(CarDTO carDTO) throws ImportExeption {
         ConverterDTO converterDTO = ConverterDTO.getInstance();
         Car car = converterDTO.converterCarDTOToCar(carDTO);
-
         CarDealership dealer = null;
         Car oldCar = null;
         try {
             DealerController dealerController = DealerController.getInstance();
             CarController carController = CarController.getInstance();
             dealer = dealerController.getDealer(carDTO.getIdDealer());
-
-            if (dealerController.getDealer(car.getDealer().getId()) == null) {
-                throw new NotFoundException("The dealer was not found with id = " + car.getDealer().getId() + "! "
-                        + StrategyConstants.IMPORT_EXCEPTION_MESSAGE);
+            car.setDealer(dealer);
+            oldCar = carController.getCar(car.getId());
+            if (oldCar != null) {
+                carController.updateCar(car);
             } else {
-                try {
-                    car.setDealer(dealer);
-
-                    System.out.println("CarConflictImportStrategy car - " + car);
-
-
-                    oldCar = carController.getCar(car.getId());
-                    if (oldCar != null) {
-                        carController.updateCar(car);
-                    } else {
-                        carController.addCar(car);
-                    }
-                } catch (AddCarExeption | UpdateCarException ex) {
-                    throw new ImportExeption(ex.getMessage());
-                }
+                carController.addCar(car);
             }
-        } catch (NotFoundException | DAOFactoryActionException e) {
+        } catch (AddCarExeption | UpdateCarException | NotFoundException | DAOFactoryActionException e) {
             throw new ImportExeption(e.getMessage());
         }
     }
