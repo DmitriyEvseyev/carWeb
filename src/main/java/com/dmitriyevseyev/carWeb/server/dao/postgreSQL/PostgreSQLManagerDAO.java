@@ -47,8 +47,8 @@ public class PostgreSQLManagerDAO implements ManagerDAO {
         return PostgreSQLDealerDAO.getInstance(connection);
     }
 
-
-    private void executeSqlStartScript(String path) throws DAOFactoryActionException {
+    @Override
+    public void executeSqlStartScript(String path) throws DAOFactoryActionException {
         StringBuilder rawStatement = new StringBuilder();
         File file = new File(getClass().getClassLoader().getResource(path).getFile());
         try {

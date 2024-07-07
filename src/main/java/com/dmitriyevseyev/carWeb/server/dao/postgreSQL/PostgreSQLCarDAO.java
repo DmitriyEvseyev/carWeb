@@ -100,7 +100,6 @@ public class PostgreSQLCarDAO implements CarDAO {
         }
     }
 
-    @Override
     public List<Car> createListByResultSet(ResultSet rs) throws GetAllCarExeption {
         List<Car> list = new LinkedList<>();
         try {
@@ -118,24 +117,6 @@ public class PostgreSQLCarDAO implements CarDAO {
             throw new GetAllCarExeption(String.format("GetAllCarExeption. Error: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
         return list;
-    }
-
-    @Override
-    public boolean isCarExist(Integer Id) throws NotFoundException {
-        boolean carExist;
-        String sqlExistCar = "SELECT * FROM CARS WHERE car_id = ?";
-        try (PreparedStatement stm = connection.prepareStatement(sqlExistCar)) {
-            stm.setInt(1, Id);
-            ResultSet rs = stm.executeQuery();
-            if (rs.next()) {
-                carExist = true;
-            } else {
-                carExist = false;
-            }
-        } catch (SQLException e) {
-            throw new NotFoundException(String.format("The car was not found!  %s. Code: %s", e.getMessage(), e.getSQLState()));
-        }
-        return carExist;
     }
 
     @Override

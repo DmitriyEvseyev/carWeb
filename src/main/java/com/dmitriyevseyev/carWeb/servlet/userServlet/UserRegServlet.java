@@ -2,6 +2,7 @@ package com.dmitriyevseyev.carWeb.servlet.userServlet;
 
 import com.dmitriyevseyev.carWeb.model.User;
 import com.dmitriyevseyev.carWeb.server.controller.UserController;
+import com.dmitriyevseyev.carWeb.server.dao.interfaces.ManagerDAO;
 import com.dmitriyevseyev.carWeb.server.dao.postgreSQL.PostgreSQLManagerDAO;
 import com.dmitriyevseyev.carWeb.server.exceptions.DAOFactoryActionException;
 import com.dmitriyevseyev.carWeb.server.exceptions.user.AddUserExeption;
@@ -31,7 +32,7 @@ public class UserRegServlet extends HttpServlet {
 
         UserController userCont;
         try {
-            PostgreSQLManagerDAO.getInstance(ServletConstants.PATH_SQL);
+            ManagerDAO managerDAO = PostgreSQLManagerDAO.getInstance(ServletConstants.PATH_SQL);
             userCont = UserController.getInstance();
 
         if (userPassword.equals(userPass2) == false) {

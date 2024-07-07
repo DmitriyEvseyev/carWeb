@@ -1,5 +1,6 @@
 package com.dmitriyevseyev.carWeb.server.controller;
 
+import com.dmitriyevseyev.carWeb.server.dao.interfaces.UserDAO;
 import com.dmitriyevseyev.carWeb.server.dao.postgreSQL.PostgreSQLManagerDAO;
 import com.dmitriyevseyev.carWeb.server.dao.postgreSQL.PostgreSQLUserDAO;
 import com.dmitriyevseyev.carWeb.model.User;
@@ -13,7 +14,7 @@ import java.sql.SQLException;
 
 public class UserController {
     private static UserController instance;
-    private PostgreSQLUserDAO postgreSQLUserDAO;
+    private UserDAO postgreSQLUserDAO;
 
     public static UserController getInstance() throws DAOFactoryActionException {
         if (instance == null) {
@@ -27,42 +28,29 @@ public class UserController {
         this.postgreSQLUserDAO = postgreSQLManagerDAO.getDaoUser();
     }
 
-    public boolean isUserExistServer(String userName, String userPassword) throws UserPasswordExeption {
+    public boolean isUserExistServer(String userName, String userPassword) throws UserPasswordExeption, UserNotFoundExeption {
         PasswordHashGenerator passwordHashGenerator = PasswordHashGenerator.getInstance();
         boolean isCorrect = false;
-        try {
-            String password = passwordHashGenerator.getHashPassword(userPassword);
-            String passwordServer = postgreSQLUserDAO.getPassword(userName);
-            if (passwordServer == null) {
-                return isCorrect;
-            } else {
-                String passwordServerHash = passwordHashGenerator.getHashPassword(passwordServer);
-                if (password.equals(passwordServerHash)) {
-                    isCorrect = true;
-                }
+        String password = passwordHashGenerator.getHashPassword(userPassword);
+        String passwordServer = postgreSQLUserDAO.getPassword(userName);
+        if (passwordServer == null) {
+            return isCorrect;
+        } else {
+            String passwordServerHash = passwordHashGenerator.getHashPassword(passwordServer);
+            if (password.equals(passwordServerHash)) {
+                isCorrect = true;
             }
-        } catch (SQLException e) {
-            throw new UserPasswordExeption ("Password error! ");
         }
         return isCorrect;
     }
 
     public boolean isUserNameExistServer(String userName) throws UserNotFoundExeption {
         boolean isNameExist = false;
-        try {
-            isNameExist = postgreSQLUserDAO.isUserExist(userName);
-        } catch (SQLException e) {
-            throw new UserNotFoundExeption("Error! User has not been found.");
-        }
+        isNameExist = postgreSQLUserDAO.isUserExist(userName);
         return isNameExist;
     }
 
     public void addUser(User user) throws AddUserExeption {
-        try {
-            postgreSQLUserDAO.createUser(user);
-        } catch (SQLException e) {
-            throw new AddUserExeption("Error! User has not been added. Try later.");
-        }
+        postgreSQLUserDAO.createUser(user);
     }
 }
-

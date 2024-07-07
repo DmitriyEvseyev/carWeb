@@ -44,9 +44,7 @@ public class CarController {
     }
 
     public void removeCar(Integer id) throws NotFoundException, DeleteCarExeption {
-        if (CarDAO.isCarExist(id)) {
-            CarDAO.delete(id);
-        }
+        CarDAO.delete(id);
     }
 
     public Car getCar(Integer id) throws NotFoundException {
