@@ -42,7 +42,12 @@ public class EditDealerServlet extends HttpServlet {
         DealerController controller;
         try {
             controller = DealerController.getInstance();
-            controller.updateDealer(id, name, address);
+            CarDealership dealer = CarDealership.builder().
+                    id(id).
+                    name(name).
+                    address(address).
+                    build();
+            controller.updateDealer(dealer);
         } catch (UpdateDealerException | DAOFactoryActionException e) {
             response.sendError(503, e.getMessage());
         }

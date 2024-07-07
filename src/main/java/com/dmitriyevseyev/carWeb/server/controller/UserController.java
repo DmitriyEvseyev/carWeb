@@ -28,41 +28,17 @@ public class UserController {
     }
 
     public boolean isUserExistServer(String userName, String userPassword) throws UserPasswordExeption {
-        System.out.println("isUserExistServer");
-
         PasswordHashGenerator passwordHashGenerator = PasswordHashGenerator.getInstance();
         boolean isCorrect = false;
-
-        System.out.println("isCorrect = false;");
-
         try {
-
-            System.out.println(123);
-
             String password = passwordHashGenerator.getHashPassword(userPassword);
-
-            System.out.println(444444);
-
             String passwordServer = postgreSQLUserDAO.getPassword(userName);
-
-
-            System.out.println("password - " + password);
-            System.out.println("passwordServer - " + passwordServer );
-
-
             if (passwordServer == null) {
                 return isCorrect;
             } else {
                 String passwordServerHash = passwordHashGenerator.getHashPassword(passwordServer);
-
-
-                System.out.println("passwordServerHash - " + passwordServerHash);
-
-
                 if (password.equals(passwordServerHash)) {
                     isCorrect = true;
-
-                    System.out.println("isCorrect - " + isCorrect);
                 }
             }
         } catch (SQLException e) {

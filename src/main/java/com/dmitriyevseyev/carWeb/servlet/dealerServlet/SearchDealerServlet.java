@@ -22,6 +22,9 @@ public class SearchDealerServlet extends HttpServlet {
         String column = req.getParameter("column");
         String pattern = req.getParameter("pattern");
 
+
+
+
         List<CarDealership> carDealerships = null;
         DealerController dealerContr;
         String criteria = "ASC";

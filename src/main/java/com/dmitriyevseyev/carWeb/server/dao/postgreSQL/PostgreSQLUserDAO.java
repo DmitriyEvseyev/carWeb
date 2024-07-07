@@ -35,7 +35,7 @@ public class PostgreSQLUserDAO implements UserDAO {
         try (PreparedStatement stm = connection.prepareStatement(sqlExistUser)) {
             stm.setString(1, userName);
             ResultSet rs = stm.executeQuery();
-            if (rs.next()) {
+                if (rs.next()) {
                 userExist = true;
             } else {
                 userExist = false;
@@ -54,7 +54,7 @@ public class PostgreSQLUserDAO implements UserDAO {
                 stm.setString(1, userName);
                 ResultSet rs = stm.executeQuery();
                 while (rs.next()) {
-                    password = rs.getString("PASSWORD");
+                    password = rs.getString("user_password");
                 }
             }
         }

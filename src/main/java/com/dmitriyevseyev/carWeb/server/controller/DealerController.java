@@ -44,13 +44,9 @@ public class DealerController {
         }
     }
 
-    public void removeDealer(Integer id) throws NotFoundException, DeleteDealerExeption {
+    public void removeDealer(Integer id) throws DeleteDealerExeption {
         try {
-            if (!postgreSQLDealerDAO.isDealerExist(id)) {
-                throw new NotFoundException("The dealer was not found!");
-            } else {
-                postgreSQLDealerDAO.delete(id);
-            }
+            postgreSQLDealerDAO.delete(id);
         } catch (SQLException e) {
             throw new DeleteDealerExeption(String.format("DeleteDealerExeption: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }
@@ -72,9 +68,9 @@ public class DealerController {
         return Collections.unmodifiableList(dealersList);
     }
 
-    public void updateDealer(Integer id, String name, String address) throws UpdateDealerException {
+    public void updateDealer(CarDealership dealer) throws UpdateDealerException {
         try {
-            postgreSQLDealerDAO.update(id, name, address);
+            postgreSQLDealerDAO.update(dealer);
         } catch (SQLException e) {
             throw new UpdateDealerException(String.format("EditDealerExeption: %s. Code: %s", e.getMessage(), e.getSQLState()));
         }

@@ -22,8 +22,8 @@ public class SortDealerServlet extends HttpServlet {
         Integer code = Integer.valueOf(req.getParameter("sort"));
         List<CarDealership> carDealerships = null;
         DealerController dealerContr;
-        String columnName = "Name";
-        String columnAddress = "Address";
+        String columnName = "dealer_name";
+        String columnAddress = "dealer_address";
         String criteriaA = "ASC";
         String criteriaD = "DESC";
         try {

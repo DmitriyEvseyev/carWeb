@@ -17,7 +17,7 @@ public class DealerOverwriteImportStrategy implements ImportStrategy<CarDealersh
 
             if (dealerController.getDealerByName(dealer.getName()) != null ||
                     dealerController.getDealer(dealer.getId()) != null) {
-                dealerController.updateDealer(dealer.getId(), dealer.getName(), dealer.getAddress());
+                dealerController.updateDealer(dealer);
 
             } else if (dealerController.getDealerByName(dealer.getName()) == null &&
                     dealerController.getDealer(dealer.getId()) == null) {
