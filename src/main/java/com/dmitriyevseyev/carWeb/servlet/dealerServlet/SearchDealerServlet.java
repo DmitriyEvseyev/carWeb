@@ -19,8 +19,12 @@ import java.util.List;
 public class SearchDealerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String column = req.getParameter("column");
+        String columnDealer = req.getParameter("column");
         String pattern = req.getParameter("pattern");
+        String column = null;
+
+        if (columnDealer.equals("name")) column = "dealer_name";
+        else if (columnDealer.equals("address")) column = "dealer_address";
 
         List<CarDealership> carDealerships = null;
         DealerController dealerContr;
