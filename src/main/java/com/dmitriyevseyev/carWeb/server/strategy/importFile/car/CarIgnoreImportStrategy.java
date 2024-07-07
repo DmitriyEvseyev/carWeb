@@ -31,14 +31,10 @@ public class CarIgnoreImportStrategy implements ImportStrategy<Car> {
             } else {
                 oldCar = carController.getCar(car.getId());
                 if (oldCar == null) {
-                    try {
-                        carController.addCar(car);
-                    } catch (AddCarExeption ex) {
-                        throw new ImportExeption(ex.getMessage());
-                    }
+                    carController.addCar(car);
                 }
             }
-        } catch (NotFoundException e) {
+        } catch (NotFoundException | AddCarExeption e) {
             throw new ImportExeption(e.getMessage());
         }
     }

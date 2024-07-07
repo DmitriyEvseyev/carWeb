@@ -27,19 +27,15 @@ public class CarConflictImportStrategy implements ImportStrategy<Car> {
                 oldCar = carController.getCar(car.getId());
                 if (oldCar != null) {
                     try {
-                        throw new CarIdAlreadyExistException ("Car with this id already exist: id = " + car.getId());
+                        throw new CarIdAlreadyExistException("Car with this id already exist: id = " + car.getId());
                     } catch (CarIdAlreadyExistException e) {
                         throw new ImportExeption(e.getMessage());
                     }
                 } else {
-                    try {
-                        carController.addCar(car);
-                    } catch (AddCarExeption ex) {
-                        throw new ImportExeption(ex.getMessage());
-                    }
+                    carController.addCar(car);
                 }
             }
-        } catch (NotFoundException | DAOFactoryActionException e) {
+        } catch (NotFoundException | DAOFactoryActionException | AddCarExeption e) {
             throw new ImportExeption(e.getMessage());
         }
     }

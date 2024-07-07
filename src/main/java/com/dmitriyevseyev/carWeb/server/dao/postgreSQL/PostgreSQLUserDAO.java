@@ -9,7 +9,7 @@ public class PostgreSQLUserDAO implements UserDAO {
     private static PostgreSQLUserDAO instance;
     private Connection connection;
 
-       public static PostgreSQLUserDAO getInstance(Connection connection) {
+    public static PostgreSQLUserDAO getInstance(Connection connection) {
         if (instance == null) {
             instance = new PostgreSQLUserDAO(connection);
         }
@@ -20,8 +20,8 @@ public class PostgreSQLUserDAO implements UserDAO {
         this.connection = connection;
     }
 
-      public void createUser(User user) throws SQLException {
-        String sql = "INSERT INTO USERS (USERNAME, PASSWORD)  VALUES (?, ?)";
+    public void createUser(User user) throws SQLException {
+        String sql = "INSERT INTO USERS (user_name, user_password)  VALUES (?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, user.getUserName());
             stmt.setString(2, user.getPassword());
@@ -31,7 +31,7 @@ public class PostgreSQLUserDAO implements UserDAO {
 
     public boolean isUserExist(String userName) throws SQLException {
         boolean userExist;
-        String sqlExistUser = "SELECT * FROM USERS WHERE USERNAME = ?";
+        String sqlExistUser = "SELECT * FROM USERS WHERE user_name = ?";
         try (PreparedStatement stm = connection.prepareStatement(sqlExistUser)) {
             stm.setString(1, userName);
             ResultSet rs = stm.executeQuery();
@@ -47,9 +47,9 @@ public class PostgreSQLUserDAO implements UserDAO {
     public String getPassword(String userName) throws SQLException {
         String password = null;
         if (!isUserExist(userName)) {
-                        return password;
+            return password;
         } else {
-            String sqlGetPassword = "SELECT PASSWORD FROM USERS WHERE USERNAME = ?";
+            String sqlGetPassword = "SELECT user_password FROM USERS WHERE user_name = ?";
             try (PreparedStatement stm = connection.prepareStatement(sqlGetPassword)) {
                 stm.setString(1, userName);
                 ResultSet rs = stm.executeQuery();
@@ -58,7 +58,7 @@ public class PostgreSQLUserDAO implements UserDAO {
                 }
             }
         }
-               return password;
+        return password;
     }
 }
 

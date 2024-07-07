@@ -49,18 +49,9 @@ public class PostgreSQLManagerDAO implements ManagerDAO {
 
 
     private void executeSqlStartScript(String path) throws DAOFactoryActionException {
+        StringBuilder rawStatement = new StringBuilder();
+        File file = new File(getClass().getClassLoader().getResource(path).getFile());
         try {
-            StringBuilder rawStatement = new StringBuilder();
-            // File file = new File(getClass().getClassLoader().getResource(path).getFile());
-            File file;
-            ClassLoader classLoader = getClass().getClassLoader();
-            URL resource = classLoader.getResource(path);
-            if (resource == null) {
-                throw new IllegalArgumentException("script.sql is not found!");
-            } else {
-                file = new File(resource.getFile());
-            }
-
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
             String ls = System.getProperty("line.separator");
@@ -69,11 +60,18 @@ public class PostgreSQLManagerDAO implements ManagerDAO {
                 rawStatement.append(ls);
             }
             try (Statement currentStatement = connection.createStatement()) {
+
+                System.out.println("rawStatement DAO SQL - " + rawStatement);
+
                 currentStatement.executeUpdate(String.valueOf(rawStatement));
+
+
+                System.out.println("11111111");
+
+
             } catch (SQLException e) {
                 throw new DAOFactoryActionException(DAOConstants.STATEMENT_ERROR);
             }
-
         } catch (IOException e) {
             throw new DAOFactoryActionException(DAOConstants.START_SCRIPT_ERROR);
         }

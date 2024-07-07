@@ -29,8 +29,14 @@ public class UserLogServlet extends HttpServlet {
         boolean isCorrect = false;
 
         try {
+
+            System.out.println("00000000");
+
             PostgreSQLManagerDAO.getInstance(ServletConstants.PATH_SQL);
             isCorrect = UserController.getInstance().isUserExistServer(userName, userPassword);
+
+            System.out.println("222222");
+
         } catch (DAOFactoryActionException | UserPasswordExeption e) {
             resp.sendError(503,  e.getMessage());
         }
