@@ -64,11 +64,6 @@ public class PostgreSQLManagerDAO implements ManagerDAO {
                 System.out.println("rawStatement DAO SQL - " + rawStatement);
 
                 currentStatement.executeUpdate(String.valueOf(rawStatement));
-
-
-                System.out.println("11111111");
-
-
             } catch (SQLException e) {
                 throw new DAOFactoryActionException(DAOConstants.STATEMENT_ERROR);
             }
